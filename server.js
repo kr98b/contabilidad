@@ -19,7 +19,17 @@ app.get('/getHostname', (req, res) => {
 });
 
 const pg = require('pg');
-const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}?ssl=true`;
+const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}`;
+
+function doConnect() {
+  client.connect(err => {
+    if (err) {
+      console.error('Function Error:', err);
+      reject(err);
+      return;
+    }
+  });
+}
 
 function doSelect() {
   return new Promise((resolve, reject) => {
@@ -49,6 +59,17 @@ function doSelect() {
 app.get('/doSelect', async (req, res) => {
   try {
     const data = await doSelect();
+    res.json(data);
+  } catch (err) {
+    console.error('API Error', err);
+    res.status(500).json({ error: 'API Error', details: err.message });
+  }
+});
+
+
+app.get('/doConnect', async (req, res) => {
+  try {
+    const data = await doConnect();
     res.json(data);
   } catch (err) {
     console.error('API Error', err);
