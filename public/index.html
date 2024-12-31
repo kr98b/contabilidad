@@ -142,6 +142,8 @@
                 const { origin } = await response.json();
                 BASE_URL = origin;
                 console.log(BASE_URL);
+                console.log("Fetching data...");
+                fetchData();
             } catch (error) {
                 console.error('Error fetching base URL:', error.message);
             }
