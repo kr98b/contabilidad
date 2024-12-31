@@ -13,6 +13,11 @@ app.listen(port, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
+app.get('/getHostname', (req, res) => {
+  const hostname = os.hostname();
+  res.json({ hostname, origin: `${req.protocol}://${req.get('host')}` });
+});
+
 const pg = require('pg');
 const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}?ssl=true`;
 
