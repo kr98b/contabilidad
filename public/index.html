@@ -141,12 +141,11 @@
                     throw new Error(`Failed to fetch base URL: ${response.status}`);
                 }
                 const { hostname, origin } = await response.json();
-                console.log(response.json());
+                console.log("RES:" + response);
                 BASE_URL = origin;
                 HOSTNAME_URL = hostname;
-                console.log(BASE_URL);
-
-                console.log("Fetching data...");
+                console.log("BASE:" + BASE_URL);
+                console.log("HOST:" + HOSTNAME_URL);
                 fetchData();
             } catch (error) {
                 console.error('Error fetching base URL:', error.message);
