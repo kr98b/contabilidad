@@ -141,11 +141,8 @@
                     throw new Error(`Failed to fetch base URL: ${response.status}`);
                 }
                 const { hostname, origin } = await response.json();
-                console.log("RES:" + response);
                 BASE_URL = origin;
                 HOSTNAME_URL = hostname;
-                console.log("BASE:" + BASE_URL);
-                console.log("HOST:" + HOSTNAME_URL);
                 fetchData();
             } catch (error) {
                 console.error('Error fetching base URL:', error.message);
@@ -154,26 +151,12 @@
 
         async function fetchData() {
             try {
-                const response = await fetch(`${BASE_URL}/doSelect`);
+                BASE_URL_HTTPS = BASE_URL.replace("http", "https");
+                const response = await fetch(`${BASE_URL_HTTPS}/doSelect`);
 
-                if (!response.ok) 
+                if (!response.ok)
                     console.error(`Client Error / Response NOT OK: ${response.status}`);
-                
-                const data = await response.json();
-                console.log(data[0]);
-            } catch (error) {
-                console.error('Client Error / Catch: ', error.message);
-            }
-        }
 
-
-        async function fetchData2() {
-            try {
-                const response = await fetch(`${HOSTNAME_URL}/doSelect`);
-
-                if (!response.ok) 
-                    console.error(`Client Error / Response NOT OK: ${response.status}`);
-                
                 const data = await response.json();
                 console.log(data[0]);
             } catch (error) {
