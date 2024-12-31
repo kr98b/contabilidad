@@ -1,13 +1,16 @@
 const { port, dbhost, dbuser, dbpass, dbport, dbname } = require('./config.js');
 
+const os = require('os');
 const express = require('express');
 const path = require('path');
 const app = express();
 
+// Get the hostname
+const hostname = os.hostname();
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Server running at http://${hostname}:${port}/`);
 });
 
 const pg = require('pg');
