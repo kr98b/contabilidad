@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto Final de Contabilidad</title>
+    <title>Control de Costos</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Top Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
@@ -22,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link active" href="index.html">Principal</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="crear.html">Crear Proyecto</a>
@@ -41,14 +43,14 @@
     <!-- Main Content -->
     <main class="container my-5">
         <h1 class="text-center mb-4">Movimiento</h1>
-    
+
         <form>
             <!-- Selección o Creación de Lote -->
             <div class="card mb-4">
                 <div class="card-body">
                     <h3 class="card-title">Lote</h3>
                     <div class="mb-3">
-                        <label for="selectLot" class="form-label">Lote Existente</label>
+                        <label for="selectLot" class="form-label">Registrar Lote Existente</label>
                         <select class="form-select" id="selectLot">
                             <option value="">Seleccione un lote</option>
                             <!-- Opciones dinámicas de lotes -->
@@ -56,18 +58,23 @@
                     </div>
                     <div class="mb-3">
                         <label for="createLot" class="form-label">O Crear Nuevo Lote</label>
-                        <input type="text" class="form-control" id="createLot" placeholder="Ingrese el nombre del nuevo lote">
+                        <input type="text" class="form-control" id="createLot"
+                            placeholder="Ingrese el nombre del nuevo lote">
                     </div>
                 </div>
             </div>
-    
+
             <!-- Detalles del Movimiento -->
             <div class="card mb-4">
                 <div class="card-body">
                     <h3 class="card-title">Detalles del Movimiento</h3>
                     <div class="mb-3">
-                        <label for="quantity" class="form-label">Cantidad</label>
-                        <input type="text" class="form-control" id="quantity" placeholder="Ingrese la cantidad">
+                        <label for="costo" class="form-label">Costo</label>
+                        <div class="mb-3 input-group">
+                            <span class="input-group-text">$</span>
+                            <input id="txtCosto_1" type="number" class="form-control" name="costo[]"
+                                placeholder="Ingrese el costo del movimiento" required>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="movementType" class="form-label">Movimiento</label>
@@ -77,21 +84,21 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="cost" class="form-label">Costo</label>
-                        <input type="text" class="form-control" id="cost" placeholder="Ingrese el costo">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="text" class="form-control" id="cost" placeholder="Ingrese la cantidad">
                     </div>
                 </div>
             </div>
-    
+
             <!-- Botón Registrar -->
             <div class="text-center">
-                <a href="menu_principal.html" class="btn btn-primary">REGISTRAR</a>
+                <a href="menu_principal.html" class="btn btn-primary">Registrar movimiento</a>
             </div>
         </form>
     </main>
-    
-    
-    
+
+
+
     <script>
         // Agregar Producto
         function addProduct() {
@@ -105,7 +112,7 @@
             `;
             productContainer.appendChild(productEntry);
         }
-    
+
         // Agregar Departamento
         function addDepartment() {
             const departmentContainer = document.getElementById('departmentContainer');
@@ -128,7 +135,7 @@
             `;
             departmentContainer.appendChild(departmentEntry);
         }
-    
+
         // Agregar Materia Prima
         function addRawMaterial() {
             const rawMaterialContainer = document.getElementById('rawMaterialContainer');
@@ -147,12 +154,13 @@
             `;
             rawMaterialContainer.appendChild(rawMaterialEntry);
         }
-    
+
         // Eliminar entrada
         function removeEntry(button) {
             button.parentElement.remove();
         }
     </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
