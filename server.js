@@ -1,4 +1,4 @@
-const { port, dbhost, dbuser, dbpass, dbport, dbname, ssl } = require('./config.js');
+const { port, dbhost, dbuser, dbpass, dbport, dbname } = require('./config.js');
 
 const os = require('os');
 const express = require('express');
@@ -14,7 +14,7 @@ app.listen(port, () => {
 });
 
 const pg = require('pg');
-const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}`;
+const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}?ssl=true`;
 
 function doSelect() {
   return new Promise((resolve, reject) => {
@@ -22,25 +22,177 @@ function doSelect() {
 
     client.connect(err => {
       if (err) {
-        console.error('Function Error:', err);
+        console.error('Connection Error:', err);
         reject(err);
         return;
       }
 
-      client.query('SELECT * FROM credenciales', [], (err, data) => {
-        if (err) {
-          console.error('Function Error:', err);
+      const queries = [
+        { key: 'producto', query: 'SELECT * FROM producto WHERE id_producto = 5' },
+        { key: 'real', query: 'SELECT * FROM real WHERE id_producto = 5' },
+        { key: 'estandar', query: 'SELECT * FROM estandar WHERE id_producto = 5' },
+        { key: 'datos_tarjeta_almacen', query: 'SELECT * FROM datos_tarjeta_almacen WHERE id_producto = 5' },
+      ];
+
+      const results = {};
+
+      Promise.all(
+        queries.map(({ key, query }) =>
+          client.query(query).then(res => ({ key, rows: res.rows }))
+        )
+      )
+        .then(responses => {
+          responses.forEach(({ key, rows }) => {
+            results[key] = rows;
+          });
+          console.log('Response:', results);
+          resolve(results);
+        })
+        .catch(err => {
+          console.error('Query Error:', err);
           reject(err);
-        } else {
-          console.log('Function Response:', data.rows);
-          resolve(data.rows);
+        })
+        .finally(() => {
+          client.end();
+        });
+    });
+  });
+}
+
+function registerProduct(data) {
+  return new Promise((resolve, reject) => {
+    const client = new pg.Client(connection);
+
+    client.connect(err => {
+      if (err) {
+        console.error('Error Funcion:', err);
+        reject(err);
+        return;
+      }
+
+      const {
+        producto, kilos, precioKilo, horasMano, precioHoraHombre, cargosIndirectos, cargosFijos, precioHoraMaquina,
+        compraMateria, costoCompra, consumoMateria, costoModHoras, costoHoraMod, cargosIndirectosVariables, cargosIndirectosFijos,
+        unidadesVendidas, precioUnitario, gastosVenta, gastosAdmon, productosTerminados, productosEnProceso,
+        unidadesPresupuestoEstatico, costoPresupuestoEstatico, saldoInicial, compras, salidas
+      } = data;
+
+      // Insert into 'Producto' table
+      const insertProductoQuery = `
+        INSERT INTO Producto (nombre)
+        VALUES ($1) RETURNING id_producto;
+      `;
+
+      client.query(insertProductoQuery, [producto], (err, result) => {
+        if (err) {
+          console.error('Error inserting into Producto table:', err);
+          reject(err);
+          client.end();
+          return;
         }
-        client.end();
+
+        const productoId = result.rows[0].id_producto;  // Get the inserted product ID
+        console.log('Inserted product with ID:', productoId);
+
+        // Insert into 'Estandar' table
+        const insertEstandarQuery = `
+          INSERT INTO Estandar (id_producto, kilos_mp_e, costo_kilos_mp_e, horas_mod_e, costo_mod_e, cargos_indirectos_e, 
+          costo_cargos_indirectos_e, costo_horas_maquina_civ_e)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
+        `;
+
+        client.query(insertEstandarQuery, [
+          productoId, kilos, precioKilo, horasMano, precioHoraHombre, cargosIndirectos, cargosFijos, precioHoraMaquina
+        ], (err) => {
+          if (err) {
+            console.error('Error inserting into Estandar table:', err);
+            reject(err);
+            client.end();
+            return;
+          }
+
+          // Insert into 'Real' table
+          const insertRealQuery = `
+            INSERT INTO Real (id_producto, kilos_mp_r, costo_kilos_mp_r, consumo_mp_r, costo_mod_r, costo_hora_r, cargos_indir_inc_var_r,
+            cargos_indir_inc_fijos_r, unid_vendidas_r, precio_venta_r, gastos_venta_r, gastos_admon_r, prod_terminado_r, 
+            prod_proceso_r, prep_est_unidades_r, prep_est_costo_r)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
+          `;
+
+          client.query(insertRealQuery, [
+            productoId, compraMateria, costoCompra, consumoMateria, costoModHoras, costoHoraMod, cargosIndirectosVariables,
+            cargosIndirectosFijos, unidadesVendidas, precioUnitario, gastosVenta, gastosAdmon, productosTerminados, productosEnProceso,
+            unidadesPresupuestoEstatico, costoPresupuestoEstatico
+          ], (err) => {
+            if (err) {
+              console.error('Error inserting into Real table:', err);
+              reject(err);
+              client.end();
+              return;
+            }
+
+            // Insert into 'datos_tarjeta_almacen' table
+            const insertDatosTarjetaQuery = `
+              INSERT INTO datos_tarjeta_almacen (id_producto, saldo_inicial, compras, salidas)
+              VALUES ($1, $2, $3, $4);
+            `;
+
+            client.query(insertDatosTarjetaQuery, [productoId, saldoInicial, compras, salidas], (err) => {
+              if (err) {
+                console.error('Error inserting into datos_tarjeta_almacen table:', err);
+                reject(err);
+                client.end();
+                return;
+              }
+
+              console.log('All data inserted successfully.');
+              resolve(1);
+              client.end();
+            });
+          });
+        });
       });
     });
   });
 }
 
+app.get('/doSelect', async (req, res) => {
+  try {
+    const data = await doSelect();
+    res.json(data);
+  } catch (err) {
+    console.error('API Error', err);
+    res.status(500).json({ error: 'API Error', details: err.message });
+  }
+});
+
+app.post('/registerProject', async (req, res) => {
+  try {
+    const data = req.body;
+
+    const result = await registerProject(data);
+
+    res.json({ message: result });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ error: 'API Error', details: err.message });
+  }
+});
+
+app.post('/registerProduct', async (req, res) => {
+  try {
+    const data = req.body;
+
+    const result = await registerProduct(data);
+
+    res.json({ message: result });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ error: 'API Error', details: err.message });
+  }
+});
+
+/*
 function registerProject(data) {
   return new Promise((resolve, reject) => {
     const client = new pg.Client(connection);
@@ -52,7 +204,6 @@ function registerProject(data) {
         return;
       }
 
-      // Extract data
       const info_datos = data['datos'];
       const info_productos = data['productos'];
       const info_departamentos = data['departamentos'];
@@ -166,26 +317,4 @@ function registerProject(data) {
     });
   });
 }
-
-app.get('/doSelect', async (req, res) => {
-  try {
-    const data = await doSelect();
-    res.json(data);
-  } catch (err) {
-    console.error('API Error', err);
-    res.status(500).json({ error: 'API Error', details: err.message });
-  }
-});
-
-app.post('/registerProject', async (req, res) => {
-  try {
-    const data = req.body;
-
-    const result = await registerProject(data);
-
-    res.json({ message: result });
-  } catch (err) {
-    console.error('API Error:', err);
-    res.status(500).json({ error: 'API Error', details: err.message });
-  }
-});
+*/
