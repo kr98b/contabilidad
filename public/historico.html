@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoja de Cálculo</title>
+    <link href="./bootstrap.min.css" rel="stylesheet">
+    <style>
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.dark-mode .navbar {
+            background-color: #333333 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .navbar a.nav-link {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .navbar a.nav-link:hover {
+            color: #aaaaaa !important;
+        }
+
+        body.dark-mode .navbar-brand {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode table {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        body.dark-mode th,
+        body.dark-mode td {
+            border-color: #333333;
+        }
+
+        body.dark-mode input.form-control {
+            background-color: #333333;
+            color: #ffffff;
+            border: 1px solid #555555;
+        }
+
+        body.dark-mode input.form-control:focus {
+            background-color: #444444;
+            border-color: #777777;
+        }
+    </style>
+    <script src="./bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="logo.png" alt="Logo" width="40" height="40" class="me-2">
+                <span>Plataforma de informes</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="informe.html">Formulario de Informe</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
+            </div>
+        </div>
+    </nav>
+    <div id="titulo" class="container my-5">
+        <h1 class="mt-4">Informe de Costos Estandar "___"</h2>
+    </div>
+
+    <div id="resumen-proyecto" class="container my-5">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Proyecto</th>
+                    <th>Unids Prep Estático</th>
+                    <th>Unid. Proceso</th>
+                    <th>Unid. Term.</th>
+                </tr>
+            </thead>
+            <tbody id="project-details-body">
+                <tr>
+                    <td id="nombre-producto"></td>
+                    <td id="prep-est-unidades"></td>
+                    <td id="unid-proceso"></td>
+                    <td id="unid-term"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="ced-i" class="container my-5">
+        <h2 class="mt-4">Ced I. Hoja de Costo Unitario Estándar</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Elemento</th>
+                    <th>Req.</th>
+                    <th>C.U.</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody id="ced1-body">
+                <tr>
+                    <td>MPD</td>
+                    <td id="mpd-req"></td>
+                    <td id="mpd-cu"></td>
+                    <td id="mpd-importe"></td>
+                </tr>
+                <tr>
+                    <td>MOD</td>
+                    <td id="mod-req"></td>
+                    <td id="mod-cu"></td>
+                    <td id="mod-importe"></td>
+                </tr>
+                <tr>
+                    <td>CIV</td>
+                    <td id="civ-req"></td>
+                    <td id="civ-cu"></td>
+                    <td id="civ-importe"></td>
+                </tr>
+                <tr>
+                    <td>CIF</td>
+                    <td id="cif-req"></td>
+                    <td id="cif-cu"></td>
+                    <td id="cif-importe"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="text-end">Total</td>
+                    <td id="ced1-total"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="ced-ii" class="container my-5">
+        <h2 class="mt-4">Ced. II Valuación de la Producción Terminada a Costo Estándar</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Elemento</th>
+                    <th>Req. Unit</th>
+                    <th>Req. Totales</th>
+                    <th>C.U.</th>
+                    <th>Total Prod. Term. A Costo Est.</th>
+                </tr>
+            </thead>
+            <tbody id="ced2-body">
+                <tr>
+                    <td>MPD</td>
+                    <td id="mpd-req-unit"></td>
+                    <td id="mpd-req-total"></td>
+                    <td id="mpd-cu-ced2"></td>
+                    <td id="mpd-total"></td>
+                </tr>
+                <tr>
+                    <td>MOD</td>
+                    <td id="mod-req-unit"></td>
+                    <td id="mod-req-total"></td>
+                    <td id="mod-cu-ced2"></td>
+                    <td id="mod-total"></td>
+                </tr>
+                <tr>
+                    <td>CIV</td>
+                    <td id="civ-req-unit"></td>
+                    <td id="civ-req-total"></td>
+                    <td id="civ-cu-ced2"></td>
+                    <td id="civ-total-ced2"></td>
+                </tr>
+                <tr>
+                    <td>CIF</td>
+                    <td id="cif-req-unit"></td>
+                    <td id="cif-req-total"></td>
+                    <td id="cif-cu-ced2"></td>
+                    <td id="cif-total-ced2"></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-end">Total</td>
+                    <td id="ced2-total"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="ced-iii" class="container my-5">
+        <h2 class="mt-4">Ced. III Valuación Inv. Final de Prod. En Proceso a Costo Estándar</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Elemento</th>
+                    <th>Req. Unit</th>
+                    <th>Req. Totales</th>
+                    <th>C.U.</th>
+                    <th>Total Costo Est.</th>
+                </tr>
+            </thead>
+            <tbody id="ced3-body">
+                <tr>
+                    <td>MPD</td>
+                    <td id="mpd-req-unit-ced3"></td>
+                    <td id="mpd-req-total-ced3"></td>
+                    <td id="mpd-cu-ced3"></td>
+                    <td id="mpd-total-ced3"></td>
+                </tr>
+                <tr>
+                    <td>MOD</td>
+                    <td id="mod-req-unit-ced3"></td>
+                    <td id="mod-req-total-ced3"></td>
+                    <td id="mod-cu-ced3"></td>
+                    <td id="mod-total-ced3"></td>
+                </tr>
+                <tr>
+                    <td>CIV</td>
+                    <td id="civ-req-unit-ced3"></td>
+                    <td id="civ-req-total-ced3"></td>
+                    <td id="civ-cu-ced3"></td>
+                    <td id="civ-total-ced3"></td>
+                </tr>
+                <tr>
+                    <td>CIF</td>
+                    <td id="cif-req-unit-ced3"></td>
+                    <td id="cif-req-total-ced3"></td>
+                    <td id="cif-cu-ced3"></td>
+                    <td id="cif-total-ced3"></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-end">Total</td>
+                    <td id="ced3-total-ced3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="ced-vi" class="container my-5">
+        <h3 class="mt-4">Ced. IV Informe de desviaciones</h3>
+
+        <div id="materia-prima">
+            <h4 class="mt-4">Materia Prima</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Unids.</th>
+                        <th>C.U.</th>
+                        <th>Importe</th>
+
+                        <th></th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="mp-body">
+                    <tr>
+                        <td>Real</td>
+                        <td id="mp-real-unids"></td>
+                        <td id="mp-real-cu"></td>
+                        <td id="mp-real-importe"></td>
+
+                        <td id="label_precio">En precio</td>
+                        <td id="mp-precio"></td>
+                    </tr>
+                    <tr>
+                        <td>Est.</td>
+                        <td id="mp-est-unids"></td>
+                        <td id="mp-est-cu"></td>
+                        <td id="mp-est-importe"></td>
+
+                        <td id="label_cantidad">En cantidad</td>
+                        <td id="mp-cantidad"></td>
+                    </tr>
+                    <tr>
+                        <td>Desv</td>
+                        <td id="mp-desv-unids"></td>
+                        <td id="mp-desv-cu"></td>
+                        <td id="mp-desv-importe"></td>
+
+                        <td id="label_total">Total</td>
+                        <td id="mp-total"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="mano-de-obra">
+            <h4 class="mt-4">Mano de Obra</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Unids.</th>
+                        <th>C.U.</th>
+                        <th>Importe</th>
+
+                        <th></th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="mo-body">
+                    <tr>
+                        <td>Real</td>
+                        <td id="mo-real-unids"></td>
+                        <td id="mo-real-cu"></td>
+                        <td id="mo-real-importe"></td>
+
+                        <td id="label_precio">En cuota</td>
+                        <td id="mo-precio"></td>
+                    </tr>
+                    <tr>
+                        <td>Est.</td>
+                        <td id="mo-est-unids"></td>
+                        <td id="mo-est-cu"></td>
+                        <td id="mo-est-importe"></td>
+
+                        <td id="label_cantidad">En cantidad</td>
+                        <td id="mo-cantidad"></td>
+                    </tr>
+                    <tr>
+                        <td>Desv</td>
+                        <td id="mo-desv-unids"></td>
+                        <td id="mo-desv-cu"></td>
+                        <td id="mo-desv-importe"></td>
+
+                        <td id="label_total">Total</td>
+                        <td id="mo-total"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="cargos-indir-var">
+            <h4 class="mt-4">Cargos Indir. Var.</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Unids.</th>
+                        <th>C.U.</th>
+                        <th>Importe</th>
+
+                        <th></th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="civ-body">
+                    <tr>
+                        <td>Real</td>
+                        <td id="civ-real-unids"></td>
+                        <td id="civ-real-cu"></td>
+                        <td id="civ-real-importe"></td>
+
+                        <td id="label_precio">En cuota</td>
+                        <td id="civ-precio"></td>
+                    </tr>
+                    <tr>
+                        <td>Est.</td>
+                        <td id="civ-est-unids"></td>
+                        <td id="civ-est-cu"></td>
+                        <td id="civ-est-importe"></td>
+
+                        <td id="label_cantidad">En cantidad</td>
+                        <td id="civ-cantidad"></td>
+                    </tr>
+                    <tr>
+                        <td>Desv</td>
+                        <td id="civ-desv-unids"></td>
+                        <td id="civ-desv-cu"></td>
+                        <td id="civ-desv-importe"></td>
+
+                        <td id="label_total">Total</td>
+                        <td id="civ-total"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="cargos-indirectos-fijos">
+            <h3 class="mt-4">Cargos Indirectos Fijos</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Unids.</th>
+                        <th>C.U.</th>
+                        <th>Importe</th>
+
+                        <th></th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="cif-body">
+                    <tr>
+                        <td>Real</td>
+                        <td id="cif-real-unids"></td>
+                        <td id="cif-real-cu"></td>
+                        <td id="cif-real-importe"></td>
+
+                        <td id="label_precio">En cuota</td>
+                        <td id="cif-precio"></td>
+                    </tr>
+                    <tr>
+                        <td>Est.</td>
+                        <td id="cif-est-unids"></td>
+                        <td id="cif-est-cu"></td>
+                        <td id="cif-est-importe"></td>
+
+                        <td id="label_cantidad">En cantidad</td>
+                        <td id="cif-cantidad"></td>
+                    </tr>
+                    <tr>
+                        <td>Desv</td>
+                        <td id="cif-desv-unids"></td>
+                        <td id="cif-desv-cu"></td>
+                        <td id="cif-desv-importe"></td>
+
+                        <td id="label-subtotal">Subtotal</td>
+                        <td id="cif-subtotal"></td>
+                    </tr>
+                    <tr>
+
+
+
+
+                        <td colspan="5" id="label-prep-est" class="text-end">Prep. Est.</td>
+                        <td id="cif-prep-est"></td>
+                    </tr>
+                    <tr>
+
+
+
+
+                        <td colspan="5" class="text-end" id="label-prep-est">Costo Est.</td>
+                        <td id="cif-costo-est"></td>
+                    </tr>
+                    <tr>
+
+
+
+
+                        <td colspan="5" class="text-end" id="label-oper">Oper.</td>
+                        <td id="cif-oper-est"></td>
+                    </tr>
+                    <tr>
+
+
+
+
+                        <td colspan="5" class="text-end" id="label-total">Total</td>
+                        <td id="cif-total"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="costo-incurrido">
+            <h3 class="mt-4">Costo Incurrido</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Unids.</th>
+                        <th>C.U.</th>
+                        <th>Importe</th>
+
+                        <th></th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="ci-body">
+                    <tr>
+                        <td>Real</td>
+                        <td id="ci-real-unids"></td>
+                        <td id="ci-real-cu"></td>
+                        <td id="ci-real-importe"></td>
+
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Est.</td>
+                        <td id="ci-est-unids"></td>
+                        <td id="ci-est-cu"></td>
+                        <td id="ci-est-importe"></td>
+
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Desv</td>
+                        <td id="ci-desv-unids"></td>
+                        <td id="ci-desv-cu"></td>
+                        <td id="ci-desv-importe"></td>
+
+                        <td id="label_total">Total</td>
+                        <td id="ci-total"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="produccion-terminada" class="container my-5>
+        <h3 class=" mt-4">Ced. V Valuación de la producción terminada</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Unid. Term.</th>
+                    <th>C.U.P.</th>
+                    <th>Costo de Prod. Term.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>$6,000.00</td>
+                    <td>$122.50</td>
+                    <td>$735,000.00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="inv-final-produccion-terminada" class="container my-5>
+        <h3 class=" mt-4">Ced. VI Valuación del Inv. Final. De la Prod. Term.</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Unid. Term.</th>
+                    <th>Unid. Vend.</th>
+                    <th>Inv. Final</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>6000</td>
+                    <td>5100</td>
+                    <td>900</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="ventas-y-costo-vendido" class="container my-5>
+        <h3 class=" mt-4">Ced. VII Cédula de Ventas y Costo de lo Vendido</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Unid. Vend</th>
+                    <th>PV</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5100</td>
+                    <td>270</td>
+                    <td>$1,377,000.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Unid. Vend</th>
+                    <th>C.U.P.</th>
+                    <th>Costo de lo Vendido</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5100</td>
+                    <td>122.5</td>
+                    <td>$624,750.00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tarjeta-almacen" class="container my-5>
+        <h3 class=" mt-4">Tarjeta de almacén</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Saldo inicial</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Compras</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Total Disp</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Salidas</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Inventario Final</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="reporte-costos-produccion" class="container my-5">
+        <h4 class="text-center font-weight-bold">
+            MÉTODO ABSORBENTE<br>
+            CÍA. FESONIA S.A.<br>
+            REPORTE DE COSTOS DE PRODUCCIÓN Y VENTA<br>
+            DEL 1 AL 30 DE NOVIEMBRE DE 2024
+        </h4>
+
+        <table class="table table-bordered mt-4">
+            <thead class="thead-light">
+                <tr>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Inv. Inic. MP</td>
+                    <td id="inv-inic-mp"></td>
+                </tr>
+                <tr>
+                    <td>Compras Netas de MP</td>
+                    <td id="compras-netas-mp"></td>
+                </tr>
+                <tr>
+                    <td>MAT. PRIMA DISP.</td>
+                    <td id="mat-prima-disp"></td>
+                </tr>
+                <tr>
+                    <td>Inv. Final MP</td>
+                    <td id="inv-final-mp"></td>
+                </tr>
+                <tr>
+                    <td>MAT. PRIMA. DIR O CONSUMIDA</td>
+                    <td id="mat-prima-dir-consumida"></td>
+                </tr>
+                <tr>
+                    <td>MOD</td>
+                    <td id="mod"></td>
+                </tr>
+                <tr>
+                    <td>CI</td>
+                    <td id="ci"></td>
+                </tr>
+                <tr>
+                    <td>COSTO INCURRIDO REAL</td>
+                    <td id="costo-incurrido-real"></td>
+                </tr>
+                <tr>
+                    <td>Desviaciones desfavorables</td>
+                    <td id="desviaciones-desfavorables"></td>
+                </tr>
+                <tr>
+                    <td>COSTO INCURRIDO ESTANDAR</td>
+                    <td id="costo-incurrido-estandar"></td>
+                </tr>
+                <tr>
+                    <td>Inv. Inic. De Prod. En Proc.</td>
+                    <td id="inv-inic-prod-en-proc"></td>
+                </tr>
+                <tr>
+                    <td>PROD. EN PROC. DISP.</td>
+                    <td id="prod-en-proc-disp"></td>
+                </tr>
+                <tr>
+                    <td>Inv. Final. De Prod. En Proc.</td>
+                    <td id="inv-final-prod-en-proc"></td>
+                </tr>
+                <tr>
+                    <td>COSTO DE PROD. TERMINADA</td>
+                    <td id="costo-prod-terminada"></td>
+                </tr>
+                <tr>
+                    <td>Inv. Inic. De Prod. Terminada</td>
+                    <td id="inv-inic-prod-terminada"></td>
+                </tr>
+                <tr>
+                    <td>PROD. TERM. DISP.</td>
+                    <td id="prod-term-disp"></td>
+                </tr>
+                <tr>
+                    <td>Inv. Final De Prod. Terminada</td>
+                    <td id="inv-final-prod-terminada"></td>
+                </tr>
+                <tr>
+                    <td>COSTO DE LO VENDIDO EST.</td>
+                    <td id="costo-lo-vendido-est"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="estado-resultados" class="container my-5">
+        <h4 class="text-center font-weight-bold">
+            MÉTODO ABSORBENTE<br>
+            CÍA. FESONIA S.A.<br>
+            ESTADO DE RESULTADOS<br>
+            DEL 1 AL 31 DE MAYO DE 2024
+        </h4>
+
+        <table class="table table-bordered mt-4">
+            <thead class="thead-light">
+                <tr>
+                    <th>Descripción</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ventas Netas</td>
+                    <td id="ventas-netas"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Costo de lo Vendido Est.</td>
+                    <td></td>
+                    <td id="costo-vendido-est"></td>
+                </tr>
+                <tr>
+                    <td>Desv. Desfav. en Costo Est.</td>
+                    <td></td>
+                    <td id="desv-desfav-costo-est"></td>
+                </tr>
+                <tr>
+                    <td>Costo de lo Vendido Real</td>
+                    <td id="costo-vendido-real"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>UTILIDAD BRUTA</td>
+                    <td id="utilidad-bruta"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Gastos de Operación</td>
+                    <td id="gastos-operacion"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Ventas</td>
+                    <td></td>
+                    <td id="ventas-gastos"></td>
+                </tr>
+                <tr>
+                    <td>Administración</td>
+                    <td></td>
+                    <td id="administracion-gastos"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="total-gastos"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>UTILIDAD DE OPERACIÓN</td>
+                    <td id="utilidad-operacion"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Otros Productos</td>
+                    <td id="otros-productos"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Otros Gastos</td>
+                    <td id="otros-gastos"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>UTILIDAD ANTES DE IMPUESTOS</td>
+                    <td id="utilidad-antes-impuestos"></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+<script>
+    async function fetchData() {
+        try {
+            const response = await fetch(`/doSelect`);
+
+            if (!response.ok)
+                console.error(`Client Error / Response NOT OK: ${response.status}`);
+
+            let data = await response.json();
+            console.log(data);
+            return doCalculos(data);
+
+        } catch (error) {
+            console.error('Client Error / Catch: ', error.message);
+        }
+    }
+
+    function doCalculos(data) {
+        resumenProyecto({
+            'nombre-producto': data['producto'][0]['nombre'],
+            'prep-est-unidades': 8000,
+            'unid-proceso': data['real'][0]['prod_proceso_r'],
+            'unid-term': data['real'][0]['prod_terminado_r'],
+        });
+
+        const calculosCed1 = {
+            'mpd-informe':
+                data['estandar'][0]['kilos_mp_e'] * data['estandar'][0]['costo_kilos_mp_e'],
+            'mod-informe':
+                data['estandar'][0]['horas_mod_e'] * data['estandar'][0]['costo_mod_e'],
+            'civ-informe':
+                data['estandar'][0]['cargos_indirectos_e'] * data['estandar'][0]['costo_horas_maquina_civ_e'],
+            'cif-informe': 2 * 3.75
+        }
+
+        ced1Proyecto({
+            'mpd-req': data['estandar'][0]['kilos_mp_e'],
+            'mod-req': data['estandar'][0]['horas_mod_e'],
+            'civ-req': data['estandar'][0]['cargos_indirectos_e'],
+            'cif-req': 2,
+
+            'mpd-cu':
+                data['estandar'][0]['costo_kilos_mp_e'],
+            'mod-cu':
+                data['estandar'][0]['costo_mod_e'],
+            'civ-cu':
+                data['estandar'][0]['costo_horas_maquina_civ_e'],
+            'cif-cu': 3.75,
+
+            'mpd-importe': calculosCed1['mpd-informe'],
+            'mod-importe': calculosCed1['mod-informe'],
+            'civ-importe': calculosCed1['civ-informe'],
+            'cif-importe': calculosCed1['cif-informe'],
+
+            'ced1-total': Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)
+        })
+
+        const calculosCed2 = {
+            'mpd-total-ced2':
+                (data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r']) * data['estandar'][0]['costo_kilos_mp_e'],
+            'mod-total-ced2':
+                (data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) * data['estandar'][0]['costo_mod_e'],
+            'civ-total-ced2':
+                (data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) * data['estandar'][0]['costo_horas_maquina_civ_e'],
+            'cif-total-ced2':
+                (2 * data['real'][0]['prod_terminado_r']) * 3.75
+        }
+
+        ced2Proyecto({
+            'mpd-req-unit':
+                data['estandar'][0]['kilos_mp_e'],
+            'mpd-req-total':
+                data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r'],
+            'mpd-cu-ced2':
+                data['estandar'][0]['costo_kilos_mp_e'],
+            'mpd-total': calculosCed2['mpd-total-ced2'],
+
+            'mod-req-unit':
+                data['estandar'][0]['horas_mod_e'],
+            'mod-req-total':
+                data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r'],
+            'mod-cu-ced2':
+                data['estandar'][0]['costo_mod_e'],
+            'mod-total': calculosCed2['mod-total-ced2'],
+
+            'civ-req-unit':
+                data['estandar'][0]['cargos_indirectos_e'],
+            'civ-req-total':
+                data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r'],
+            'civ-cu-ced2':
+                data['estandar'][0]['costo_horas_maquina_civ_e'],
+            'civ-total': calculosCed2['civ-total-ced2'],
+
+            'cif-req-unit':
+                2,
+            'cif-req-total':
+                2 * data['real'][0]['prod_terminado_r'],
+            'cif-cu-ced2':
+                3.75,
+            'cif-total': calculosCed2['cif-total-ced2'],
+
+            'ced2-total': Object.values(calculosCed2).reduce((sum, value) => sum + value, 0)
+        })
+
+        const calculosCed3 = {
+            'mpd-req-total-ced3': data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3),
+
+            'mod-req-total-ced3': data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3),
+
+            'civ-req-total-ced3': data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3),
+
+            'cif-req-total-ced3': 2 * data['real'][0]['prod_proceso_r'] * (1 / 3),
+
+            'mpd-total-ced3': (data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3)) * data['estandar'][0]['costo_kilos_mp_e'],
+
+            'mod-total-ced3': (data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3)) * data['estandar'][0]['costo_mod_e'],
+
+            'civ-total-ced3': (data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3)) * data['estandar'][0]['costo_horas_maquina_civ_e'],
+
+            'cif-total-ced3': (2 * data['real'][0]['prod_proceso_r'] * (1 / 3)) * 3.75,
+        }
+
+        ced3Proyecto({
+            "mpd-req-unit-ced3": data['estandar'][0]['kilos_mp_e'],
+            "mpd-req-total-ced3": calculosCed3['mpd-req-total-ced3'],
+            "mpd-cu-ced3": data['estandar'][0]['costo_kilos_mp_e'],
+            "mpd-total-ced3": calculosCed3['mpd-total-ced3'],
+
+            "mod-req-unit-ced3": data['estandar'][0]['horas_mod_e'],
+            "mod-req-total-ced3": calculosCed3['mod-req-total-ced3'],
+            "mod-cu-ced3": data['estandar'][0]['costo_mod_e'],
+            "mod-total-ced3": calculosCed3['mod-total-ced3'],
+
+            "civ-req-unit-ced3": data['estandar'][0]['cargos_indirectos_e'],
+            "civ-req-total-ced3": calculosCed3['civ-req-total-ced3'],
+            "civ-cu-ced3": data['estandar'][0]['costo_horas_maquina_civ_e'],
+            "civ-total-ced3": calculosCed3['civ-total-ced3'],
+
+            "cif-req-unit-ced3": 2,
+            "cif-req-total-ced3": calculosCed3['cif-req-total-ced3'],
+            "cif-cu-ced3": 3.75,
+            "cif-total-ced3": calculosCed3['cif-total-ced3'],
+
+            "ced3-total-ced3": Object.keys(calculosCed3).filter(key => !key.includes('req')).reduce((sum, key) => sum + calculosCed3[key], 0)
+        })
+
+        const calculosCed4 = {
+            'mp-real-importe': data['real'][0]['consumo_mp_r'] * 22,
+            'mp-est-unids': data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r'] + calculosCed3['mpd-req-total-ced3'],
+            'mp-total': (data['real'][0]['consumo_mp_r'] * ((22) - data['estandar'][0]['costo_mod_e'])) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['consumo_mp_r']) - (data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r'] + calculosCed3['mpd-req-total-ced3']))),
+
+            'mo-real-importe': data['real'][0]['costo_mod_r'] * data['real'][0]['costo_hora_r'],
+            'mo-est-unids': data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r'] + calculosCed3['mpd-req-total-ced3'],
+        }
+
+        ced4Proyecto({
+            'mp-real-unids': data['real'][0]['consumo_mp_r'],
+            'mp-real-cu': 22,
+            'mp-real-importe': calculosCed4['mp-real-importe'],
+            'mp-est-unids': calculosCed4['mp-est-unids'],
+            'mp-est-cu': data['estandar'][0]['costo_mod_e'],
+            'mp-est-importe': calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e'],
+            'mp-desv-unids': (data['real'][0]['consumo_mp_r']) - calculosCed4['mp-est-unids'],
+            'mp-desv-cu': (22) - data['estandar'][0]['costo_mod_e'],
+            'mp-desv-importe': (calculosCed4['mp-real-importe']) - (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']),
+            'mp-precio': data['real'][0]['consumo_mp_r'] * ((22) - data['estandar'][0]['costo_mod_e']),
+            'mp-cantidad': data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['consumo_mp_r']) - calculosCed4['mp-est-unids']),
+            'mp-total': calculosCed4['mp-total'],
+
+            'mo-real-unids': data['real'][0]['costo_mod_r'],
+            'mo-real-cu': data['real'][0]['costo_hora_r'],
+            'mo-real-importe': calculosCed4['mo-real-importe'],
+            'mo-est-unids': (data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'],
+            'mo-est-cu': data['estandar'][0]['costo_mod_e'],
+            'mo-est-importe': (data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3']),
+            'mo-desv-unids': (data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3']),
+            'mo-desv-cu': (data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']),
+            'mo-desv-importe': (calculosCed4['mo-real-importe']) - ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])),
+            'mo-precio': data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e'])),
+            'mo-cantidad': data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])),
+            'mo-total': (data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3']))),
+
+            'civ-real-unids': 15000,
+            'civ-real-cu': 12,
+            'civ-real-importe': (15000) * (12),
+            'civ-est-unids': ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])),
+            'civ-est-cu': data['estandar'][0]['costo_horas_maquina_civ_e'],
+            'civ-est-importe': ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e'],
+            'civ-desv-unids': (15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])),
+            'civ-desv-cu': (12) - (data['estandar'][0]['costo_horas_maquina_civ_e']),
+            'civ-desv-importe': ((15000) * (12)) - (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']),
+
+            'civ-precio': (15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e'])),
+            'civ-cantidad': ((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * ( data['estandar'][0]['costo_horas_maquina_civ_e']),
+            'civ-total': ((15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * ( data['estandar'][0]['costo_horas_maquina_civ_e'])),
+
+            'cif-real-unids': '',
+            'cif-real-cu': '',
+            'cif-real-importe': '',
+            'cif-est-unids': '',
+            'cif-est-cu': '',
+            'cif-est-importe': '',
+            'cif-desv-unids': '',
+            'cif-desv-cu': '',
+            'cif-desv-importe': '',
+            'cif-precio': '',
+            'cif-cantidad': '',
+            'cif-subtotal': '',
+            'cif-prep-est': '',
+            'cif-costo-est': '',
+            'cif-oper-est': '',
+            'cif-total': '',
+
+            'ci-real-unids': '',
+            'ci-real-cu': '',
+            'ci-real-importe': '',
+            'ci-est-unids': '',
+            'ci-est-cu': '',
+            'ci-est-importe': '',
+            'ci-desv-unids': '',
+            'ci-desv-cu': '',
+            'ci-desv-importe': '',
+            'ci-total': ''
+        })
+
+    }
+
+    function resumenProyecto(data) {
+        document.getElementById('nombre-producto').innerText = data['nombre-producto'];
+        document.getElementById('prep-est-unidades').innerText = data['prep-est-unidades'];
+        document.getElementById('unid-proceso').innerText = data['unid-proceso'];
+        document.getElementById('unid-term').innerText = data['unid-term'];
+    }
+
+    function ced1Proyecto(data) {
+        document.getElementById("mpd-req").innerText = data['mpd-req'];
+        document.getElementById("mpd-cu").innerText = data['mpd-cu'];
+        document.getElementById("mpd-importe").innerText = data['mpd-importe'];
+        document.getElementById("mod-req").innerText = data['mod-req'];
+        document.getElementById("mod-cu").innerText = data['mod-cu'];
+        document.getElementById("mod-importe").innerText = data['mod-importe'];
+        document.getElementById("civ-req").innerText = data['civ-req'];
+        document.getElementById("civ-cu").innerText = data['civ-cu'];
+        document.getElementById("civ-importe").innerText = data['civ-importe'];
+        document.getElementById("cif-req").innerText = data['cif-req'];
+        document.getElementById("cif-cu").innerText = data['cif-cu'];
+        document.getElementById("cif-importe").innerText = data['cif-importe'];
+        document.getElementById("ced1-total").innerText = data['ced1-total'];
+    }
+
+    function ced2Proyecto(data) {
+        document.getElementById("mpd-req-unit").innerText = data['mpd-req-unit'];
+        document.getElementById("mpd-req-total").innerText = data['mpd-req-total'];
+        document.getElementById("mpd-cu-ced2").innerText = data['mpd-cu-ced2'];
+        document.getElementById("mpd-total").innerText = data['mpd-total'];
+
+        document.getElementById("mod-req-unit").innerText = data['mod-req-unit'];
+        document.getElementById("mod-req-total").innerText = data['mod-req-total'];
+        document.getElementById("mod-cu-ced2").innerText = data['mod-cu-ced2'];
+        document.getElementById("mod-total").innerText = data['mod-total'];
+
+        document.getElementById("civ-req-unit").innerText = data['civ-req-unit'];
+        document.getElementById("civ-req-total").innerText = data['civ-req-total'];
+        document.getElementById("civ-cu-ced2").innerText = data['civ-cu-ced2'];
+        document.getElementById("civ-total-ced2").innerText = data['civ-total'];
+
+        document.getElementById("cif-req-unit").innerText = data['cif-req-unit'];
+        document.getElementById("cif-req-total").innerText = data['cif-req-total'];
+        document.getElementById("cif-cu-ced2").innerText = data['cif-cu-ced2'];
+        document.getElementById("cif-total-ced2").innerText = data['cif-total'];
+
+        document.getElementById("ced2-total").innerText = data['ced2-total'];
+    }
+
+    function ced3Proyecto(data) {
+        document.getElementById("mpd-req-unit-ced3").innerText = data['mpd-req-unit-ced3'];
+        document.getElementById("mpd-req-total-ced3").innerText = data['mpd-req-total-ced3'];
+        document.getElementById("mpd-cu-ced3").innerText = data['mpd-cu-ced3'];
+        document.getElementById("mpd-total-ced3").innerText = data['mpd-total-ced3'];
+
+        document.getElementById("mod-req-unit-ced3").innerText = data['mod-req-unit-ced3'];
+        document.getElementById("mod-req-total-ced3").innerText = data['mod-req-total-ced3'];
+        document.getElementById("mod-cu-ced3").innerText = data['mod-cu-ced3'];
+        document.getElementById("mod-total-ced3").innerText = data['mod-total-ced3'];
+
+        document.getElementById("civ-req-unit-ced3").innerText = data['civ-req-unit-ced3'];
+        document.getElementById("civ-req-total-ced3").innerText = data['civ-req-total-ced3'];
+        document.getElementById("civ-cu-ced3").innerText = data['civ-cu-ced3'];
+        document.getElementById("civ-total-ced3").innerText = data['civ-total-ced3'];
+
+        document.getElementById("cif-req-unit-ced3").innerText = data['cif-req-unit-ced3'];
+        document.getElementById("cif-req-total-ced3").innerText = data['cif-req-total-ced3'];
+        document.getElementById("cif-cu-ced3").innerText = data['cif-cu-ced3'];
+        document.getElementById("cif-total-ced3").innerText = data['cif-total-ced3'];
+
+        document.getElementById("ced3-total-ced3").innerText = data['ced3-total-ced3'];
+    }
+
+    function ced4Proyecto(data) {
+        document.getElementById("mp-real-unids").innerText = data['mp-real-unids'];
+        document.getElementById("mp-real-cu").innerText = data['mp-real-cu'];
+        document.getElementById("mp-real-importe").innerText = data['mp-real-importe'];
+        document.getElementById("mp-est-unids").innerText = data['mp-est-unids'];
+        document.getElementById("mp-est-cu").innerText = data['mp-est-cu'];
+        document.getElementById("mp-est-importe").innerText = data['mp-est-importe'];
+        document.getElementById("mp-desv-cu").innerText = data['mp-desv-cu'];
+        document.getElementById("mp-desv-unids").innerText = data['mp-desv-unids'];
+
+        const mpDesvImporte_ced4 = document.getElementById("mp-desv-importe");
+        mpDesvImporte_ced4.innerText = (data['mp-desv-importe']);
+        mpDesvImporte_ced4.classList.remove("text-success", "text-danger");
+        mpDesvImporte_ced4.classList.add(data['mp-desv-importe'] < 0 ? "text-danger" : "text-success");
+
+        const mpPrecio_ced4 = document.getElementById("mp-precio");
+        mpPrecio_ced4.innerText = (data['mp-precio']);
+        mpPrecio_ced4.classList.remove("text-success", "text-danger");
+        mpPrecio_ced4.classList.add(data['mp-precio'] < 0 ? "text-danger" : "text-success");
+
+        const mpCantidad_ced4 = document.getElementById("mp-cantidad");
+        mpCantidad_ced4.innerText = (data['mp-cantidad']);
+        mpCantidad_ced4.classList.remove("text-success", "text-danger");
+        mpCantidad_ced4.classList.add(data['mp-cantidad'] < 0 ? "text-danger" : "text-success");
+
+        const mpTotal_ced4 = document.getElementById("mp-total");
+        mpTotal_ced4.innerText = (data['mp-total']);
+        mpTotal_ced4.classList.remove("text-success", "text-danger");
+        mpTotal_ced4.classList.add(data['mp-total'] < 0 ? "text-danger" : "text-success");
+
+        document.getElementById("mo-real-unids").innerText = data['mo-real-unids'];
+        document.getElementById("mo-real-cu").innerText = data['mo-real-cu'];
+        document.getElementById("mo-real-importe").innerText = data['mo-real-importe'];
+        document.getElementById("mo-est-unids").innerText = data['mo-est-unids'];
+        document.getElementById("mo-est-cu").innerText = data['mo-est-cu'];
+        document.getElementById("mo-est-importe").innerText = data['mo-est-importe'];
+        document.getElementById("mo-desv-unids").innerText = data['mo-desv-unids'];
+        document.getElementById("mo-desv-cu").innerText = data['mo-desv-cu'];
+
+        const moDesvImporte_ced4 = document.getElementById("mo-desv-importe");
+        moDesvImporte_ced4.innerText = (data['mo-desv-importe']);
+        moDesvImporte_ced4.classList.remove("text-success", "text-danger");
+        moDesvImporte_ced4.classList.add(data['mo-desv-importe'] < 0 ? "text-danger" : "text-success");
+
+        const moPrecioImporte_ced4 = document.getElementById("mo-precio");
+        moPrecioImporte_ced4.innerText = (data['mo-precio']);
+        moPrecioImporte_ced4.classList.remove("text-success", "text-danger");
+        moPrecioImporte_ced4.classList.add(data['mo-precio'] < 0 ? "text-danger" : "text-success");
+
+        const moCantidadImporte_ced4 = document.getElementById("mo-cantidad");
+        moCantidadImporte_ced4.innerText = (data['mo-cantidad']);
+        moCantidadImporte_ced4.classList.remove("text-success", "text-danger");
+        moCantidadImporte_ced4.classList.add(data['mo-cantidad'] < 0 ? "text-danger" : "text-success");
+
+        const moTotalImporte_ced4 = document.getElementById("mo-total");
+        moTotalImporte_ced4.innerText = (data['mo-total']);
+        moTotalImporte_ced4.classList.remove("text-success", "text-danger");
+        moTotalImporte_ced4.classList.add(data['mo-total'] < 0 ? "text-danger" : "text-success");
+
+        document.getElementById("civ-real-unids").innerText = data['civ-real-unids'];
+        document.getElementById("civ-real-cu").innerText = data['civ-real-cu'];
+        document.getElementById("civ-real-importe").innerText = data['civ-real-importe'];
+        document.getElementById("civ-est-unids").innerText = data['civ-est-unids'];
+        document.getElementById("civ-est-cu").innerText = data['civ-est-cu'];
+        document.getElementById("civ-est-importe").innerText = data['civ-est-importe'];
+        document.getElementById("civ-desv-unids").innerText = data['civ-desv-unids'];
+        document.getElementById("civ-desv-cu").innerText = data['civ-desv-cu'];
+        const civDesvImporte_ced4 = document.getElementById("civ-desv-importe");
+
+        civDesvImporte_ced4.innerText = data['civ-desv-importe'];
+        civDesvImporte_ced4.classList.remove("text-success", "text-danger");
+        civDesvImporte_ced4.classList.add(data['civ-desv-importe'] < 0 ? "text-danger" : "text-success");
+
+        const civPrecio_ced4 = document.getElementById("civ-precio");
+        civPrecio_ced4.innerText = data['civ-precio'];
+        civPrecio_ced4.classList.remove("text-success", "text-danger");
+        civPrecio_ced4.classList.add(data['civ-precio'] < 0 ? "text-danger" : "text-success");
+
+        const civCantidad_ced4 = document.getElementById("civ-cantidad");
+        civCantidad_ced4.innerText = data['civ-cantidad'];
+        civCantidad_ced4.classList.remove("text-success", "text-danger");
+        civCantidad_ced4.classList.add(data['civ-cantidad'] < 0 ? "text-danger" : "text-success");
+
+        const civTotal_ced4 = document.getElementById("civ-total");
+        civTotal_ced4.innerText = data['civ-total'];
+        civTotal_ced4.classList.remove("text-success", "text-danger");
+        civTotal_ced4.classList.add(data['civ-total'] < 0 ? "text-danger" : "text-success");
+
+
+        document.getElementById("cif-real-unids").innerText = data['cif-real-unids'];
+        document.getElementById("cif-real-cu").innerText = data['cif-real-cu'];
+        document.getElementById("cif-real-importe").innerText = data['cif-real-importe'];
+        document.getElementById("cif-est-unids").innerText = data['cif-est-unids'];
+        document.getElementById("cif-est-cu").innerText = data['cif-est-cu'];
+        document.getElementById("cif-est-importe").innerText = data['cif-est-importe'];
+        document.getElementById("cif-desv-unids").innerText = data['cif-desv-unids'];
+        document.getElementById("cif-desv-cu").innerText = data['cif-desv-cu'];
+        document.getElementById("cif-desv-importe").innerText = data['cif-desv-importe'];
+        document.getElementById("cif-precio").innerText = data['cif-precio'];
+        document.getElementById("cif-cantidad").innerText = data['cif-cantidad'];
+        document.getElementById("cif-subtotal").innerText = data['cif-subtotal'];
+        document.getElementById("cif-prep-est").innerText = data['cif-prep-est'];
+        document.getElementById("cif-costo-est").innerText = data['cif-costo-est'];
+        document.getElementById("cif-oper-est").innerText = data['cif-oper-est'];
+        document.getElementById("cif-total").innerText = data['cif-total'];
+
+        document.getElementById("ci-real-unids").innerText = data['ci-real-unids'];
+        document.getElementById("ci-real-cu").innerText = data['ci-real-cu'];
+        document.getElementById("ci-real-importe").innerText = data['ci-real-importe'];
+        document.getElementById("ci-est-unids").innerText = data['ci-est-unids'];
+        document.getElementById("ci-est-cu").innerText = data['ci-est-cu'];
+        document.getElementById("ci-est-importe").innerText = data['ci-est-importe'];
+        document.getElementById("ci-desv-unids").innerText = data['ci-desv-unids'];
+        document.getElementById("ci-desv-cu").innerText = data['ci-desv-cu'];
+        document.getElementById("ci-desv-importe").innerText = data['ci-desv-importe'];
+        document.getElementById("ci-total").innerText = data['ci-total'];
+    }
+
+
+    fetchData();
+</script>
+<script>
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    if (localStorage.getItem('darkMode') === 'true') {
+        body.classList.add('dark-mode');
+        darkModeToggle.checked = true;
+    }
+
+    darkModeToggle.addEventListener('change', () => {
+        body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+    });
+</script>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Costos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="logo.png" alt="Logo" width="40" height="40" class="me-2">
+                <span>Plataforma de registros contables</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="crear.html">Crear Proyecto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="lotes.html">Lotes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="movimiento.html">Movimientos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <h1 class="text-center mb-4">Crear Proyecto</h1>
+        <form>
+            <!-- Sección Crear Proyecto -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Datos del Proyecto</h3>
+                    <div class="mb-3">
+                        <label for="projectName" class="form-label">Nombre del Proyecto</label>
+                        <input id="txtName" type="text" class="form-control" name="projectName"
+                            placeholder="Ingrese el nombre del proyecto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="company" class="form-label">Empresa</label>
+                        <input id="txtBusiness" type="text" class="form-control" name="company"
+                            placeholder="Ingrese el nombre de la empresa" required>
+                    </div>
+                    <!-- Renta input with dollar sign and label -->
+                    <div class="mb-3">
+                        <label for="valRenta" class="form-label">Costo de la Renta</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input id="valRenta" type="number" class="form-control" name="rent"
+                                placeholder="Ingrese el costo de la renta" required>
+                        </div>
+                    </div>
+                    <!-- Luz input with dollar sign and label -->
+                    <div class="mb-3">
+                        <label for="valLuz" class="form-label">Costo de la Luz</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input id="valLuz" type="number" class="form-control" name="electricity"
+                                placeholder="Ingrese el costo de la luz" required>
+                        </div>
+                    </div>
+                    <!-- Mantenimiento input with dollar sign and label -->
+                    <div class="mb-3">
+                        <label for="valMtto" class="form-label">Costo del Mantenimiento</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input id="valMtto" type="number" class="form-control" name="maintenance"
+                                placeholder="Ingrese el costo del mantenimiento" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Agregar Productos -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Agregar Productos</h3>
+                    <div id="productContainer">
+                        <div class="product-entry mb-3">
+                            <label for="productName" class="form-label">Nombre del Producto</label>
+                            <input id="txtProducto_1" type="text" class="form-control" name="productName[]"
+                                placeholder="Ingrese el nombre del producto" required>
+                        </div>
+                    </div>
+                    <hr class="bg-secondary border-2 border-top border-secondary" />
+                    <button type="button" class="btn btn-secondary" onclick="addProduct()">+ Agregar Producto</button>
+                </div>
+            </div>
+
+            <!-- Sección Agregar Departamento -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Agregar Departamento</h3>
+                    <div id="departmentContainer">
+                        <div class="department-entry mb-3">
+                            <label for="departmentName" class="form-label">Nombre</label>
+                            <input id="txtDepartmentName" type="text" class="form-control" name="departmentName[]"
+                                placeholder="Ingrese el nombre del departamento" required>
+                            <label for="area" class="form-label">Metros Cuadrados a Utilizar</label>
+                            <div class="mb-3 input-group">
+                                <span class="input-group-text">$</span>
+                                <input id="txtArea_1" type="number" class="form-control" name="area[]"
+                                    placeholder="Ingrese los metros cuadrados" required>
+                            </div>
+                            <!-- Kilowatts input with dollar sign and label -->
+                            <div class="mb-3">
+                                <label for="txtKilowatts_1" class="form-label">Kilowatts a Utilizar</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input id="txtKilowatts_1" type="number" class="form-control" name="kilowatts[]"
+                                        placeholder="Ingrese los kilowatts" required>
+                                </div>
+                            </div>
+                            <!-- Horas Máquina input with dollar sign and label -->
+                            <div class="mb-3">
+                                <label for="txtMachineHours_1" class="form-label">Horas Máquina a Utilizar</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input id="txtMachineHours_1" type="number" class="form-control"
+                                        name="machineHours[]" placeholder="Ingrese las horas máquina" required>
+                                </div>
+                            </div>
+                            <!-- Pago de Mano de Obra input with dollar sign and label -->
+                            <div class="mb-3">
+                                <label for="txtLaborCost_1" class="form-label">Pago de Mano de Obra</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input id="txtLaborCost_1" type="number" class="form-control" name="laborCost[]"
+                                        placeholder="Ingrese el pago de mano de obra" required>
+                                </div>
+                            </div>
+                            <!-- Pago de Materia Prima input with dollar sign and label -->
+                            <div class="mb-3">
+                                <label for="txtMaterialCost_1" class="form-label">Pago de Materia Prima</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input id="txtMaterialCost_1" type="number" class="form-control"
+                                        name="materialCost[]" placeholder="Ingrese el pago de materia prima" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="bg-secondary border-2 border-top border-secondary" />
+                    <button type="button" class="btn btn-secondary" onclick="addDepartment()">+ Agregar
+                        Departamento</button>
+                </div>
+            </div>
+
+            <!-- Sección Agregar Materia Prima -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Agregar Materia Prima</h3>
+                    <div id="rawMaterialContainer">
+                        <div class="raw-material-entry mb-3">
+                            <label for="rawMaterialName" class="form-label">Nombre de Materia Prima</label>
+                            <input id="txtRawMaterialName_1" type="text" class="form-control" name="rawMaterialName[]"
+                                placeholder="Ingrese el nombre de la materia prima" required>
+                            <label for="evaluationMethod" class="form-label">Método de Evaluación</label>
+                            <select id="txtEvaluationMethod_1" class="form-select" name="evaluationMethod[]" required>
+                                <option value="PEPS">PEPS</option>
+                                <option value="UEPS">UEPS</option>
+                                <option value="Costo Promedio">Costo Promedio</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr class="bg-secondary border-2 border-top border-secondary" />
+                    <button type="button" class="btn btn-secondary" onclick="addRawMaterial()">+ Agregar Materia
+                        Prima</button>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button id="btnCrearProyecto" type="button" class="btn btn-primary" onclick="makeProyect()">Crear
+                    Proyecto</button>
+            </div>
+        </form>
+
+    </main>
+
+    <script>
+        // Agregar Producto
+        // Agregar Producto
+        function addProduct() {
+            const numProduct = Math.floor(Math.random() * 100000000);
+            const productContainer = document.getElementById('productContainer');
+            const productEntry = document.createElement('div');
+            productEntry.classList.add('product-entry', 'mb-3');
+            productEntry.innerHTML = `
+        <label for="productName_${numProduct}" class="form-label">Nombre del Producto</label>
+        <input id="txtProducto_${numProduct}" type="text" class="form-control" name="productName[]" placeholder="Ingrese el nombre del producto" required>
+        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeEntry(this)">Eliminar</button>
+    `;
+            productContainer.appendChild(productEntry);
+        }
+
+        // Agregar Departamento
+        function addDepartment() {
+            const numDepartment = Math.floor(Math.random() * 100000000);
+            const departmentContainer = document.getElementById('departmentContainer');
+            const departmentEntry = document.createElement('div');
+            departmentEntry.classList.add('department-entry', 'mb-3');
+            departmentEntry.innerHTML = `
+        <hr>
+        <label for="departmentName_${numDepartment}" class="form-label">Nombre</label>
+        <input id="txtDepartmentName_${numDepartment}" type="text" class="form-control" name="departmentName[]" placeholder="Ingrese el nombre del departamento" required>
+        
+        <label for="area_${numDepartment}" class="form-label">Metros Cuadrados a Utilizar</label>
+        <div class="mb-3 input-group">
+            <span class="input-group-text">$</span>
+            <input id="txtArea_${numDepartment}" type="number" class="form-control" name="area[]" placeholder="Ingrese los metros cuadrados" required>
+        </div>
+        
+        <label for="kilowatts_${numDepartment}" class="form-label">Kilowatts a Utilizar</label>
+        <div class="mb-3 input-group">
+            <span class="input-group-text">$</span>
+            <input id="txtKilowatts_${numDepartment}" type="number" class="form-control" name="kilowatts[]" placeholder="Ingrese los kilowatts" required>
+        </div>
+        
+        <label for="machineHours_${numDepartment}" class="form-label">Horas Máquina a Utilizar</label>
+        <div class="mb-3 input-group">
+            <span class="input-group-text">$</span>
+            <input id="txtMachineHours_${numDepartment}" type="number" class="form-control" name="machineHours[]" placeholder="Ingrese las horas máquina" required>
+        </div>
+        
+        <label for="laborCost_${numDepartment}" class="form-label">Pago de Mano de Obra</label>
+        <div class="mb-3 input-group">
+            <span class="input-group-text">$</span>
+            <input id="txtLaborCost_${numDepartment}" type="number" class="form-control" name="laborCost[]" placeholder="Ingrese el pago de mano de obra" required>
+        </div>
+        
+        <label for="materialCost_${numDepartment}" class="form-label">Pago de Materia Prima</label>
+        <div class="mb-3 input-group">
+            <span class="input-group-text">$</span>
+            <input id="txtMaterialCost_${numDepartment}" type="number" class="form-control" name="materialCost[]" placeholder="Ingrese el pago de materia prima" required>
+        </div>
+
+        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeEntry(this)">Eliminar</button>
+    `;
+            departmentContainer.appendChild(departmentEntry);
+        }
+
+        // Agregar Materia Prima
+        function addRawMaterial() {
+            const numRawMaterial = Math.floor(Math.random() * 100000000);
+            const rawMaterialContainer = document.getElementById('rawMaterialContainer');
+            const rawMaterialEntry = document.createElement('div');
+            rawMaterialEntry.classList.add('raw-material-entry', 'mb-3');
+            rawMaterialEntry.innerHTML = `
+        <label for="rawMaterialName_${numRawMaterial}" class="form-label">Nombre de Materia Prima</label>
+        <input id="txtRawMaterialName_${numRawMaterial}" type="text" class="form-control" name="rawMaterialName[]" placeholder="Ingrese el nombre de la materia prima" required>
+
+        <label for="evaluationMethod_${numRawMaterial}" class="form-label">Método de Evaluación</label>
+        <select id="txtEvaluationMethod_${numRawMaterial}" class="form-select" name="evaluationMethod[]" required>
+            <option value="PEPS">PEPS</option>
+            <option value="UEPS">UEPS</option>
+            <option value="Costo Promedio">Costo Promedio</option>
+        </select>
+
+        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeEntry(this)">Eliminar</button>
+    `;
+            rawMaterialContainer.appendChild(rawMaterialEntry);
+        }
+
+        // Function to remove the dynamically added entries
+        function removeEntry(button) {
+            const entry = button.closest('div');
+            entry.remove();
+        }
+
+
+        function removeEntry(button) {
+            button.parentElement.remove();
+        }
+
+
+        async function makeProyect() {
+            const projectName = document.getElementById('txtName').value;
+            const company = document.getElementById('txtBusiness').value;
+            const rent = document.getElementById('valRenta').value;
+            const electricity = document.getElementById('valLuz').value;
+            const maintenance = document.getElementById('valMtto').value;
+
+            // Check if all required fields are filled
+            if (!projectName || !company || !rent || !electricity || !maintenance) {
+                alert("Por favor, complete todos los datos del proyecto.");
+                return;
+            }
+
+            // Collect product names
+            const productNames = [];
+            const productInputs = document.getElementsByName('productName[]');
+            for (let i = 0; i < productInputs.length; i++) {
+                if (!productInputs[i].value) {
+                    alert("Por favor, ingrese todos los nombres de los productos.");
+                    return;
+                }
+                productNames.push(productInputs[i].value);
+            }
+
+            // Collect department data
+            const departments = [];
+            const departmentNames = document.getElementsByName('departmentName[]');
+            const areas = document.getElementsByName('area[]');
+            const kilowatts = document.getElementsByName('kilowatts[]');
+            const machineHours = document.getElementsByName('machineHours[]');
+            const laborCosts = document.getElementsByName('laborCost[]');
+            const materialCosts = document.getElementsByName('materialCost[]');
+
+            for (let i = 0; i < departmentNames.length; i++) {
+                if (!departmentNames[i].value || !areas[i].value || !kilowatts[i].value || !machineHours[i].value || !laborCosts[i].value || !materialCosts[i].value) {
+                    alert("Por favor, ingrese todos los datos del departamento.");
+                    return;
+                }
+                departments.push({
+                    name: departmentNames[i].value,
+                    area: areas[i].value,
+                    kilowatts: kilowatts[i].value,
+                    machineHours: machineHours[i].value,
+                    laborCost: laborCosts[i].value,
+                    materialCost: materialCosts[i].value
+                });
+            }
+
+            // Collect raw material data
+            const rawMaterials = [];
+            const rawMaterialNames = document.getElementsByName('rawMaterialName[]');
+            const evaluationMethods = document.getElementsByName('evaluationMethod[]');
+
+            for (let i = 0; i < rawMaterialNames.length; i++) {
+                if (!rawMaterialNames[i].value || !evaluationMethods[i].value) {
+                    alert("Por favor, ingrese todos los datos de materia prima.");
+                    return;
+                }
+                rawMaterials.push({
+                    name: rawMaterialNames[i].value,
+                    method: evaluationMethods[i].value
+                });
+            }
+
+            // Create the data object to send
+            const projectData = {
+                "datos": {
+                    projectName,
+                    company,
+                    rent,
+                    electricity,
+                    maintenance
+                },
+                "productos": productNames,
+                "departamentos": departments,
+                "materia_prima": rawMaterials
+            };
+
+            console.log(projectData); // Optionally log the data to the console
+
+            // Send data to the server using sendRegistrationData function
+            await sendRegistrationData(projectData);
+        }
+
+        // Function to send registration data to the server
+        async function sendRegistrationData(data) {
+            try {
+                const response = await fetch(`/registerProject`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok)
+                    console.error(`Client Error / Response NOT OK: ${response.status}`);
+
+                const responseData = await response.json();
+                if (responseData['message'] === 1){
+                    alert("Proyecto registrado");
+                }
+                else{
+                    alert("Ocurrió un error, intente de nuevo");
+                }
+                console.log('Server Response:', responseData);
+            } catch (error) {
+                console.error('Client Error / Catch: ', error.message);
+            }
+        }
+
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
