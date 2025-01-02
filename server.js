@@ -5,6 +5,9 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
+const http = require('http');
+const url = require('url');
+
 const hostname = os.hostname();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -16,7 +19,7 @@ app.listen(port, () => {
 const pg = require('pg');
 const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}`;
 
-function doSelect() {
+function doSelect(id) {
   return new Promise((resolve, reject) => {
     const client = new pg.Client(connection);
 
@@ -28,10 +31,10 @@ function doSelect() {
       }
 
       const queries = [
-        { key: 'producto', query: 'SELECT * FROM producto WHERE id_producto = 5' },
-        { key: 'real', query: 'SELECT * FROM real WHERE id_producto = 5' },
-        { key: 'estandar', query: 'SELECT * FROM estandar WHERE id_producto = 5' },
-        { key: 'datos_tarjeta_almacen', query: 'SELECT * FROM datos_tarjeta_almacen WHERE id_producto = 5' },
+        { key: 'producto', query: 'SELECT * FROM producto WHERE id_producto = ' + id },
+        { key: 'real', query: 'SELECT * FROM real WHERE id_producto = ' + id },
+        { key: 'estandar', query: 'SELECT * FROM estandar WHERE id_producto = ' + id },
+        { key: 'datos_tarjeta_almacen', query: 'SELECT * FROM datos_tarjeta_almacen WHERE id_producto = ' + id },
       ];
 
       const results = {};
@@ -156,9 +159,104 @@ function registerProduct(data) {
   });
 }
 
+function doQueryProductos() {
+  return new Promise((resolve, reject) => {
+    const client = new pg.Client(connection);
+
+    client.connect(err => {
+      if (err) {
+        console.error('Connection Error:', err);
+        reject(err);
+        return;
+      }
+
+      const query = 'SELECT * FROM producto';
+
+      client.query(query)
+        .then(res => {
+          console.log('Query Result:', res.rows);
+          resolve(res.rows);
+        })
+        .catch(err => {
+          console.error('Query Error:', err);
+          reject(err);
+        })
+        .finally(() => {
+          client.end();
+        });
+    });
+  });
+}
+
+function selectById(id) {
+  return new Promise((resolve, reject) => {
+    if (!id) {
+      reject(new Error('ID is required'));
+      return;
+    }
+
+    const client = new pg.Client(connection);
+
+    client.connect(err => {
+      if (err) {
+        console.error('Connection Error:', err);
+        reject(err);
+        return;
+      }
+
+      const query = 'SELECT * FROM producto WHERE id_producto = $1';
+      const params = [id];
+
+      client.query(query, params)
+        .then(res => {
+          console.log('Query Result:', res.rows);
+          resolve(res.rows);
+        })
+        .catch(err => {
+          console.error('Query Error:', err);
+          reject(err);
+        })
+        .finally(() => {
+          client.end();
+        });
+    });
+  });
+}
+
+app.post('/selectById', async (req, res) => {
+  try {
+    const id = req.body;
+
+    const result = await selectById(id);
+
+    res.json({ message: result });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ error: 'API Error', details: err.message });
+  }
+});
+
 app.get('/doSelect', async (req, res) => {
   try {
-    const data = await doSelect();
+    const id = req.query.id;
+    if (!id) {
+      return res.status(400).json({ error: 'ID parameter is missing' });
+    }
+
+    const data = await doSelect(id);
+
+    res.json(data);
+
+  } catch (err) {
+    console.error('API Error', err);
+    res.status(500).json({ error: 'API Error', details: err.message });
+  }
+});
+
+
+app.get('/doQueryProductos', async (req, res) => {
+  try {
+    const data = await doQueryProductos();
     res.json(data);
   } catch (err) {
     console.error('API Error', err);
