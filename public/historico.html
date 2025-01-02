@@ -469,8 +469,6 @@
                 <thead>
                     <tr>
                         <th></th>
-
-
                         <th>Importe</th>
 
                         <th></th>
@@ -510,8 +508,8 @@
         </div>
     </div>
 
-    <div id="produccion-terminada" class="container my-5>
-        <h3 class=" mt-4">Ced. V Valuación de la producción terminada</h3>
+    <div id="ced-v" class="container my-5">
+        <h3 class="mt-4">Ced. V Valuación de la producción terminada</h3>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -522,36 +520,41 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>$6,000.00</td>
-                    <td>$122.50</td>
-                    <td>$735,000.00</td>
+                    <td id="unid-term-ced5"></td>
+                    <td id="cup-ced5"></td>
+                    <td id="costo-prod-term-ced5"></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div id="inv-final-produccion-terminada" class="container my-5>
-        <h3 class=" mt-4">Ced. VI Valuación del Inv. Final. De la Prod. Term.</h3>
+    <div id="ced-vi" class="container my-5">
+        <h3 class="mt-4">Ced. VI Valuación del Inv. Final. De la Prod. Term.</h3>
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Unid. Term.</th>
                     <th>Unid. Vend.</th>
                     <th>Inv. Final</th>
+                    <th>C.U.P.</th>
+                    <th>Costo total IFPT a CE</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>6000</td>
-                    <td>5100</td>
-                    <td>900</td>
+                    <td id="unid-term-ced6"></td>
+                    <td id="unid-vend-ced6"></td>
+                    <td id="inv-final-ced6"></td>
+                    <td id="cup-ced6"></td>
+                    <td id="costo-total-ifpt-ce-ced6"></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div id="ventas-y-costo-vendido" class="container my-5>
-        <h3 class=" mt-4">Ced. VII Cédula de Ventas y Costo de lo Vendido</h3>
+    <div id="ced-vii" class="container my-5">
+        <h3 class="mt-4">Ced. VII Cédula de Ventas y Costo de lo Vendido</h3>
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -562,9 +565,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>5100</td>
-                    <td>270</td>
-                    <td>$1,377,000.00</td>
+                    <td id="unid-vend-ced7"></td>
+                    <td id="pv-ced7"></td>
+                    <td id="importe-ced7"></td>
                 </tr>
             </tbody>
         </table>
@@ -579,9 +582,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>5100</td>
-                    <td>122.5</td>
-                    <td>$624,750.00</td>
+                    <td id="unid-vend-ced7-2"></td>
+                    <td id="cup-ced7-2"></td>
+                    <td id="costo-vendido-ced7-2"></td>
                 </tr>
             </tbody>
         </table>
@@ -1007,15 +1010,37 @@
             'cif-oper-est': (data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
             'cif-total': ((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
 
-            'ci-real-importe': calculosCed4['mp-real-importe']  + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r'],
-            
+            'ci-real-importe': calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r'],
+
             'ci-est-importe': (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
-            
-            'ci-desv-importe': (calculosCed4['mp-real-importe']  + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
+
+            'ci-desv-importe': (calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
 
             'ci-total': (calculosCed4['mp-total']) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])))
         })
 
+        ced5Proyecto({
+            'unid-term-ced5': data['real'][0]['prod_terminado_r'],
+            'cup-ced5': Object.values(calculosCed1).reduce((sum, value) => sum + value, 0),
+            'costo-prod-term-ced5': (data['real'][0]['prod_terminado_r']) * (Object.values(calculosCed1).reduce((sum, value) => sum + value, 0))
+        })
+
+        ced6Proyecto({
+            'unid-term-ced6': data['real'][0]['prod_terminado_r'],
+            'unid-vend-ced6': data['real'][0]['unid_vendidas_r'],
+            'inv-final-ced6': (data['real'][0]['prod_terminado_r']) - (data['real'][0]['unid_vendidas_r']),
+            'cup-ced6': Object.values(calculosCed1).reduce((sum, value) => sum + value, 0),
+            'costo-total-ifpt-ce-ced6': ((data['real'][0]['prod_terminado_r']) - (data['real'][0]['unid_vendidas_r'])) * (Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)),
+        })
+
+        ced7Proyecto({
+            'unid-vend-ced7': data['real'][0]['unid_vendidas_r'],
+            'pv-ced7': data['real'][0]['precio_venta_r'],
+            'importe-ced7': data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r'],
+            'unid-vend-ced7-2': data['real'][0]['unid_vendidas_r'],
+            'cup-ced7-2': Object.values(calculosCed1).reduce((sum, value) => sum + value, 0),
+            'costo-vendido-ced7-2': data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)
+        })
     }
 
     function resumenProyecto(data) {
@@ -1214,6 +1239,30 @@
         ciTotal_ced4.innerText = data['ci-total'];
         ciTotal_ced4.classList.remove("text-success", "text-danger");
         ciTotal_ced4.classList.add(data['ci-total'] < 0 ? "text-danger" : "text-success");
+    }
+
+    function ced5Proyecto(data) {
+        document.getElementById("unid-term-ced5").innerText = data['unid-term-ced5'];
+        document.getElementById("cup-ced5").innerText = data['cup-ced5'];
+        document.getElementById("costo-prod-term-ced5").innerText = data['costo-prod-term-ced5'];
+    }
+
+    function ced6Proyecto(data) {
+        document.getElementById("unid-term-ced6").innerText = data['unid-term-ced6'];
+        document.getElementById("unid-vend-ced6").innerText = data['unid-vend-ced6'];
+        document.getElementById("inv-final-ced6").innerText = data['inv-final-ced6'];
+        document.getElementById("cup-ced6").innerText = data['cup-ced6'];
+        document.getElementById("costo-total-ifpt-ce-ced6").innerText = data['costo-total-ifpt-ce-ced6'];
+    }
+
+    function ced7Proyecto(data) {
+        document.getElementById("unid-vend-ced7").innerText = data['unid-vend-ced7'];
+        document.getElementById("pv-ced7").innerText = data['pv-ced7'];
+        document.getElementById("importe-ced7").innerText = data['importe-ced7'];
+
+        document.getElementById("unid-vend-ced7-2").innerText = data['unid-vend-ced7-2'];
+        document.getElementById("cup-ced7-2").innerText = data['cup-ced7-2'];
+        document.getElementById("costo-vendido-ced7-2").innerText = data['costo-vendido-ced7-2'];
     }
 
     fetchData();
