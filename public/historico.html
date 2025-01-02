@@ -391,37 +391,37 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Unids.</th>
-                        <th>C.U.</th>
+
+
                         <th>Importe</th>
 
                         <th></th>
-                        <th>Total</th>
+                        <th>Presupuesto</th>
                     </tr>
                 </thead>
                 <tbody id="cif-body">
                     <tr>
                         <td>Real</td>
-                        <td id="cif-real-unids"></td>
-                        <td id="cif-real-cu"></td>
+
+
                         <td id="cif-real-importe"></td>
 
-                        <td id="label_precio">En cuota</td>
+                        <td id="label_precio">Costo Real</td>
                         <td id="cif-precio"></td>
                     </tr>
                     <tr>
                         <td>Est.</td>
-                        <td id="cif-est-unids"></td>
-                        <td id="cif-est-cu"></td>
+
+
                         <td id="cif-est-importe"></td>
 
-                        <td id="label_cantidad">En cantidad</td>
+                        <td id="label_cantidad">Prep. Estático</td>
                         <td id="cif-cantidad"></td>
                     </tr>
                     <tr>
                         <td>Desv</td>
-                        <td id="cif-desv-unids"></td>
-                        <td id="cif-desv-cu"></td>
+
+
                         <td id="cif-desv-importe"></td>
 
                         <td id="label-subtotal">Subtotal</td>
@@ -432,7 +432,7 @@
 
 
 
-                        <td colspan="5" id="label-prep-est" class="text-end">Prep. Est.</td>
+                        <td colspan="3" id="label-prep-est" class="text-end">Prep. Est.</td>
                         <td id="cif-prep-est"></td>
                     </tr>
                     <tr>
@@ -440,7 +440,7 @@
 
 
 
-                        <td colspan="5" class="text-end" id="label-prep-est">Costo Est.</td>
+                        <td colspan="3" class="text-end" id="label-prep-est">Costo Est.</td>
                         <td id="cif-costo-est"></td>
                     </tr>
                     <tr>
@@ -448,7 +448,7 @@
 
 
 
-                        <td colspan="5" class="text-end" id="label-oper">Oper.</td>
+                        <td colspan="3" class="text-end" id="label-oper">Oper.</td>
                         <td id="cif-oper-est"></td>
                     </tr>
                     <tr>
@@ -456,7 +456,7 @@
 
 
 
-                        <td colspan="5" class="text-end" id="label-total">Total</td>
+                        <td colspan="3" class="text-end" id="label-total">Total</td>
                         <td id="cif-total"></td>
                     </tr>
                 </tbody>
@@ -469,8 +469,8 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Unids.</th>
-                        <th>C.U.</th>
+
+
                         <th>Importe</th>
 
                         <th></th>
@@ -480,29 +480,29 @@
                 <tbody id="ci-body">
                     <tr>
                         <td>Real</td>
-                        <td id="ci-real-unids"></td>
-                        <td id="ci-real-cu"></td>
+
+
                         <td id="ci-real-importe"></td>
 
-                        <td></td>
-                        <td></td>
+
+
                     </tr>
                     <tr>
                         <td>Est.</td>
-                        <td id="ci-est-unids"></td>
-                        <td id="ci-est-cu"></td>
+
+
                         <td id="ci-est-importe"></td>
 
-                        <td></td>
-                        <td></td>
+
+
                     </tr>
                     <tr>
                         <td>Desv</td>
-                        <td id="ci-desv-unids"></td>
-                        <td id="ci-desv-cu"></td>
+
+
                         <td id="ci-desv-importe"></td>
 
-                        <td id="label_total">Total</td>
+                        <td>Total</td>
                         <td id="ci-total"></td>
                     </tr>
                 </tbody>
@@ -993,36 +993,27 @@
             'civ-desv-importe': ((15000) * (12)) - (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']),
 
             'civ-precio': (15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e'])),
-            'civ-cantidad': ((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * ( data['estandar'][0]['costo_horas_maquina_civ_e']),
-            'civ-total': ((15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * ( data['estandar'][0]['costo_horas_maquina_civ_e'])),
+            'civ-cantidad': ((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']),
+            'civ-total': ((15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e'])),
 
-            'cif-real-unids': '',
-            'cif-real-cu': '',
-            'cif-real-importe': '',
-            'cif-est-unids': '',
-            'cif-est-cu': '',
-            'cif-est-importe': '',
-            'cif-desv-unids': '',
-            'cif-desv-cu': '',
-            'cif-desv-importe': '',
-            'cif-precio': '',
-            'cif-cantidad': '',
-            'cif-subtotal': '',
-            'cif-prep-est': '',
-            'cif-costo-est': '',
-            'cif-oper-est': '',
-            'cif-total': '',
+            'cif-real-importe': data['real'][0]['cargos_indir_inc_fijos_r'],
+            'cif-est-importe': calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'],
+            'cif-desv-importe': (data['real'][0]['cargos_indir_inc_fijos_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
+            'cif-precio': data['real'][0]['cargos_indir_inc_fijos_r'],
+            'cif-cantidad': data['real'][0]['prep_est_costo_r'],
+            'cif-subtotal': (data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r']),
+            'cif-prep-est': data['real'][0]['prep_est_costo_r'],
+            'cif-costo-est': calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'],
+            'cif-oper-est': (data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
+            'cif-total': ((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
 
-            'ci-real-unids': '',
-            'ci-real-cu': '',
-            'ci-real-importe': '',
-            'ci-est-unids': '',
-            'ci-est-cu': '',
-            'ci-est-importe': '',
-            'ci-desv-unids': '',
-            'ci-desv-cu': '',
-            'ci-desv-importe': '',
-            'ci-total': ''
+            'ci-real-importe': calculosCed4['mp-real-importe']  + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r'],
+            
+            'ci-est-importe': (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
+            
+            'ci-desv-importe': (calculosCed4['mp-real-importe']  + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
+
+            'ci-total': (calculosCed4['mp-total']) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])))
         })
 
     }
@@ -1186,36 +1177,44 @@
         civTotal_ced4.classList.remove("text-success", "text-danger");
         civTotal_ced4.classList.add(data['civ-total'] < 0 ? "text-danger" : "text-success");
 
-
-        document.getElementById("cif-real-unids").innerText = data['cif-real-unids'];
-        document.getElementById("cif-real-cu").innerText = data['cif-real-cu'];
         document.getElementById("cif-real-importe").innerText = data['cif-real-importe'];
-        document.getElementById("cif-est-unids").innerText = data['cif-est-unids'];
-        document.getElementById("cif-est-cu").innerText = data['cif-est-cu'];
         document.getElementById("cif-est-importe").innerText = data['cif-est-importe'];
-        document.getElementById("cif-desv-unids").innerText = data['cif-desv-unids'];
-        document.getElementById("cif-desv-cu").innerText = data['cif-desv-cu'];
         document.getElementById("cif-desv-importe").innerText = data['cif-desv-importe'];
         document.getElementById("cif-precio").innerText = data['cif-precio'];
         document.getElementById("cif-cantidad").innerText = data['cif-cantidad'];
-        document.getElementById("cif-subtotal").innerText = data['cif-subtotal'];
+
+        const cifSubtotal_ced4 = document.getElementById("cif-subtotal");
+        cifSubtotal_ced4.innerText = data['cif-subtotal'];
+        cifSubtotal_ced4.classList.remove("text-success", "text-danger");
+        cifSubtotal_ced4.classList.add(data['cif-subtotal'] < 0 ? "text-danger" : "text-success");
+
         document.getElementById("cif-prep-est").innerText = data['cif-prep-est'];
         document.getElementById("cif-costo-est").innerText = data['cif-costo-est'];
-        document.getElementById("cif-oper-est").innerText = data['cif-oper-est'];
-        document.getElementById("cif-total").innerText = data['cif-total'];
 
-        document.getElementById("ci-real-unids").innerText = data['ci-real-unids'];
-        document.getElementById("ci-real-cu").innerText = data['ci-real-cu'];
-        document.getElementById("ci-real-importe").innerText = data['ci-real-importe'];
-        document.getElementById("ci-est-unids").innerText = data['ci-est-unids'];
-        document.getElementById("ci-est-cu").innerText = data['ci-est-cu'];
+        const cifOperEst_ced4 = document.getElementById("cif-oper-est");
+        cifOperEst_ced4.innerText = data['cif-oper-est'];
+        cifOperEst_ced4.classList.remove("text-success", "text-danger");
+        cifOperEst_ced4.classList.add(data['cif-oper-est'] < 0 ? "text-danger" : "text-success");
+
+        const cifTotal_ced4 = document.getElementById("cif-total");
+        cifTotal_ced4.innerText = data['cif-total'];
+        cifTotal_ced4.classList.remove("text-success", "text-danger");
+        cifTotal_ced4.classList.add(data['cif-total'] < 0 ? "text-danger" : "text-success");
+
+
+        document.getElementById("ci-real-importe").innerText = data['ci-real-importe']
         document.getElementById("ci-est-importe").innerText = data['ci-est-importe'];
-        document.getElementById("ci-desv-unids").innerText = data['ci-desv-unids'];
-        document.getElementById("ci-desv-cu").innerText = data['ci-desv-cu'];
-        document.getElementById("ci-desv-importe").innerText = data['ci-desv-importe'];
-        document.getElementById("ci-total").innerText = data['ci-total'];
-    }
 
+        const ciDesvImporte_ced4 = document.getElementById("ci-desv-importe");
+        ciDesvImporte_ced4.innerText = data['ci-desv-importe'];
+        ciDesvImporte_ced4.classList.remove("text-success", "text-danger");
+        ciDesvImporte_ced4.classList.add(data['ci-desv-importe'] < 0 ? "text-danger" : "text-success");
+
+        const ciTotal_ced4 = document.getElementById("ci-total");
+        ciTotal_ced4.innerText = data['ci-total'];
+        ciTotal_ced4.classList.remove("text-success", "text-danger");
+        ciTotal_ced4.classList.add(data['ci-total'] < 0 ? "text-danger" : "text-success");
+    }
 
     fetchData();
 </script>
