@@ -58,7 +58,7 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index.html">
                 <img src="logo.png" alt="Logo" width="40" height="40" class="me-2">
-                <span>Plataforma de informes</span>
+                <span>Empresa "Equipo Cinco" S.A.</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,10 +67,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Principal</a>
+                        <a class="nav-link" href="index.html">Ver productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="informe.html">Formulario de Informe</a>
+                        <a class="nav-link active" href="registrar.html">Registrar producto</a>
                     </li>
                 </ul>
             </div>
@@ -80,8 +80,9 @@
             </div>
         </div>
     </nav>
+
     <div id="titulo" class="container my-5">
-        <h1 class="mt-4">Informe de Costos Estandar "___"</h2>
+        <h1 id="nombre-producto-title" class="mt-4"></h2>
     </div>
 
     <div id="resumen-proyecto" class="container my-5">
@@ -740,7 +741,7 @@
             ESTADO DE RESULTADOS<br>
             DEL 1 AL 31 DE MAYO DE 2024
         </h4>
-    
+
         <table class="table table-bordered mt-4">
             <thead class="thead-light">
                 <tr>
@@ -833,12 +834,25 @@
 
 </body>
 <script>
-    async function fetchData() {
-        try {
-            const response = await fetch(`/doSelect`);
+    window.addEventListener("load", (event) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            console.log(id);
+            fetchData(id);
+        } else {
+            alert('Error al cargar los datos, no existe el producto.')
+            console.error('ID parameter is missing in the URL.');
+        }
+    });
 
-            if (!response.ok)
+    async function fetchData(id) {
+        try {
+            const response = await fetch(`/doSelect?id=${id}`);
+
+            if (!response.ok) {
                 console.error(`Client Error / Response NOT OK: ${response.status}`);
+            }
 
             let data = await response.json();
             console.log(data);
@@ -850,6 +864,7 @@
     }
 
     function doCalculos(data) {
+        document.getElementById('nombre-producto-title').innerText = "Costos estandar de '" + data['producto'][0]['nombre'] + "'";
         resumenProyecto({
             'nombre-producto': data['producto'][0]['nombre'],
             'prep-est-unidades': 8000,
@@ -1379,8 +1394,6 @@
         document.getElementById("otros-gastos").innerText = data['otros-gastos'];
         document.getElementById("utilidad-antes-impuestos").innerText = data['utilidad-antes-impuestos'];
     }
-
-    fetchData();
 </script>
 <script>
     const darkModeToggle = document.getElementById('darkModeToggle');

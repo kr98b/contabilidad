@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Informe</title>
+    <!-- Bootstrap CSS -->
+    <link href="./bootstrap.min.css" rel="stylesheet">
+    <style>
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.dark-mode .navbar {
+            background-color: #333333 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .navbar a.nav-link {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .navbar a.nav-link:hover {
+            color: #aaaaaa !important;
+        }
+
+        body.dark-mode .navbar-brand {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="logo.png" alt="Logo" width="40" height="40" class="me-2">
+                <span>Empresa "Equipo Cinco" S.A.</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ver productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="registrar.html">Registrar producto</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="container my-5">
+            <h1 class="text-center mb-4">Formulario de Informe</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <!-- Informe de Producto -->
+                <div class="mb-4">
+                    <h2>Informe de Producto</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="producto" class="form-label">Producto</label>
+                            <input type="text" class="form-control" id="producto" placeholder="Ingrese el producto">
+                        </div>
+                        <div class="mb-3">
+                            <label for="kilos" class="form-label">Kilos</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="kilos" placeholder="Ingrese los kilos">
+                                <span class="input-group-text">kilos</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="horas-mano" class="form-label">Horas de mano de obra directa</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="horas-mano"
+                                    placeholder="Ingrese las horas">
+                                <span class="input-group-text">horas</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cargos-indirectos" class="form-label">Cargos indirectos</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="cargos-indirectos"
+                                    placeholder="Ingrese el monto">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Costo -->
+                <div class="mb-4">
+                    <h2>Costo</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="precio-kilo" class="form-label">Precio del kilo de materia prima</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="precio-kilo"
+                                    placeholder="Ingrese el precio">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="precio-hora-hombre" class="form-label">Precio de la hora hombre</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="precio-hora-hombre"
+                                    placeholder="Ingrese el precio">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="precio-hora-maquina" class="form-label">Precio de la hora máquina de cargos
+                                indirectos
+                                variables</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="precio-hora-maquina"
+                                    placeholder="Ingrese el precio">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cargos-fijos" class="form-label">Precio de cargos indirectos fijos por
+                                pieza</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="cargos-fijos"
+                                    placeholder="Ingrese el precio">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <!-- Tarjeta Almacen -->
+                <div class="mb-4">
+                    <h2>Datos de Tarjeta de Almacen</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="saldo-inicial" class="form-label">Saldo Inicial</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="saldo-inicial"
+                                    placeholder="Ingrese el saldo inicial">
+                            </div>
+                        </div>
+
+                        <!-- Compras + -->
+                        <div class="mb-3">
+                            <label for="compras" class="form-label">Compras +</label>
+                            <div class="input-group">
+                                <span class="input-group-text">+</span>
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="compras"
+                                    placeholder="Ingrese el monto de compras">
+                            </div>
+                        </div>
+
+                        <!-- Salidas - -->
+                        <div class="mb-3">
+                            <label for="salidas" class="form-label">Salidas -</label>
+                            <div class="input-group">
+                                <span class="input-group-text">-</span>
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="salidas"
+                                    placeholder="Ingrese el monto de salidas">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Operaciones reales -->
+                <div class="mb-4">
+                    <h2>Operaciones Reales</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="compra-materia" class="form-label">Compra Materia Prima</label>
+                            <input type="number" class="form-control" id="compra-materia"
+                                placeholder="Ingrese la cantidad">
+                        </div>
+                        <div class="mb-3">
+                            <label for="costo-compra" class="form-label">Costo Compra Materia Prima</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="costo-compra"
+                                    placeholder="Ingrese el costo">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="consumo-materia" class="form-label">Consumo Materia Prima</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="consumo-materia"
+                                    placeholder="Ingrese el costo">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="costo-mod-horas" class="form-label">Costo MOD</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="costo-mod-horas"
+                                    placeholder="Ingrese las horas">
+                                <span class="input-group-text">horas</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="costo-hora-mod" class="form-label">Costo Hora MOD</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="costo-hora-mod"
+                                    placeholder="Ingrese el costo">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cargos-indirectos-variables" class="form-label">Cargos indirectos incurridos -
+                                Variables</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="cargos-indirectos-variables"
+                                    placeholder="Ingrese el costo">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cargos-indirectos-fijos" class="form-label">Cargos indirectos incurridos -
+                                Fijos</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="cargos-indirectos-fijos"
+                                    placeholder="Ingrese el costo">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="unidades-vendidas" class="form-label">Unidades vendidas</label>
+                            <input type="number" class="form-control" id="unidades-vendidas"
+                                placeholder="Ingrese la cantidad">
+                        </div>
+                        <div class="mb-3">
+                            <label for="precio-unitario" class="form-label">Precio unitario de unidades</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="precio-unitario"
+                                    placeholder="Ingrese el precio">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gastos-venta" class="form-label">Gastos de venta</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="gastos-venta"
+                                    placeholder="Ingrese el gasto de venta">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gastos-admon" class="form-label">Gastos de administración</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="gastos-admon"
+                                    placeholder="Ingrese el gasto de administración">
+                            </div>
+                        </div>
+
+                        <!-- New Inputs -->
+                        <div class="mb-3">
+                            <label for="productos-terminados" class="form-label">Productos Terminados</label>
+                            <input type="number" class="form-control" id="productos-terminados"
+                                placeholder="Ingrese la cantidad">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productos-en-proceso" class="form-label">Productos en Proceso</label>
+                            <input type="number" class="form-control" id="productos-en-proceso"
+                                placeholder="Ingrese la cantidad">
+                        </div>
+                        <div class="mb-3">
+                            <label for="unidades-presupuesto-estatico" class="form-label">Unidades Presupuesto
+                                Estático</label>
+                            <input type="number" class="form-control" id="unidades-presupuesto-estatico"
+                                placeholder="Ingrese la cantidad">
+                        </div>
+                        <div class="mb-3">
+                            <label for="costo-presupuesto-estatico" class="form-label">Costo Presupuesto
+                                Estático</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="costo-presupuesto-estatico"
+                                    placeholder="Ingrese el costo">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" onclick="gatherFormData()">Generar Informe</button>
+        </div>
+    </div>
+
+    <script>
+        async function gatherFormData() {
+            const data = {};
+
+            data.producto = document.getElementById('producto').value;
+            data.kilos = document.getElementById('kilos').value;
+            data.horasMano = document.getElementById('horas-mano').value;
+            data.cargosIndirectos = document.getElementById('cargos-indirectos').value;
+
+            data.precioKilo = document.getElementById('precio-kilo').value;
+            data.precioHoraHombre = document.getElementById('precio-hora-hombre').value;
+            data.precioHoraMaquina = document.getElementById('precio-hora-maquina').value;
+            data.cargosFijos = document.getElementById('cargos-fijos').value;
+
+            data.compraMateria = document.getElementById('compra-materia').value;
+            data.costoCompra = document.getElementById('costo-compra').value;
+            data.consumoMateria = document.getElementById('consumo-materia').value;
+            data.costoModHoras = document.getElementById('costo-mod-horas').value;
+            data.costoHoraMod = document.getElementById('costo-hora-mod').value;
+            data.cargosIndirectosVariables = document.getElementById('cargos-indirectos-variables').value;
+            data.cargosIndirectosFijos = document.getElementById('cargos-indirectos-fijos').value;
+            data.unidadesVendidas = document.getElementById('unidades-vendidas').value;
+            data.precioUnitario = document.getElementById('precio-unitario').value;
+            data.gastosVenta = document.getElementById('gastos-venta').value;
+            data.gastosAdmon = document.getElementById('gastos-admon').value;
+            data.productosTerminados = document.getElementById('productos-terminados').value;
+            data.productosEnProceso = document.getElementById('productos-en-proceso').value;
+            data.unidadesPresupuestoEstatico = document.getElementById('unidades-presupuesto-estatico').value;
+            data.costoPresupuestoEstatico = document.getElementById('costo-presupuesto-estatico').value;
+
+            data.saldoInicial = document.getElementById('saldo-inicial').value;
+            data.compras = document.getElementById('compras').value;
+            data.salidas = document.getElementById('salidas').value;
+
+            console.log(data);
+            await sendRegistrationData(data);
+        }
+
+        async function sendRegistrationData(data) {
+            try {
+                const response = await fetch(`/registerProduct`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok)
+                    console.error(`Client Error / Response NOT OK: ${response.status}`);
+
+                const responseData = await response.json();
+                if (responseData['message'] === 1) {
+                    alert("Producto registrado");
+                }
+                else {
+                    alert("Ocurrió un error, intente de nuevo");
+                }
+                console.log('Server Response:', responseData);
+            } catch (error) {
+                console.error('Client Error / Catch: ', error.message);
+            }
+        }
+
+    </script>
+
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        }
+
+        darkModeToggle.addEventListener('change', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+    </script>
+    <script src="./bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
