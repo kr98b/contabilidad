@@ -716,7 +716,7 @@
             </tbody>
         </table>
     </div>
-<!--
+    <!--
     <div id="firma-reporte-costos-produccion" class="container my-5">
         <table class="table table-bordered mt-4">
             <thead class="thead-light">
@@ -813,7 +813,7 @@
             </tbody>
         </table>
     </div>
-<!---
+    <!---
     <div id="firma-estado-resultados" class="container my-5">
         <table class="table table-bordered mt-4">
             <thead class="thead-light">
@@ -945,11 +945,11 @@
             'civ-total': calculosCed2['civ-total-ced2'],
 
             'cif-req-unit':
-            data['estandar'][0]['cif_req_e'],
+                data['estandar'][0]['cif_req_e'],
             'cif-req-total':
-            data['estandar'][0]['cif_req_e'] * data['real'][0]['prod_terminado_r'],
+                data['estandar'][0]['cif_req_e'] * data['real'][0]['prod_terminado_r'],
             'cif-cu-ced2':
-            data['estandar'][0]['cif_cu_e'],
+                data['estandar'][0]['cif_cu_e'],
             'cif-total': calculosCed2['cif-total-ced2'],
 
             'ced2-total': Object.values(calculosCed2).reduce((sum, value) => sum + value, 0)
@@ -998,7 +998,7 @@
             "cif-cu-ced3": data['estandar'][0]['cif_cu_e'],
             "cif-total-ced3": calculosCed3f['cif-total-ced3'],
 
-            "ced3-total-ced3": (calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])
+            "ced3-total-ced3": (calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])
         })
 
         const calculosCed4 = {
@@ -1015,15 +1015,14 @@
             'mp-real-cu': data['real'][0]['prep_est_costo_r'],
             'mp-real-importe': data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r'],
             'mp-est-unids': calculosCed4['mp-est-unids'],
-            'mp-est-cu': data['estandar'][0]['costo_mod_e'],
-            'mp-est-importe': calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e'],
+            'mp-est-cu': data['estandar'][0]['costo_kilos_mp_e'],
+            'mp-est-importe': (calculosCed4['mp-est-unids']) * (data['estandar'][0]['costo_kilos_mp_e']),
             'mp-desv-unids': (data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids']),
-            'mp-desv-cu': (data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e'],
-            'mp-desv-importe': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) - (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']),
-            'mp-precio': (data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e']),
-            'mp-cantidad': (data['estandar'][0]['costo_mod_e']) * ((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])),
-            'mp-total': ((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e'])) + (data['estandar'][0]['costo_mod_e']) * ((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])),
-
+            'mp-desv-cu': (data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']),
+            'mp-desv-importe': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) - ((calculosCed4['mp-est-unids']) * (data['estandar'][0]['costo_kilos_mp_e'])),
+            'mp-precio': (data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e'])),
+            'mp-cantidad': ((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']),
+            'mp-total': ((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e'])),
             'mo-real-unids': data['real'][0]['costo_mod_r'],
             'mo-real-cu': data['real'][0]['costo_hora_r'],
             'mo-real-importe': calculosCed4['mo-real-importe'],
@@ -1064,13 +1063,11 @@
 
             'ci-real-importe': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r']),
 
-            'ci-est-importe': (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']),
+            'ci-est-importe': ((calculosCed4['mp-est-unids']) * (data['estandar'][0]['costo_kilos_mp_e'])) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']),
 
-            'ci-desv-importe': ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
+            'ci-desv-importe': ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - (((calculosCed4['mp-est-unids']) * (data['estandar'][0]['costo_kilos_mp_e'])) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
 
-            'ci-total':
-                (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e'])) + (data['estandar'][0]['costo_mod_e']) * ((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))),
-
+            'ci-total': (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']))),
         })
 
         ced5Proyecto({
@@ -1113,302 +1110,322 @@
             'mod': calculosCed4['mo-real-importe'],
             'ci': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r']),
             'costo-incurrido-real': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r']),
-            'desviaciones-desfavorables': ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
-            'costo-incurrido-estandar': (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']),
+            
+            'desviaciones-desfavorables': (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']))),
+
+            'costo-incurrido-estandar': ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e'])))),
+            
             'inv-inic-prod-en-proc': data['producto'][0]['mp_saldo_inicial_prod_proc'],
-            'prod-en-proc-disp': (data['producto'][0]['mp_saldo_inicial']) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
-            'inv-final-prod-en-proc': (calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e']),
-            'costo-prod-terminada': (((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])),
+            'prod-en-proc-disp': (data['producto'][0]['mp_saldo_inicial']) + ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e'])))),
+            
+            'inv-final-prod-en-proc': (calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e']),
+            
+            'costo-prod-terminada': ((data['producto'][0]['mp_saldo_inicial']) + ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']))))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])),
+
             'inv-inic-prod-terminada': data['producto'][0]['mp_saldo_inicial_term'],
-            'prod-term-disp': (((data['producto'][0]['mp_saldo_inicial_term']) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e']))),
+
+            'prod-term-disp': (data['producto'][0]['mp_saldo_inicial_term']) + (((data['producto'][0]['mp_saldo_inicial']) + ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']))))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e']))),
+            
             'inv-final-prod-terminada': ((data['real'][0]['prod_terminado_r']) - (data['real'][0]['unid_vendidas_r'])) * (Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)),
-            'costo-lo-vendido-est': ((((data['producto'][0]['mp_saldo_inicial_term']) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])))) - (((data['real'][0]['prod_terminado_r']) - (data['real'][0]['unid_vendidas_r'])) * (Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)))
+            
+            'costo-lo-vendido-est': ((data['producto'][0]['mp_saldo_inicial_term']) + (((data['producto'][0]['mp_saldo_inicial']) + ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']))))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])))) - (((data['real'][0]['prod_terminado_r']) - (data['real'][0]['unid_vendidas_r'])) * (Object.values(calculosCed1).reduce((sum, value) => sum + value, 0))),
         })
 
         reporte_estado_resultados({
             'ventas-netas': data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r'],
+
             'costo-vendido-est': data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0),
-            'desv-desfav-costo-est': ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
-            'costo-vendido-real': (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) + (((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))),
-            'utilidad-bruta': (data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - (((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))),
+            
+            'desv-desfav-costo-est': (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']))),
+            
+            'costo-vendido-real': (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) + ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e'])))),
+            
+            'utilidad-bruta': (data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e'])))),
+            
             'gastos-operacion': '',
+            
             'ventas-gastos': data['real'][0]['gastos_venta_r'],
+            
             'administracion-gastos': data['real'][0]['gastos_admon_r'],
+            
             'total-gastos': (data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r']),
-            'utilidad-operacion': ((data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - (((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])))) - ((data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r'])),
+            
+            'utilidad-operacion': ((data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']))))) - ((data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r'])),
+            
             'otros-productos': data['producto'][0]['otros_productos'],
+            
             'otros-gastos': data['producto'][0]['otros_gastos'],
-            'utilidad-antes-impuestos': (data['producto'][0]['otros_productos']) + (data['producto'][0]['otros_productos']) + ((data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - (((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])))) - ((data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r']))
+            
+            'utilidad-antes-impuestos': ((data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - ((((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - (data['estandar'][0]['costo_kilos_mp_e']))) + (((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])) * (data['estandar'][0]['costo_kilos_mp_e']))))) - ((data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r'])) + (data['producto'][0]['otros_productos']) + (data['producto'][0]['otros_gastos'])
         })
     }
 
     function resumenProyecto(data) {
         document.getElementById('nombre-producto').innerText = data['nombre-producto'];
-        document.getElementById('prep-est-unidades').innerText = data['prep-est-unidades'];
-        document.getElementById('unid-proceso').innerText = data['unid-proceso'];
-        document.getElementById('unid-term').innerText = data['unid-term'];
+        document.getElementById('prep-est-unidades').innerText = parseFloat(data['prep-est-unidades']).toFixed(2);
+        document.getElementById('unid-proceso').innerText = parseFloat(data['unid-proceso']).toFixed(2);
+        document.getElementById('unid-term').innerText = parseFloat(data['unid-term']).toFixed(2);
     }
 
     function ced1Proyecto(data) {
-        document.getElementById("mpd-req").innerText = data['mpd-req'];
-        document.getElementById("mpd-cu").innerText = data['mpd-cu'];
-        document.getElementById("mpd-importe").innerText = data['mpd-importe'];
-        document.getElementById("mod-req").innerText = data['mod-req'];
-        document.getElementById("mod-cu").innerText = data['mod-cu'];
-        document.getElementById("mod-importe").innerText = data['mod-importe'];
-        document.getElementById("civ-req").innerText = data['civ-req'];
-        document.getElementById("civ-cu").innerText = data['civ-cu'];
-        document.getElementById("civ-importe").innerText = data['civ-importe'];
-        document.getElementById("cif-req").innerText = data['cif-req'];
-        document.getElementById("cif-cu").innerText = data['cif-cu'];
-        document.getElementById("cif-importe").innerText = data['cif-importe'];
-        document.getElementById("ced1-total").innerText = data['ced1-total'];
+        document.getElementById("mpd-req").innerText = parseFloat(data['mpd-req']).toFixed(2);
+        document.getElementById("mpd-cu").innerText = parseFloat(data['mpd-cu']).toFixed(2);
+        document.getElementById("mpd-importe").innerText = parseFloat(data['mpd-importe']).toFixed(2);
+        document.getElementById("mod-req").innerText = parseFloat(data['mod-req']).toFixed(2);
+        document.getElementById("mod-cu").innerText = parseFloat(data['mod-cu']).toFixed(2);
+        document.getElementById("mod-importe").innerText = parseFloat(data['mod-importe']).toFixed(2);
+        document.getElementById("civ-req").innerText = parseFloat(data['civ-req']).toFixed(2);
+        document.getElementById("civ-cu").innerText = parseFloat(data['civ-cu']).toFixed(2);
+        document.getElementById("civ-importe").innerText = parseFloat(data['civ-importe']).toFixed(2);
+        document.getElementById("cif-req").innerText = parseFloat(data['cif-req']).toFixed(2);
+        document.getElementById("cif-cu").innerText = parseFloat(data['cif-cu']).toFixed(2);
+        document.getElementById("cif-importe").innerText = parseFloat(data['cif-importe']).toFixed(2);
+        document.getElementById("ced1-total").innerText = parseFloat(data['ced1-total']).toFixed(2);
     }
 
     function ced2Proyecto(data) {
-        document.getElementById("mpd-req-unit").innerText = data['mpd-req-unit'];
-        document.getElementById("mpd-req-total").innerText = data['mpd-req-total'];
-        document.getElementById("mpd-cu-ced2").innerText = data['mpd-cu-ced2'];
-        document.getElementById("mpd-total").innerText = data['mpd-total'];
+        document.getElementById("mpd-req-unit").innerText = parseFloat(data['mpd-req-unit']).toFixed(2);
+        document.getElementById("mpd-req-total").innerText = parseFloat(data['mpd-req-total']).toFixed(2);
+        document.getElementById("mpd-cu-ced2").innerText = parseFloat(data['mpd-cu-ced2']).toFixed(2);
+        document.getElementById("mpd-total").innerText = parseFloat(data['mpd-total']).toFixed(2);
 
-        document.getElementById("mod-req-unit").innerText = data['mod-req-unit'];
-        document.getElementById("mod-req-total").innerText = data['mod-req-total'];
-        document.getElementById("mod-cu-ced2").innerText = data['mod-cu-ced2'];
-        document.getElementById("mod-total").innerText = data['mod-total'];
+        document.getElementById("mod-req-unit").innerText = parseFloat(data['mod-req-unit']).toFixed(2);
+        document.getElementById("mod-req-total").innerText = parseFloat(data['mod-req-total']).toFixed(2);
+        document.getElementById("mod-cu-ced2").innerText = parseFloat(data['mod-cu-ced2']).toFixed(2);
+        document.getElementById("mod-total").innerText = parseFloat(data['mod-total']).toFixed(2);
 
-        document.getElementById("civ-req-unit").innerText = data['civ-req-unit'];
-        document.getElementById("civ-req-total").innerText = data['civ-req-total'];
-        document.getElementById("civ-cu-ced2").innerText = data['civ-cu-ced2'];
-        document.getElementById("civ-total-ced2").innerText = data['civ-total'];
+        document.getElementById("civ-req-unit").innerText = parseFloat(data['civ-req-unit']).toFixed(2);
+        document.getElementById("civ-req-total").innerText = parseFloat(data['civ-req-total']).toFixed(2);
+        document.getElementById("civ-cu-ced2").innerText = parseFloat(data['civ-cu-ced2']).toFixed(2);
+        document.getElementById("civ-total-ced2").innerText = parseFloat(data['civ-total']).toFixed(2);
 
-        document.getElementById("cif-req-unit").innerText = data['cif-req-unit'];
-        document.getElementById("cif-req-total").innerText = data['cif-req-total'];
-        document.getElementById("cif-cu-ced2").innerText = data['cif-cu-ced2'];
-        document.getElementById("cif-total-ced2").innerText = data['cif-total'];
+        document.getElementById("cif-req-unit").innerText = parseFloat(data['cif-req-unit']).toFixed(2);
+        document.getElementById("cif-req-total").innerText = parseFloat(data['cif-req-total']).toFixed(2);
+        document.getElementById("cif-cu-ced2").innerText = parseFloat(data['cif-cu-ced2']).toFixed(2);
+        document.getElementById("cif-total-ced2").innerText = parseFloat(data['cif-total']).toFixed(2);
 
-        document.getElementById("ced2-total").innerText = data['ced2-total'];
+        document.getElementById("ced2-total").innerText = parseFloat(data['ced2-total']).toFixed(2);
     }
 
     function ced3Proyecto(data) {
-        document.getElementById("mpd-req-unit-ced3").innerText = data['mpd-req-unit-ced3'];
-        document.getElementById("mpd-req-total-ced3").innerText = data['mpd-req-total-ced3'];
-        document.getElementById("mpd-cu-ced3").innerText = data['mpd-cu-ced3'];
-        document.getElementById("mpd-total-ced3").innerText = data['mpd-total-ced3'];
+        document.getElementById("mpd-req-unit-ced3").innerText = parseFloat(data['mpd-req-unit-ced3']).toFixed(2);
+        document.getElementById("mpd-req-total-ced3").innerText = parseFloat(data['mpd-req-total-ced3']).toFixed(2);
+        document.getElementById("mpd-cu-ced3").innerText = parseFloat(data['mpd-cu-ced3']).toFixed(2);
+        document.getElementById("mpd-total-ced3").innerText = parseFloat(data['mpd-total-ced3']).toFixed(2);
 
-        document.getElementById("mod-req-unit-ced3").innerText = data['mod-req-unit-ced3'];
-        document.getElementById("mod-req-total-ced3").innerText = data['mod-req-total-ced3'];
-        document.getElementById("mod-cu-ced3").innerText = data['mod-cu-ced3'];
-        document.getElementById("mod-total-ced3").innerText = data['mod-total-ced3'];
+        document.getElementById("mod-req-unit-ced3").innerText = parseFloat(data['mod-req-unit-ced3']).toFixed(2);
+        document.getElementById("mod-req-total-ced3").innerText = parseFloat(data['mod-req-total-ced3']).toFixed(2);
+        document.getElementById("mod-cu-ced3").innerText = parseFloat(data['mod-cu-ced3']).toFixed(2);
+        document.getElementById("mod-total-ced3").innerText = parseFloat(data['mod-total-ced3']).toFixed(2);
 
-        document.getElementById("civ-req-unit-ced3").innerText = data['civ-req-unit-ced3'];
-        document.getElementById("civ-req-total-ced3").innerText = data['civ-req-total-ced3'];
-        document.getElementById("civ-cu-ced3").innerText = data['civ-cu-ced3'];
-        document.getElementById("civ-total-ced3").innerText = data['civ-total-ced3'];
+        document.getElementById("civ-req-unit-ced3").innerText = parseFloat(data['civ-req-unit-ced3']).toFixed(2);
+        document.getElementById("civ-req-total-ced3").innerText = parseFloat(data['civ-req-total-ced3']).toFixed(2);
+        document.getElementById("civ-cu-ced3").innerText = parseFloat(data['civ-cu-ced3']).toFixed(2);
+        document.getElementById("civ-total-ced3").innerText = parseFloat(data['civ-total-ced3']).toFixed(2);
 
-        document.getElementById("cif-req-unit-ced3").innerText = data['cif-req-unit-ced3'];
-        document.getElementById("cif-req-total-ced3").innerText = data['cif-req-total-ced3'];
-        document.getElementById("cif-cu-ced3").innerText = data['cif-cu-ced3'];
-        document.getElementById("cif-total-ced3").innerText = data['cif-total-ced3'];
+        document.getElementById("cif-req-unit-ced3").innerText = parseFloat(data['cif-req-unit-ced3']).toFixed(2);
+        document.getElementById("cif-req-total-ced3").innerText = parseFloat(data['cif-req-total-ced3']).toFixed(2);
+        document.getElementById("cif-cu-ced3").innerText = parseFloat(data['cif-cu-ced3']).toFixed(2);
+        document.getElementById("cif-total-ced3").innerText = parseFloat(data['cif-total-ced3']).toFixed(2);
 
-        document.getElementById("ced3-total-ced3").innerText = data['ced3-total-ced3'];
+        document.getElementById("ced3-total-ced3").innerText = parseFloat(data['ced3-total-ced3']).toFixed(2);
     }
 
     function ced4Proyecto(data) {
-        document.getElementById("mp-real-unids").innerText = data['mp-real-unids'];
-        document.getElementById("mp-real-cu").innerText = data['mp-real-cu'];
-        document.getElementById("mp-real-importe").innerText = data['mp-real-importe'];
-        document.getElementById("mp-est-unids").innerText = data['mp-est-unids'];
-        document.getElementById("mp-est-cu").innerText = data['mp-est-cu'];
-        document.getElementById("mp-est-importe").innerText = data['mp-est-importe'];
-        document.getElementById("mp-desv-cu").innerText = data['mp-desv-cu'];
-        document.getElementById("mp-desv-unids").innerText = data['mp-desv-unids'];
+        document.getElementById("mp-real-unids").innerText = parseFloat(data['mp-real-unids']).toFixed(2);
+        document.getElementById("mp-real-cu").innerText = parseFloat(data['mp-real-cu']).toFixed(2);
+        document.getElementById("mp-real-importe").innerText = parseFloat(data['mp-real-importe']).toFixed(2);
+        document.getElementById("mp-est-unids").innerText = parseFloat(data['mp-est-unids']).toFixed(2);
+        document.getElementById("mp-est-cu").innerText = parseFloat(data['mp-est-cu']).toFixed(2);
+        document.getElementById("mp-est-importe").innerText = parseFloat(data['mp-est-importe']).toFixed(2);
+        document.getElementById("mp-desv-cu").innerText = parseFloat(data['mp-desv-cu']).toFixed(2);
+        document.getElementById("mp-desv-unids").innerText = parseFloat(data['mp-desv-unids']).toFixed(2);
 
         const mpDesvImporte_ced4 = document.getElementById("mp-desv-importe");
-        mpDesvImporte_ced4.innerText = (data['mp-desv-importe']);
+        mpDesvImporte_ced4.innerText = parseFloat(data['mp-desv-importe']).toFixed(2);
         mpDesvImporte_ced4.classList.remove("text-success", "text-danger");
         mpDesvImporte_ced4.classList.add(data['mp-desv-importe'] < 0 ? "text-danger" : "text-success");
 
         const mpPrecio_ced4 = document.getElementById("mp-precio");
-        mpPrecio_ced4.innerText = (data['mp-precio']);
+        mpPrecio_ced4.innerText = parseFloat(data['mp-precio']).toFixed(2);
         mpPrecio_ced4.classList.remove("text-success", "text-danger");
         mpPrecio_ced4.classList.add(data['mp-precio'] < 0 ? "text-danger" : "text-success");
 
         const mpCantidad_ced4 = document.getElementById("mp-cantidad");
-        mpCantidad_ced4.innerText = (data['mp-cantidad']);
+        mpCantidad_ced4.innerText = parseFloat(data['mp-cantidad']).toFixed(2);
         mpCantidad_ced4.classList.remove("text-success", "text-danger");
         mpCantidad_ced4.classList.add(data['mp-cantidad'] < 0 ? "text-danger" : "text-success");
 
         const mpTotal_ced4 = document.getElementById("mp-total");
-        mpTotal_ced4.innerText = (data['mp-total']);
+        mpTotal_ced4.innerText = parseFloat(data['mp-total']).toFixed(2);
         mpTotal_ced4.classList.remove("text-success", "text-danger");
         mpTotal_ced4.classList.add(data['mp-total'] < 0 ? "text-danger" : "text-success");
 
-        document.getElementById("mo-real-unids").innerText = data['mo-real-unids'];
-        document.getElementById("mo-real-cu").innerText = data['mo-real-cu'];
-        document.getElementById("mo-real-importe").innerText = data['mo-real-importe'];
-        document.getElementById("mo-est-unids").innerText = data['mo-est-unids'];
-        document.getElementById("mo-est-cu").innerText = data['mo-est-cu'];
-        document.getElementById("mo-est-importe").innerText = data['mo-est-importe'];
-        document.getElementById("mo-desv-unids").innerText = data['mo-desv-unids'];
-        document.getElementById("mo-desv-cu").innerText = data['mo-desv-cu'];
+        document.getElementById("mo-real-unids").innerText = parseFloat(data['mo-real-unids']).toFixed(2);
+        document.getElementById("mo-real-cu").innerText = parseFloat(data['mo-real-cu']).toFixed(2);
+        document.getElementById("mo-real-importe").innerText = parseFloat(data['mo-real-importe']).toFixed(2);
+        document.getElementById("mo-est-unids").innerText = parseFloat(data['mo-est-unids']).toFixed(2);
+        document.getElementById("mo-est-cu").innerText = parseFloat(data['mo-est-cu']).toFixed(2);
+        document.getElementById("mo-est-importe").innerText = parseFloat(data['mo-est-importe']).toFixed(2);
+        document.getElementById("mo-desv-unids").innerText = parseFloat(data['mo-desv-unids']).toFixed(2);
+        document.getElementById("mo-desv-cu").innerText = parseFloat(data['mo-desv-cu']).toFixed(2);
 
         const moDesvImporte_ced4 = document.getElementById("mo-desv-importe");
-        moDesvImporte_ced4.innerText = (data['mo-desv-importe']);
+        moDesvImporte_ced4.innerText = parseFloat(data['mo-desv-importe']).toFixed(2);
         moDesvImporte_ced4.classList.remove("text-success", "text-danger");
         moDesvImporte_ced4.classList.add(data['mo-desv-importe'] < 0 ? "text-danger" : "text-success");
 
         const moPrecioImporte_ced4 = document.getElementById("mo-precio");
-        moPrecioImporte_ced4.innerText = (data['mo-precio']);
+        moPrecioImporte_ced4.innerText = parseFloat(data['mo-precio']).toFixed(2);
         moPrecioImporte_ced4.classList.remove("text-success", "text-danger");
         moPrecioImporte_ced4.classList.add(data['mo-precio'] < 0 ? "text-danger" : "text-success");
 
         const moCantidadImporte_ced4 = document.getElementById("mo-cantidad");
-        moCantidadImporte_ced4.innerText = (data['mo-cantidad']);
+        moCantidadImporte_ced4.innerText = parseFloat(data['mo-cantidad']).toFixed(2);
         moCantidadImporte_ced4.classList.remove("text-success", "text-danger");
         moCantidadImporte_ced4.classList.add(data['mo-cantidad'] < 0 ? "text-danger" : "text-success");
 
         const moTotalImporte_ced4 = document.getElementById("mo-total");
-        moTotalImporte_ced4.innerText = (data['mo-total']);
+        moTotalImporte_ced4.innerText = parseFloat(data['mo-total']).toFixed(2);
         moTotalImporte_ced4.classList.remove("text-success", "text-danger");
         moTotalImporte_ced4.classList.add(data['mo-total'] < 0 ? "text-danger" : "text-success");
 
-        document.getElementById("civ-real-unids").innerText = data['civ-real-unids'];
-        document.getElementById("civ-real-cu").innerText = data['civ-real-cu'];
-        document.getElementById("civ-real-importe").innerText = data['civ-real-importe'];
-        document.getElementById("civ-est-unids").innerText = data['civ-est-unids'];
-        document.getElementById("civ-est-cu").innerText = data['civ-est-cu'];
-        document.getElementById("civ-est-importe").innerText = data['civ-est-importe'];
-        document.getElementById("civ-desv-unids").innerText = data['civ-desv-unids'];
-        document.getElementById("civ-desv-cu").innerText = data['civ-desv-cu'];
-        const civDesvImporte_ced4 = document.getElementById("civ-desv-importe");
+        document.getElementById("civ-real-unids").innerText = parseFloat(data['civ-real-unids']).toFixed(2);
+        document.getElementById("civ-real-cu").innerText = parseFloat(data['civ-real-cu']).toFixed(2);
+        document.getElementById("civ-real-importe").innerText = parseFloat(data['civ-real-importe']).toFixed(2);
+        document.getElementById("civ-est-unids").innerText = parseFloat(data['civ-est-unids']).toFixed(2);
+        document.getElementById("civ-est-cu").innerText = parseFloat(data['civ-est-cu']).toFixed(2);
+        document.getElementById("civ-est-importe").innerText = parseFloat(data['civ-est-importe']).toFixed(2);
+        document.getElementById("civ-desv-unids").innerText = parseFloat(data['civ-desv-unids']).toFixed(2);
+        document.getElementById("civ-desv-cu").innerText = parseFloat(data['civ-desv-cu']).toFixed(2);
 
-        civDesvImporte_ced4.innerText = data['civ-desv-importe'];
+        const civDesvImporte_ced4 = document.getElementById("civ-desv-importe");
+        civDesvImporte_ced4.innerText = parseFloat(data['civ-desv-importe']).toFixed(2);
         civDesvImporte_ced4.classList.remove("text-success", "text-danger");
         civDesvImporte_ced4.classList.add(data['civ-desv-importe'] < 0 ? "text-danger" : "text-success");
 
         const civPrecio_ced4 = document.getElementById("civ-precio");
-        civPrecio_ced4.innerText = data['civ-precio'];
+        civPrecio_ced4.innerText = parseFloat(data['civ-precio']).toFixed(2);
         civPrecio_ced4.classList.remove("text-success", "text-danger");
         civPrecio_ced4.classList.add(data['civ-precio'] < 0 ? "text-danger" : "text-success");
 
         const civCantidad_ced4 = document.getElementById("civ-cantidad");
-        civCantidad_ced4.innerText = data['civ-cantidad'];
+        civCantidad_ced4.innerText = parseFloat(data['civ-cantidad']).toFixed(2);
         civCantidad_ced4.classList.remove("text-success", "text-danger");
         civCantidad_ced4.classList.add(data['civ-cantidad'] < 0 ? "text-danger" : "text-success");
 
         const civTotal_ced4 = document.getElementById("civ-total");
-        civTotal_ced4.innerText = data['civ-total'];
+        civTotal_ced4.innerText = parseFloat(data['civ-total']).toFixed(2);
         civTotal_ced4.classList.remove("text-success", "text-danger");
         civTotal_ced4.classList.add(data['civ-total'] < 0 ? "text-danger" : "text-success");
 
-        document.getElementById("cif-real-importe").innerText = data['cif-real-importe'];
-        document.getElementById("cif-est-importe").innerText = data['cif-est-importe'];
-        document.getElementById("cif-desv-importe").innerText = data['cif-desv-importe'];
-        document.getElementById("cif-precio").innerText = data['cif-precio'];
-        document.getElementById("cif-cantidad").innerText = data['cif-cantidad'];
+        document.getElementById("cif-real-importe").innerText = parseFloat(data['cif-real-importe']).toFixed(2);
+        document.getElementById("cif-est-importe").innerText = parseFloat(data['cif-est-importe']).toFixed(2);
+        document.getElementById("cif-desv-importe").innerText = parseFloat(data['cif-desv-importe']).toFixed(2);
+        document.getElementById("cif-precio").innerText = parseFloat(data['cif-precio']).toFixed(2);
+        document.getElementById("cif-cantidad").innerText = parseFloat(data['cif-cantidad']).toFixed(2);
 
         const cifSubtotal_ced4 = document.getElementById("cif-subtotal");
-        cifSubtotal_ced4.innerText = data['cif-subtotal'];
+        cifSubtotal_ced4.innerText = parseFloat(data['cif-subtotal']).toFixed(2);
         cifSubtotal_ced4.classList.remove("text-success", "text-danger");
         cifSubtotal_ced4.classList.add(data['cif-subtotal'] < 0 ? "text-danger" : "text-success");
 
-        document.getElementById("cif-prep-est").innerText = data['cif-prep-est'];
-        document.getElementById("cif-costo-est").innerText = data['cif-costo-est'];
+        document.getElementById("cif-prep-est").innerText = parseFloat(data['cif-prep-est']).toFixed(2);
+        document.getElementById("cif-costo-est").innerText = parseFloat(data['cif-costo-est']).toFixed(2);
 
         const cifOperEst_ced4 = document.getElementById("cif-oper-est");
-        cifOperEst_ced4.innerText = data['cif-oper-est'];
+        cifOperEst_ced4.innerText = parseFloat(data['cif-oper-est']).toFixed(2);
         cifOperEst_ced4.classList.remove("text-success", "text-danger");
         cifOperEst_ced4.classList.add(data['cif-oper-est'] < 0 ? "text-danger" : "text-success");
 
         const cifTotal_ced4 = document.getElementById("cif-total");
-        cifTotal_ced4.innerText = data['cif-total'];
+        cifTotal_ced4.innerText = parseFloat(data['cif-total']).toFixed(2);
         cifTotal_ced4.classList.remove("text-success", "text-danger");
         cifTotal_ced4.classList.add(data['cif-total'] < 0 ? "text-danger" : "text-success");
 
-
-        document.getElementById("ci-real-importe").innerText = data['ci-real-importe']
-        document.getElementById("ci-est-importe").innerText = data['ci-est-importe'];
+        document.getElementById("ci-real-importe").innerText = parseFloat(data['ci-real-importe']).toFixed(2);
+        document.getElementById("ci-est-importe").innerText = parseFloat(data['ci-est-importe']).toFixed(2);
 
         const ciDesvImporte_ced4 = document.getElementById("ci-desv-importe");
-        ciDesvImporte_ced4.innerText = data['ci-desv-importe'];
+        ciDesvImporte_ced4.innerText = parseFloat(data['ci-desv-importe']).toFixed(2);
         ciDesvImporte_ced4.classList.remove("text-success", "text-danger");
         ciDesvImporte_ced4.classList.add(data['ci-desv-importe'] < 0 ? "text-danger" : "text-success");
 
         const ciTotal_ced4 = document.getElementById("ci-total");
-        ciTotal_ced4.innerText = data['ci-total'];
+        ciTotal_ced4.innerText = parseFloat(data['ci-total']).toFixed(2);
         ciTotal_ced4.classList.remove("text-success", "text-danger");
         ciTotal_ced4.classList.add(data['ci-total'] < 0 ? "text-danger" : "text-success");
     }
 
     function ced5Proyecto(data) {
-        document.getElementById("unid-term-ced5").innerText = data['unid-term-ced5'];
-        document.getElementById("cup-ced5").innerText = data['cup-ced5'];
-        document.getElementById("costo-prod-term-ced5").innerText = data['costo-prod-term-ced5'];
+        document.getElementById("unid-term-ced5").innerText = parseFloat(data['unid-term-ced5']).toFixed(2);
+        document.getElementById("cup-ced5").innerText = parseFloat(data['cup-ced5']).toFixed(2);
+        document.getElementById("costo-prod-term-ced5").innerText = parseFloat(data['costo-prod-term-ced5']).toFixed(2);
     }
 
     function ced6Proyecto(data) {
-        document.getElementById("unid-term-ced6").innerText = data['unid-term-ced6'];
-        document.getElementById("unid-vend-ced6").innerText = data['unid-vend-ced6'];
-        document.getElementById("inv-final-ced6").innerText = data['inv-final-ced6'];
-        document.getElementById("cup-ced6").innerText = data['cup-ced6'];
-        document.getElementById("costo-total-ifpt-ce-ced6").innerText = data['costo-total-ifpt-ce-ced6'];
+        document.getElementById("unid-term-ced6").innerText = parseFloat(data['unid-term-ced6']).toFixed(2);
+        document.getElementById("unid-vend-ced6").innerText = parseFloat(data['unid-vend-ced6']).toFixed(2);
+        document.getElementById("inv-final-ced6").innerText = parseFloat(data['inv-final-ced6']).toFixed(2);
+        document.getElementById("cup-ced6").innerText = parseFloat(data['cup-ced6']).toFixed(2);
+        document.getElementById("costo-total-ifpt-ce-ced6").innerText = parseFloat(data['costo-total-ifpt-ce-ced6']).toFixed(2);
     }
 
     function ced7Proyecto(data) {
-        document.getElementById("unid-vend-ced7").innerText = data['unid-vend-ced7'];
-        document.getElementById("pv-ced7").innerText = data['pv-ced7'];
-        document.getElementById("importe-ced7").innerText = data['importe-ced7'];
+        document.getElementById("unid-vend-ced7").innerText = parseFloat(data['unid-vend-ced7']).toFixed(2);
+        document.getElementById("pv-ced7").innerText = parseFloat(data['pv-ced7']).toFixed(2);
+        document.getElementById("importe-ced7").innerText = parseFloat(data['importe-ced7']).toFixed(2);
 
-        document.getElementById("unid-vend-ced7-2").innerText = data['unid-vend-ced7-2'];
-        document.getElementById("cup-ced7-2").innerText = data['cup-ced7-2'];
-        document.getElementById("costo-vendido-ced7-2").innerText = data['costo-vendido-ced7-2'];
+        document.getElementById("unid-vend-ced7-2").innerText = parseFloat(data['unid-vend-ced7-2']).toFixed(2);
+        document.getElementById("cup-ced7-2").innerText = parseFloat(data['cup-ced7-2']).toFixed(2);
+        document.getElementById("costo-vendido-ced7-2").innerText = parseFloat(data['costo-vendido-ced7-2']).toFixed(2);
     }
 
     function tarjeta_almacen(data) {
-        document.getElementById("saldo-inicial-tarjeta").innerText = data['saldo-inicial-tarjeta'];
-        document.getElementById("compras-tarjeta").innerText = data['compras-tarjeta'];
-        document.getElementById("total-disp-tarjeta").innerText = data['total-disp-tarjeta'];
-        document.getElementById("salidas-tarjeta").innerText = data['salidas-tarjeta'];
-        document.getElementById("inventario-final-tarjeta").innerText = data['inventario-final-tarjeta'];
+        document.getElementById("saldo-inicial-tarjeta").innerText = parseFloat(data['saldo-inicial-tarjeta']).toFixed(2);
+        document.getElementById("compras-tarjeta").innerText = parseFloat(data['compras-tarjeta']).toFixed(2);
+        document.getElementById("total-disp-tarjeta").innerText = parseFloat(data['total-disp-tarjeta']).toFixed(2);
+        document.getElementById("salidas-tarjeta").innerText = parseFloat(data['salidas-tarjeta']).toFixed(2);
+        document.getElementById("inventario-final-tarjeta").innerText = parseFloat(data['inventario-final-tarjeta']).toFixed(2);
     }
 
     function reporte_costos_produccion(data) {
-        //console.log(data['inv-inic-prod-terminada']);
-        document.getElementById("inv-inic-mp").innerText = data['inv-inic-mp'];
-        document.getElementById("compras-netas-mp").innerText = data['compras-netas-mp'];
-        document.getElementById("mat-prima-disp").innerText = data['mat-prima-disp'];
-        document.getElementById("inv-final-mp").innerText = data['inv-final-mp'];
-        document.getElementById("mat-prima-dir-consumida").innerText = data['mat-prima-dir-consumida'];
-        document.getElementById("mod").innerText = data['mod'];
-        document.getElementById("ci").innerText = data['ci'];
-        document.getElementById("costo-incurrido-real").innerText = data['costo-incurrido-real'];
-        document.getElementById("desviaciones-desfavorables").innerText = data['desviaciones-desfavorables'];
-        document.getElementById("costo-incurrido-estandar").innerText = data['costo-incurrido-estandar'];
-        document.getElementById("inv-inic-prod-en-proc").innerText = data['inv-inic-prod-en-proc'];
-        document.getElementById("prod-en-proc-disp").innerText = data['prod-en-proc-disp'];
-        document.getElementById("inv-final-prod-en-proc").innerText = data['inv-final-prod-en-proc'];
-        document.getElementById("costo-prod-terminada").innerText = data['costo-prod-terminada'];
-        document.getElementById("inv-inic-prod-terminada").innerText = data['inv-inic-prod-terminada'];
-        document.getElementById("prod-term-disp").innerText = data['prod-term-disp'];
-        document.getElementById("inv-final-prod-terminada").innerText = data['inv-final-prod-terminada'];
-        document.getElementById("costo-lo-vendido-est").innerText = data['costo-lo-vendido-est'];
+        document.getElementById("inv-inic-mp").innerText = parseFloat(data['inv-inic-mp']).toFixed(2);
+        document.getElementById("compras-netas-mp").innerText = parseFloat(data['compras-netas-mp']).toFixed(2);
+        document.getElementById("mat-prima-disp").innerText = parseFloat(data['mat-prima-disp']).toFixed(2);
+        document.getElementById("inv-final-mp").innerText = parseFloat(data['inv-final-mp']).toFixed(2);
+        document.getElementById("mat-prima-dir-consumida").innerText = parseFloat(data['mat-prima-dir-consumida']).toFixed(2);
+        document.getElementById("mod").innerText = parseFloat(data['mod']).toFixed(2);
+        document.getElementById("ci").innerText = parseFloat(data['ci']).toFixed(2);
+        document.getElementById("costo-incurrido-real").innerText = parseFloat(data['costo-incurrido-real']).toFixed(2);
+        document.getElementById("desviaciones-desfavorables").innerText = parseFloat(data['desviaciones-desfavorables']).toFixed(2);
+        document.getElementById("costo-incurrido-estandar").innerText = parseFloat(data['costo-incurrido-estandar']).toFixed(2);
+        document.getElementById("inv-inic-prod-en-proc").innerText = parseFloat(data['inv-inic-prod-en-proc']).toFixed(2);
+        document.getElementById("prod-en-proc-disp").innerText = parseFloat(data['prod-en-proc-disp']).toFixed(2);
+        document.getElementById("inv-final-prod-en-proc").innerText = parseFloat(data['inv-final-prod-en-proc']).toFixed(2);
+        document.getElementById("costo-prod-terminada").innerText = parseFloat(data['costo-prod-terminada']).toFixed(2);
+        document.getElementById("inv-inic-prod-terminada").innerText = parseFloat(data['inv-inic-prod-terminada']).toFixed(2);
+        document.getElementById("prod-term-disp").innerText = parseFloat(data['prod-term-disp']).toFixed(2);
+        document.getElementById("inv-final-prod-terminada").innerText = parseFloat(data['inv-final-prod-terminada']).toFixed(2);
+        document.getElementById("costo-lo-vendido-est").innerText = parseFloat(data['costo-lo-vendido-est']).toFixed(2);
     }
 
     function reporte_estado_resultados(data) {
-        document.getElementById("ventas-netas").innerText = data['ventas-netas'];
-        document.getElementById("costo-vendido-est").innerText = data['costo-vendido-est'];
-        document.getElementById("desv-desfav-costo-est").innerText = data['desv-desfav-costo-est'];
-        document.getElementById("costo-vendido-real").innerText = data['costo-vendido-real'];
-        document.getElementById("utilidad-bruta").innerText = data['utilidad-bruta'];
-        document.getElementById("gastos-operacion").innerText = data['gastos-operacion'];
-        document.getElementById("ventas-gastos").innerText = data['ventas-gastos'];
-        document.getElementById("administracion-gastos").innerText = data['administracion-gastos'];
-        document.getElementById("total-gastos").innerText = data['total-gastos'];
-        document.getElementById("utilidad-operacion").innerText = data['utilidad-operacion'];
-        document.getElementById("otros-productos").innerText = data['otros-productos'];
-        document.getElementById("otros-gastos").innerText = data['otros-gastos'];
-        document.getElementById("utilidad-antes-impuestos").innerText = data['utilidad-antes-impuestos'];
+        document.getElementById("ventas-netas").innerText = parseFloat(data['ventas-netas']).toFixed(2);
+        document.getElementById("costo-vendido-est").innerText = parseFloat(data['costo-vendido-est']).toFixed(2);
+        document.getElementById("desv-desfav-costo-est").innerText = parseFloat(data['desv-desfav-costo-est']).toFixed(2);
+        document.getElementById("costo-vendido-real").innerText = parseFloat(data['costo-vendido-real']).toFixed(2);
+        document.getElementById("utilidad-bruta").innerText = parseFloat(data['utilidad-bruta']).toFixed(2);
+        document.getElementById("gastos-operacion").innerText = '';
+        document.getElementById("ventas-gastos").innerText = parseFloat(data['ventas-gastos']).toFixed(2);
+        document.getElementById("administracion-gastos").innerText = parseFloat(data['administracion-gastos']).toFixed(2);
+        document.getElementById("total-gastos").innerText = parseFloat(data['total-gastos']).toFixed(2);
+        document.getElementById("utilidad-operacion").innerText = parseFloat(data['utilidad-operacion']).toFixed(2);
+        document.getElementById("otros-productos").innerText = parseFloat(data['otros-productos']).toFixed(2);
+        document.getElementById("otros-gastos").innerText = parseFloat(data['otros-gastos']).toFixed(2);
+        document.getElementById("utilidad-antes-impuestos").innerText = parseFloat(data['utilidad-antes-impuestos']).toFixed(2);
     }
+
 </script>
 <script>
     const darkModeToggle = document.getElementById('darkModeToggle');
