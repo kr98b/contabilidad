@@ -17,7 +17,7 @@ app.listen(port, () => {
 });
 
 const pg = require('pg');
-const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}`;
+const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}?ssl=true`;
 
 function doSelect(id) {
   return new Promise((resolve, reject) => {
@@ -77,16 +77,46 @@ function registerProduct(data) {
         producto, kilos, precioKilo, horasMano, precioHoraHombre, cargosIndirectos, cargosFijos, precioHoraMaquina,
         compraMateria, costoCompra, consumoMateria, costoModHoras, costoHoraMod, cargosIndirectosVariables, cargosIndirectosFijos,
         unidadesVendidas, precioUnitario, gastosVenta, gastosAdmon, productosTerminados, productosEnProceso,
-        unidadesPresupuestoEstatico, costoPresupuestoEstatico, saldoInicial, compras, salidas
+        unidadesPresupuestoEstatico, costoPresupuestoEstatico, saldoInicial, compras, salidas,
+        prepEstUnid, mpSaldoInicial, mpSaldoInicialProdProc, mpPercent, moPercent, civPercent, cifPercent, otrosGastos, otrosProductos,
+        prepEstCostoR, civUnidR, civCuR, mpUnidR, refCif, cuCif, mpSaldoInicialTerm
       } = data;
 
       // Insert into 'Producto' table
       const insertProductoQuery = `
-        INSERT INTO Producto (nombre)
-        VALUES ($1) RETURNING id_producto;
-      `;
+      INSERT INTO Producto (
+        nombre, 
+        prep_est_unid, 
+        mp_saldo_inicial, 
+        mp_saldo_inicial_prod_proc, 
+        mp_percent, 
+        mo_percent, 
+        civ_percent, 
+        cif_percent, 
+        otros_gastos, 
+        otros_productos,
+        mp_saldo_inicial_term
+      ) 
+      VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
+      ) 
+      RETURNING id_producto;
+    `;
 
-      client.query(insertProductoQuery, [producto], (err, result) => {
+
+      client.query(insertProductoQuery, [
+        producto,
+        prepEstUnid,
+        mpSaldoInicial,
+        mpSaldoInicialProdProc,
+        mpPercent,
+        moPercent,
+        civPercent,
+        cifPercent,
+        otrosGastos,
+        otrosProductos,
+        mpSaldoInicialTerm
+      ], (err, result) => {
         if (err) {
           console.error('Error inserting into Producto table:', err);
           reject(err);
@@ -100,12 +130,12 @@ function registerProduct(data) {
         // Insert into 'Estandar' table
         const insertEstandarQuery = `
           INSERT INTO Estandar (id_producto, kilos_mp_e, costo_kilos_mp_e, horas_mod_e, costo_mod_e, cargos_indirectos_e, 
-          costo_cargos_indirectos_e, costo_horas_maquina_civ_e)
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
+          costo_cargos_indirectos_e, costo_horas_maquina_civ_e, cif_req_e, cif_cu_e)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);
         `;
 
         client.query(insertEstandarQuery, [
-          productoId, kilos, precioKilo, horasMano, precioHoraHombre, cargosIndirectos, cargosFijos, precioHoraMaquina
+          productoId, kilos, precioKilo, horasMano, precioHoraHombre, cargosIndirectos, cargosFijos, precioHoraMaquina, refCif, cuCif 
         ], (err) => {
           if (err) {
             console.error('Error inserting into Estandar table:', err);
@@ -116,16 +146,36 @@ function registerProduct(data) {
 
           // Insert into 'Real' table
           const insertRealQuery = `
-            INSERT INTO Real (id_producto, kilos_mp_r, costo_kilos_mp_r, consumo_mp_r, costo_mod_r, costo_hora_r, cargos_indir_inc_var_r,
+          INSERT INTO Real (
+            id_producto, kilos_mp_r, costo_kilos_mp_r, consumo_mp_r, costo_mod_r, costo_hora_r, cargos_indir_inc_var_r,
             cargos_indir_inc_fijos_r, unid_vendidas_r, precio_venta_r, gastos_venta_r, gastos_admon_r, prod_terminado_r, 
-            prod_proceso_r, prep_est_unidades_r, prep_est_costo_r)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
-          `;
+            prod_proceso_r, prep_est_unidades_r, prep_est_costo_r, civ_unid_r, civ_cu_r, mp_unid_r
+          ) 
+          VALUES (
+            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
+          );
+        `;
 
           client.query(insertRealQuery, [
-            productoId, compraMateria, costoCompra, consumoMateria, costoModHoras, costoHoraMod, cargosIndirectosVariables,
-            cargosIndirectosFijos, unidadesVendidas, precioUnitario, gastosVenta, gastosAdmon, productosTerminados, productosEnProceso,
-            unidadesPresupuestoEstatico, costoPresupuestoEstatico
+            productoId,
+            compraMateria,
+            costoCompra,
+            consumoMateria,
+            costoModHoras,
+            costoHoraMod,
+            cargosIndirectosVariables,
+            cargosIndirectosFijos,
+            unidadesVendidas,
+            precioUnitario,
+            gastosVenta,
+            gastosAdmon,
+            productosTerminados,
+            productosEnProceso,
+            unidadesPresupuestoEstatico,
+            prepEstCostoR,
+            civUnidR, 
+            civCuR, 
+            mpUnidR
           ], (err) => {
             if (err) {
               console.error('Error inserting into Real table:', err);
@@ -252,7 +302,6 @@ app.get('/doSelect', async (req, res) => {
     res.status(500).json({ error: 'API Error', details: err.message });
   }
 });
-
 
 app.get('/doQueryProductos', async (req, res) => {
   try {
