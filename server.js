@@ -95,7 +95,7 @@ function registerProduct(data) {
         cif_percent, 
         otros_gastos, 
         otros_productos,
-        mp_saldo_inicial_term,
+        mp_saldo_inicial_term
       ) 
       VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
