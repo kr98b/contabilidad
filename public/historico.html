@@ -82,7 +82,8 @@
     </nav>
 
     <div id="titulo" class="container my-5">
-        <h1 id="nombre-producto-title" class="mt-4"></h2>
+        <h1 id="nombre-producto-title" class="mt-4">
+            </h2>
     </div>
 
     <div id="resumen-proyecto" class="container my-5">
@@ -627,10 +628,9 @@
 
     <div id="reporte-costos-produccion" class="container my-5">
         <h4 class="text-center font-weight-bold">
-            MÉTODO ABSORBENTE<br>
-            CÍA. FESONIA S.A.<br>
+            CÍA. EQUIPO5 S.A.<br>
             REPORTE DE COSTOS DE PRODUCCIÓN Y VENTA<br>
-            DEL 1 AL 30 DE NOVIEMBRE DE 2024
+            DEL 1 AL 31 DE ENERO DE 2024
         </h4>
 
         <table class="table table-bordered mt-4">
@@ -716,7 +716,7 @@
             </tbody>
         </table>
     </div>
-
+<!--
     <div id="firma-reporte-costos-produccion" class="container my-5">
         <table class="table table-bordered mt-4">
             <thead class="thead-light">
@@ -733,13 +733,12 @@
             </tbody>
         </table>
     </div>
-
+-->
     <div id="estado-resultados" class="container my-5">
         <h4 class="text-center font-weight-bold">
-            MÉTODO ABSORBENTE<br>
-            CÍA. FESONIA S.A.<br>
+            CÍA. EQUIPO 5 S.A.<br>
             ESTADO DE RESULTADOS<br>
-            DEL 1 AL 31 DE MAYO DE 2024
+            DEL 1 AL 31 DE ENERO DE 2024
         </h4>
 
         <table class="table table-bordered mt-4">
@@ -814,7 +813,7 @@
             </tbody>
         </table>
     </div>
-
+<!---
     <div id="firma-estado-resultados" class="container my-5">
         <table class="table table-bordered mt-4">
             <thead class="thead-light">
@@ -831,7 +830,7 @@
             </tbody>
         </table>
     </div>
-
+-->
 </body>
 <script>
     window.addEventListener("load", (event) => {
@@ -855,7 +854,11 @@
             }
 
             let data = await response.json();
-            console.log(data);
+            console.log(data['producto'][0]);
+            console.log(data['estandar'][0]);
+            console.log(data['real'][0]);
+            console.log(data['datos_tarjeta_almacen'][0]);
+
             return doCalculos(data);
 
         } catch (error) {
@@ -864,10 +867,11 @@
     }
 
     function doCalculos(data) {
+        console.log(data);
         document.getElementById('nombre-producto-title').innerText = "Costos estandar de '" + data['producto'][0]['nombre'] + "'";
         resumenProyecto({
             'nombre-producto': data['producto'][0]['nombre'],
-            'prep-est-unidades': 8000,
+            'prep-est-unidades': data['producto'][0]['prep_est_unid'],
             'unid-proceso': data['real'][0]['prod_proceso_r'],
             'unid-term': data['real'][0]['prod_terminado_r'],
         });
@@ -879,14 +883,14 @@
                 data['estandar'][0]['horas_mod_e'] * data['estandar'][0]['costo_mod_e'],
             'civ-informe':
                 data['estandar'][0]['cargos_indirectos_e'] * data['estandar'][0]['costo_horas_maquina_civ_e'],
-            'cif-informe': 2 * 3.75
+            'cif-informe': data['estandar'][0]['cif_req_e'] * data['estandar'][0]['cif_cu_e']
         }
 
         ced1Proyecto({
             'mpd-req': data['estandar'][0]['kilos_mp_e'],
             'mod-req': data['estandar'][0]['horas_mod_e'],
             'civ-req': data['estandar'][0]['cargos_indirectos_e'],
-            'cif-req': 2,
+            'cif-req': data['estandar'][0]['cif_req_e'],
 
             'mpd-cu':
                 data['estandar'][0]['costo_kilos_mp_e'],
@@ -894,7 +898,7 @@
                 data['estandar'][0]['costo_mod_e'],
             'civ-cu':
                 data['estandar'][0]['costo_horas_maquina_civ_e'],
-            'cif-cu': 3.75,
+            'cif-cu': data['estandar'][0]['cif_cu_e'],
 
             'mpd-importe': calculosCed1['mpd-informe'],
             'mod-importe': calculosCed1['mod-informe'],
@@ -912,7 +916,7 @@
             'civ-total-ced2':
                 (data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) * data['estandar'][0]['costo_horas_maquina_civ_e'],
             'cif-total-ced2':
-                (2 * data['real'][0]['prod_terminado_r']) * 3.75
+                (data['estandar'][0]['cif_req_e'] * data['real'][0]['prod_terminado_r']) * data['estandar'][0]['cif_cu_e']
         }
 
         ced2Proyecto({
@@ -941,80 +945,84 @@
             'civ-total': calculosCed2['civ-total-ced2'],
 
             'cif-req-unit':
-                2,
+            data['estandar'][0]['cif_req_e'],
             'cif-req-total':
-                2 * data['real'][0]['prod_terminado_r'],
+            data['estandar'][0]['cif_req_e'] * data['real'][0]['prod_terminado_r'],
             'cif-cu-ced2':
-                3.75,
+            data['estandar'][0]['cif_cu_e'],
             'cif-total': calculosCed2['cif-total-ced2'],
 
             'ced2-total': Object.values(calculosCed2).reduce((sum, value) => sum + value, 0)
         })
 
         const calculosCed3 = {
-            'mpd-req-total-ced3': data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3),
+            'mpd-req-total-ced3': Math.ceil(data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_proceso_r'] * data['producto'][0]['mp_percent']),
 
-            'mod-req-total-ced3': data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3),
+            'mod-req-total-ced3': Math.ceil(data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_proceso_r'] * data['producto'][0]['mo_percent']),
 
-            'civ-req-total-ced3': data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3),
+            'civ-req-total-ced3': Math.ceil(data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_proceso_r'] * data['producto'][0]['civ_percent']),
 
-            'cif-req-total-ced3': 2 * data['real'][0]['prod_proceso_r'] * (1 / 3),
+            'cif-req-total-ced3': Math.ceil(data['estandar'][0]['cif_req_e'] * data['real'][0]['prod_proceso_r'] * data['producto'][0]['cif_percent']),
 
-            'mpd-total-ced3': (data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3)) * data['estandar'][0]['costo_kilos_mp_e'],
+            'mpd-total-ced3': (data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_proceso_r'] * data['producto'][0]['mp_percent']) * data['estandar'][0]['costo_kilos_mp_e'],
 
-            'mod-total-ced3': (data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3)) * data['estandar'][0]['costo_mod_e'],
+            'mod-total-ced3': (data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_proceso_r'] * data['producto'][0]['mo_percent']) * data['estandar'][0]['costo_mod_e'],
 
-            'civ-total-ced3': (data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_proceso_r'] * (1 / 3)) * data['estandar'][0]['costo_horas_maquina_civ_e'],
+            'civ-total-ced3': (data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_proceso_r'] * data['producto'][0]['civ_percent']) * data['estandar'][0]['costo_horas_maquina_civ_e'],
 
-            'cif-total-ced3': (2 * data['real'][0]['prod_proceso_r'] * (1 / 3)) * 3.75,
+            'cif-total-ced3': (data['estandar'][0]['cif_req_e'] * data['real'][0]['prod_proceso_r'] * data['producto'][0]['cif_percent']) * data['estandar'][0]['cif_cu_e'],
+        }
+
+        const calculosCed3f = {
+            'cif-total-ced3': calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e']
         }
 
         ced3Proyecto({
             "mpd-req-unit-ced3": data['estandar'][0]['kilos_mp_e'],
             "mpd-req-total-ced3": calculosCed3['mpd-req-total-ced3'],
             "mpd-cu-ced3": data['estandar'][0]['costo_kilos_mp_e'],
-            "mpd-total-ced3": calculosCed3['mpd-total-ced3'],
+            "mpd-total-ced3": calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e'],
 
             "mod-req-unit-ced3": data['estandar'][0]['horas_mod_e'],
             "mod-req-total-ced3": calculosCed3['mod-req-total-ced3'],
             "mod-cu-ced3": data['estandar'][0]['costo_mod_e'],
-            "mod-total-ced3": calculosCed3['mod-total-ced3'],
+            "mod-total-ced3": calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e'],
 
             "civ-req-unit-ced3": data['estandar'][0]['cargos_indirectos_e'],
             "civ-req-total-ced3": calculosCed3['civ-req-total-ced3'],
             "civ-cu-ced3": data['estandar'][0]['costo_horas_maquina_civ_e'],
-            "civ-total-ced3": calculosCed3['civ-total-ced3'],
+            "civ-total-ced3": calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e'],
 
-            "cif-req-unit-ced3": 2,
+            "cif-req-unit-ced3": data['estandar'][0]['cif_req_e'],
             "cif-req-total-ced3": calculosCed3['cif-req-total-ced3'],
-            "cif-cu-ced3": 3.75,
-            "cif-total-ced3": calculosCed3['cif-total-ced3'],
+            "cif-cu-ced3": data['estandar'][0]['cif_cu_e'],
+            "cif-total-ced3": calculosCed3f['cif-total-ced3'],
 
-            "ced3-total-ced3": Object.keys(calculosCed3).filter(key => !key.includes('req')).reduce((sum, key) => sum + calculosCed3[key], 0)
+            "ced3-total-ced3": (calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])
         })
 
         const calculosCed4 = {
-            'mp-real-importe': data['real'][0]['consumo_mp_r'] * 22,
+            'mp-real-importe': data['real'][0]['consumo_mp_r'] * data['real'][0]['prep_est_costo_r'],
             'mp-est-unids': data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r'] + calculosCed3['mpd-req-total-ced3'],
-            'mp-total': (data['real'][0]['consumo_mp_r'] * ((22) - data['estandar'][0]['costo_mod_e'])) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['consumo_mp_r']) - (data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r'] + calculosCed3['mpd-req-total-ced3']))),
+            'mp-total': (data['real'][0]['consumo_mp_r'] * ((data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e'])) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['consumo_mp_r']) - (data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r'] + calculosCed3['mpd-req-total-ced3']))),
 
             'mo-real-importe': data['real'][0]['costo_mod_r'] * data['real'][0]['costo_hora_r'],
             'mo-est-unids': data['estandar'][0]['kilos_mp_e'] * data['real'][0]['prod_terminado_r'] + calculosCed3['mpd-req-total-ced3'],
         }
 
         ced4Proyecto({
-            'mp-real-unids': data['real'][0]['consumo_mp_r'],
-            'mp-real-cu': 22,
-            'mp-real-importe': calculosCed4['mp-real-importe'],
+            'mp-real-unids': data['real'][0]['mp_unid_r'],
+            'mp-real-cu': data['real'][0]['prep_est_costo_r'],
+            'mp-real-importe': data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r'],
             'mp-est-unids': calculosCed4['mp-est-unids'],
             'mp-est-cu': data['estandar'][0]['costo_mod_e'],
             'mp-est-importe': calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e'],
-            'mp-desv-unids': (data['real'][0]['consumo_mp_r']) - calculosCed4['mp-est-unids'],
-            'mp-desv-cu': (22) - data['estandar'][0]['costo_mod_e'],
-            'mp-desv-importe': (calculosCed4['mp-real-importe']) - (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']),
-            'mp-precio': data['real'][0]['consumo_mp_r'] * ((22) - data['estandar'][0]['costo_mod_e']),
-            'mp-cantidad': data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['consumo_mp_r']) - calculosCed4['mp-est-unids']),
-            'mp-total': calculosCed4['mp-total'],
+            'mp-desv-unids': (data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids']),
+            'mp-desv-cu': (data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e'],
+            'mp-desv-importe': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) - (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']),
+            'mp-precio': (data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e']),
+            'mp-cantidad': (data['estandar'][0]['costo_mod_e']) * ((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])),
+            'mp-total': ((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e'])) + (data['estandar'][0]['costo_mod_e']) * ((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids'])),
 
             'mo-real-unids': data['real'][0]['costo_mod_r'],
             'mo-real-cu': data['real'][0]['costo_hora_r'],
@@ -1029,34 +1037,40 @@
             'mo-cantidad': data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])),
             'mo-total': (data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3']))),
 
-            'civ-real-unids': 15000,
-            'civ-real-cu': 12,
-            'civ-real-importe': (15000) * (12),
+            'civ-real-unids': data['real'][0]['civ_unid_r'],
+            'civ-real-cu': data['real'][0]['civ_cu_r'],
+            'civ-real-importe': (data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r']),
             'civ-est-unids': ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])),
             'civ-est-cu': data['estandar'][0]['costo_horas_maquina_civ_e'],
             'civ-est-importe': ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e'],
-            'civ-desv-unids': (15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])),
-            'civ-desv-cu': (12) - (data['estandar'][0]['costo_horas_maquina_civ_e']),
-            'civ-desv-importe': ((15000) * (12)) - (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']),
+            'civ-desv-unids': (data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])),
+            'civ-desv-cu': (data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']),
+            'civ-desv-importe': ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) - (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']),
 
-            'civ-precio': (15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e'])),
-            'civ-cantidad': ((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']),
-            'civ-total': ((15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e'])),
+            'civ-precio': (data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e'])),
+            'civ-cantidad': ((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']),
+            'civ-total': ((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e'])),
 
             'cif-real-importe': data['real'][0]['cargos_indir_inc_fijos_r'],
-            'cif-est-importe': calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'],
-            'cif-desv-importe': (data['real'][0]['cargos_indir_inc_fijos_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
+            'cif-est-importe': calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'],
+            'cif-desv-importe': (data['real'][0]['cargos_indir_inc_fijos_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']),
             'cif-precio': data['real'][0]['cargos_indir_inc_fijos_r'],
             'cif-cantidad': data['real'][0]['prep_est_costo_r'],
             'cif-subtotal': (data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r']),
             'cif-prep-est': data['real'][0]['prep_est_costo_r'],
-            'cif-costo-est': calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'],
-            'cif-oper-est': (data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
-            'cif-total': ((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
-            'ci-real-importe': calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r'],
-            'ci-est-importe': (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
-            'ci-desv-importe': (calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
-            'ci-total': (calculosCed4['mp-total']) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])))
+            'cif-costo-est': calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'],
+            'cif-oper-est': (data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']),
+            'cif-total': ((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
+
+            'ci-real-importe': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r']),
+
+            'ci-est-importe': (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']),
+
+            'ci-desv-importe': ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
+
+            'ci-total':
+                (((data['real'][0]['mp_unid_r']) * ((data['real'][0]['prep_est_costo_r']) - data['estandar'][0]['costo_mod_e'])) + (data['estandar'][0]['costo_mod_e']) * ((data['real'][0]['mp_unid_r']) - (calculosCed4['mp-est-unids']))) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((data['real'][0]['civ_unid_r']) * ((data['real'][0]['civ_cu_r']) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['civ_unid_r']) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))),
+
         })
 
         ced5Proyecto({
@@ -1091,40 +1105,40 @@
         })
 
         reporte_costos_produccion({
-            'inv-inic-mp': data['datos_tarjeta_almacen'][0]['saldo_inicial'],
+            'inv-inic-mp': data['producto'][0]['mp_saldo_inicial'],
             'compras-netas-mp': data['datos_tarjeta_almacen'][0]['compras'],
             'mat-prima-disp': data['datos_tarjeta_almacen'][0]['saldo_inicial'] + data['datos_tarjeta_almacen'][0]['compras'],
             'inv-final-mp': (data['datos_tarjeta_almacen'][0]['saldo_inicial'] + data['datos_tarjeta_almacen'][0]['compras']) - data['datos_tarjeta_almacen'][0]['salidas'],
             'mat-prima-dir-consumida': (data['datos_tarjeta_almacen'][0]['saldo_inicial'] + data['datos_tarjeta_almacen'][0]['compras']) - ((data['datos_tarjeta_almacen'][0]['saldo_inicial'] + data['datos_tarjeta_almacen'][0]['compras']) - data['datos_tarjeta_almacen'][0]['salidas']),
             'mod': calculosCed4['mo-real-importe'],
-            'ci': calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r'],
-            'costo-incurrido-real': calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r'],
-            'desviaciones-desfavorables': (calculosCed4['mp-total']) + ((data['real'][0]['costo_mod_r'] * ((data['real'][0]['costo_hora_r']) - (data['estandar'][0]['costo_mod_e']))) + (data['estandar'][0]['costo_mod_e'] * ((data['real'][0]['costo_mod_r']) - ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])))) + (((15000) * ((12) - (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((15000) - ((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3']))) * (data['estandar'][0]['costo_horas_maquina_civ_e']))) + (((data['real'][0]['cargos_indir_inc_fijos_r']) - (data['real'][0]['prep_est_costo_r'])) + ((data['real'][0]['prep_est_costo_r']) - (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']))),
-            'costo-incurrido-estandar': (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']),
-            'inv-inic-prod-en-proc': 0,
-            'prod-en-proc-disp': (0) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
-            'inv-final-prod-en-proc': Object.keys(calculosCed3).filter(key => !key.includes('req')).reduce((sum, key) => sum + calculosCed3[key], 0),
-            'costo-prod-terminada': ((0) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']))) - (Object.keys(calculosCed3).filter(key => !key.includes('req')).reduce((sum, key) => sum + calculosCed3[key], 0)),
-            'inv-inic-prod-terminada': 0,
-            'prod-term-disp': (0) + (((0) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']))) - (Object.keys(calculosCed3).filter(key => !key.includes('req')).reduce((sum, key) => sum + calculosCed3[key], 0))),
+            'ci': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r']),
+            'costo-incurrido-real': (data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r']),
+            'desviaciones-desfavorables': ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
+            'costo-incurrido-estandar': (calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']),
+            'inv-inic-prod-en-proc': data['producto'][0]['mp_saldo_inicial_prod_proc'],
+            'prod-en-proc-disp': (data['producto'][0]['mp_saldo_inicial']) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
+            'inv-final-prod-en-proc': (calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e']),
+            'costo-prod-terminada': (((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])),
+            'inv-inic-prod-terminada': data['producto'][0]['mp_saldo_inicial_term'],
+            'prod-term-disp': (((data['producto'][0]['mp_saldo_inicial_term']) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e']))),
             'inv-final-prod-terminada': ((data['real'][0]['prod_terminado_r']) - (data['real'][0]['unid_vendidas_r'])) * (Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)),
-            'costo-lo-vendido-est': ((0) + (((0) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']))) - (Object.keys(calculosCed3).filter(key => !key.includes('req')).reduce((sum, key) => sum + calculosCed3[key], 0)))) - (((data['real'][0]['prod_terminado_r']) - (data['real'][0]['unid_vendidas_r'])) * (Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)))
+            'costo-lo-vendido-est': ((((data['producto'][0]['mp_saldo_inicial_term']) + ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))) - ((calculosCed3['mpd-req-total-ced3'] * data['estandar'][0]['costo_kilos_mp_e']) + (calculosCed3['mod-req-total-ced3'] * data['estandar'][0]['costo_mod_e']) + (calculosCed3['civ-req-total-ced3'] * data['estandar'][0]['costo_horas_maquina_civ_e']) + ( calculosCed3['cif-req-total-ced3'] * data['estandar'][0]['cif_cu_e'])))) - (((data['real'][0]['prod_terminado_r']) - (data['real'][0]['unid_vendidas_r'])) * (Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)))
         })
 
         reporte_estado_resultados({
             'ventas-netas': data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r'],
             'costo-vendido-est': data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0),
-            'desv-desfav-costo-est': (calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])),
-            'costo-vendido-real': (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) + ((calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']))),
-            'utilidad-bruta': (data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - ((calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3']))),
+            'desv-desfav-costo-est': ((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])),
+            'costo-vendido-real': (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) + (((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))),
+            'utilidad-bruta': (data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - (((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3']))),
             'gastos-operacion': '',
             'ventas-gastos': data['real'][0]['gastos_venta_r'],
             'administracion-gastos': data['real'][0]['gastos_admon_r'],
             'total-gastos': (data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r']),
-            'utilidad-operacion': ((data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - ((calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])))) - ((data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r'])),
-            'otros-productos': 0,
-            'otros-gastos': 0,
-            'utilidad-antes-impuestos': (0) + (0) + (((data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - ((calculosCed4['mp-real-importe'] + calculosCed4['mo-real-importe'] + (15000 * 12) + data['real'][0]['cargos_indir_inc_fijos_r']) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3['cif-total-ced3'])))) - ((data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r'])))
+            'utilidad-operacion': ((data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - (((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])))) - ((data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r'])),
+            'otros-productos': data['producto'][0]['otros_productos'],
+            'otros-gastos': data['producto'][0]['otros_gastos'],
+            'utilidad-antes-impuestos': (data['producto'][0]['otros_productos']) + (data['producto'][0]['otros_productos']) + ((data['real'][0]['unid_vendidas_r'] * data['real'][0]['precio_venta_r']) - (data['real'][0]['unid_vendidas_r'] * Object.values(calculosCed1).reduce((sum, value) => sum + value, 0)) - (((data['real'][0]['mp_unid_r'] * data['real'][0]['prep_est_costo_r']) + (calculosCed4['mo-real-importe']) + ((data['real'][0]['civ_unid_r']) * (data['real'][0]['civ_cu_r'])) + (data['real'][0]['cargos_indir_inc_fijos_r'])) - ((calculosCed4['mp-est-unids'] * data['estandar'][0]['costo_mod_e']) + ((data['estandar'][0]['costo_mod_e']) * ((data['estandar'][0]['horas_mod_e'] * data['real'][0]['prod_terminado_r']) + calculosCed3['mod-req-total-ced3'])) + (((data['estandar'][0]['cargos_indirectos_e'] * data['real'][0]['prod_terminado_r']) + (calculosCed3['civ-req-total-ced3'])) * data['estandar'][0]['costo_horas_maquina_civ_e']) + (calculosCed2['cif-total-ced2'] + calculosCed3f['cif-total-ced3'])))) - ((data['real'][0]['gastos_venta_r']) + (data['real'][0]['gastos_admon_r']))
         })
     }
 
@@ -1359,6 +1373,7 @@
     }
 
     function reporte_costos_produccion(data) {
+        //console.log(data['inv-inic-prod-terminada']);
         document.getElementById("inv-inic-mp").innerText = data['inv-inic-mp'];
         document.getElementById("compras-netas-mp").innerText = data['compras-netas-mp'];
         document.getElementById("mat-prima-disp").innerText = data['mat-prima-disp'];

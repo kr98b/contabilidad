@@ -65,324 +65,699 @@
             <h1 class="text-center mb-4">Formulario de Informe</h1>
         </div>
         <div class="row">
-            <div class="col-md-6 mb-4">
-                <!-- Informe de Producto -->
-                <div class="mb-4">
-                    <h2>Informe de Producto</h2>
-                    <form>
-                        <div class="mb-3">
-                            <label for="producto" class="form-label">Producto</label>
-                            <input type="text" class="form-control" id="producto" placeholder="Ingrese el producto">
-                        </div>
-                        <div class="mb-3">
-                            <label for="kilos" class="form-label">Kilos</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="kilos" placeholder="Ingrese los kilos">
-                                <span class="input-group-text">kilos</span>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="horas-mano" class="form-label">Horas de mano de obra directa</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="horas-mano"
-                                    placeholder="Ingrese las horas">
-                                <span class="input-group-text">horas</span>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cargos-indirectos" class="form-label">Cargos indirectos</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="cargos-indirectos"
-                                    placeholder="Ingrese el monto">
-                            </div>
-                        </div>
-                    </form>
+            <!-- Informe de Producto -->
+            <div class="mb-4">
+                <hr class="border border-primary">
+                <h2>Informe de Producto</h2>
+
+                <div class="mb-3">
+                    <label for="producto" class="form-label">Nombre del producto</label>
+                    <input type="text" class="form-control" id="producto" placeholder="Ingresa el nombre del producto">
                 </div>
-                <!-- Costo -->
-                <div class="mb-4">
-                    <h2>Costo</h2>
-                    <form>
-                        <div class="mb-3">
-                            <label for="precio-kilo" class="form-label">Precio del kilo de materia prima</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="precio-kilo"
-                                    placeholder="Ingrese el precio">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="precio-hora-hombre" class="form-label">Precio de la hora hombre</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="precio-hora-hombre"
-                                    placeholder="Ingrese el precio">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="precio-hora-maquina" class="form-label">Precio de la hora máquina de cargos
-                                indirectos
-                                variables</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="precio-hora-maquina"
-                                    placeholder="Ingrese el precio">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cargos-fijos" class="form-label">Precio de cargos indirectos fijos por
-                                pieza</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="cargos-fijos"
-                                    placeholder="Ingrese el precio">
-                            </div>
-                        </div>
-                    </form>
+
+                <div class="mb-3">
+                    <label for="prep_est_unid" class="form-label">Unidades de Presupuesto Estático</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="prep_est_unid" placeholder="Ingrese el valor">
+                        <span class="input-group-text">unidades</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="productos-terminados" class="form-label">Productos Terminados</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="productos-terminados"
+                            placeholder="Ingrese la cantidad">
+                        <span class="input-group-text">unidades</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="productos-en-proceso" class="form-label">Productos en Proceso</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="productos-en-proceso"
+                            placeholder="Ingrese la cantidad">
+                        <span class="input-group-text">unidades</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cédula I y II-->
+            <div class="mb-4">
+                <hr class="border border-primary">
+                <h2>Datos para Cédula I y II</h2>
+
+                <div class="mb-3">
+                    <label for="kilos" class="form-label">Kilos de materia prima requerida</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="kilos" placeholder="Ingrese los kilos">
+                        <span class="input-group-text">kilos</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="precio-kilo" class="form-label">Precio unitario de Materia Prima</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="precio-kilo" placeholder="Ingrese el precio">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="horas-mano" class="form-label">Horas de mano de obra directa requerida</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="horas-mano" placeholder="Ingrese las horas">
+                        <span class="input-group-text">horas</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="precio-hora-hombre" class="form-label">Precio unitario de la hora hombre</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="precio-hora-hombre"
+                            placeholder="Ingrese el precio">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="cargos-indirectos" class="form-label">Cargos indirectos variables requeridos</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="cargos-indirectos" placeholder="Ingrese el monto">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="precio-hora-maquina" class="form-label">Precio unitario de los cargos indirectos
+                        variables</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="precio-hora-maquina"
+                            placeholder="Ingrese el precio">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="req-cif" class="form-label">Cargos indirectos fijos requeridos</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="ref-cif" placeholder="Ingrese el monto">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="cu-cif" class="form-label">Precio unitario de los cargos
+                        indirectos fijos</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="cu-cif" placeholder="Ingrese el precio">
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-4">
-                <!-- Tarjeta Almacen -->
-                <div class="mb-4">
-                    <h2>Datos de Tarjeta de Almacen</h2>
-                    <form>
-                        <div class="mb-3">
-                            <label for="saldo-inicial" class="form-label">Saldo Inicial</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="saldo-inicial"
-                                    placeholder="Ingrese el saldo inicial">
-                            </div>
-                        </div>
 
-                        <!-- Compras + -->
-                        <div class="mb-3">
-                            <label for="compras" class="form-label">Compras +</label>
-                            <div class="input-group">
-                                <span class="input-group-text">+</span>
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="compras"
-                                    placeholder="Ingrese el monto de compras">
-                            </div>
-                        </div>
+            <!-- Cédula III -->
+            <div class="mb-4">
+                <hr class="border border-primary">
+                <h2>Datos para Cédula III</h2>
 
-                        <!-- Salidas - -->
-                        <div class="mb-3">
-                            <label for="salidas" class="form-label">Salidas -</label>
-                            <div class="input-group">
-                                <span class="input-group-text">-</span>
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="salidas"
-                                    placeholder="Ingrese el monto de salidas">
-                            </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="mp_percent" class="form-label">Porcentaje MP</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="mp_percent"
+                                placeholder="Ingrese el porcentaje">
+                            <span class="input-group-text">%</span>
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="mp_division" class="form-label">División MP</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="mp_division1" placeholder="Parte 1">
+                            <span class="input-group-text">/</span>
+                            <input type="number" class="form-control" id="mp_division2" placeholder="Parte 2">
+                        </div>
+                    </div>
                 </div>
-                <!-- Operaciones reales -->
-                <div class="mb-4">
-                    <h2>Operaciones Reales</h2>
-                    <form>
-                        <div class="mb-3">
-                            <label for="compra-materia" class="form-label">Compra Materia Prima</label>
-                            <input type="number" class="form-control" id="compra-materia"
-                                placeholder="Ingrese la cantidad">
-                        </div>
-                        <div class="mb-3">
-                            <label for="costo-compra" class="form-label">Costo Compra Materia Prima</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="costo-compra"
-                                    placeholder="Ingrese el costo">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="consumo-materia" class="form-label">Consumo Materia Prima</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="consumo-materia"
-                                    placeholder="Ingrese el costo">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="costo-mod-horas" class="form-label">Costo MOD</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="costo-mod-horas"
-                                    placeholder="Ingrese las horas">
-                                <span class="input-group-text">horas</span>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="costo-hora-mod" class="form-label">Costo Hora MOD</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="costo-hora-mod"
-                                    placeholder="Ingrese el costo">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cargos-indirectos-variables" class="form-label">Cargos indirectos incurridos -
-                                Variables</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="cargos-indirectos-variables"
-                                    placeholder="Ingrese el costo">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cargos-indirectos-fijos" class="form-label">Cargos indirectos incurridos -
-                                Fijos</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="cargos-indirectos-fijos"
-                                    placeholder="Ingrese el costo">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="unidades-vendidas" class="form-label">Unidades vendidas</label>
-                            <input type="number" class="form-control" id="unidades-vendidas"
-                                placeholder="Ingrese la cantidad">
-                        </div>
-                        <div class="mb-3">
-                            <label for="precio-unitario" class="form-label">Precio unitario de unidades</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="precio-unitario"
-                                    placeholder="Ingrese el precio">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="gastos-venta" class="form-label">Gastos de venta</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="gastos-venta"
-                                    placeholder="Ingrese el gasto de venta">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="gastos-admon" class="form-label">Gastos de administración</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="gastos-admon"
-                                    placeholder="Ingrese el gasto de administración">
-                            </div>
-                        </div>
 
-                        <!-- New Inputs -->
-                        <div class="mb-3">
-                            <label for="productos-terminados" class="form-label">Productos Terminados</label>
-                            <input type="number" class="form-control" id="productos-terminados"
-                                placeholder="Ingrese la cantidad">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="mo_percent" class="form-label">Porcentaje MO</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="mo_percent"
+                                placeholder="Ingrese el porcentaje">
+                            <span class="input-group-text">%</span>
                         </div>
-                        <div class="mb-3">
-                            <label for="productos-en-proceso" class="form-label">Productos en Proceso</label>
-                            <input type="number" class="form-control" id="productos-en-proceso"
-                                placeholder="Ingrese la cantidad">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="mo_division" class="form-label">División MO</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="mo_division1" placeholder="Parte 1">
+                            <span class="input-group-text">/</span>
+                            <input type="number" class="form-control" id="mo_division2" placeholder="Parte 2">
                         </div>
-                        <div class="mb-3">
-                            <label for="unidades-presupuesto-estatico" class="form-label">Unidades Presupuesto
-                                Estático</label>
-                            <input type="number" class="form-control" id="unidades-presupuesto-estatico"
-                                placeholder="Ingrese la cantidad">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="civ_percent" class="form-label">Porcentaje CIV</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="civ_percent"
+                                placeholder="Ingrese el porcentaje">
+                            <span class="input-group-text">%</span>
                         </div>
-                        <div class="mb-3">
-                            <label for="costo-presupuesto-estatico" class="form-label">Costo Presupuesto
-                                Estático</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="costo-presupuesto-estatico"
-                                    placeholder="Ingrese el costo">
-                            </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="civ_division" class="form-label">División CIV</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="civ_division1" placeholder="Parte 1">
+                            <span class="input-group-text">/</span>
+                            <input type="number" class="form-control" id="civ_division2" placeholder="Parte 2">
                         </div>
-                    </form>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="cif_percent" class="form-label">Porcentaje CIF</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="cif_percent"
+                                placeholder="Ingrese el porcentaje">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="cif_division" class="form-label">División CIF</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="cif_division1" placeholder="Parte 1">
+                            <span class="input-group-text">/</span>
+                            <input type="number" class="form-control" id="cif_division2" placeholder="Parte 2">
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Cédula IV -->
+            <div class="mb-4">
+                <hr class="border border-primary">
+                <h2>Datos para Cédula IV</h2>
+
+                <div class="mb-3">
+                    <label for="mp_unid_r" class="form-label">Unidades de materia prima real</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="mp_unid_r" placeholder="Ingrese las unidades MP">
+                        <span class="input-group-text">unidades</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="mp_unid_r" class="form-label">Costo por unidad de materia prima real</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="mp_cu_r"
+                            placeholder="Ingrese el costo por unidad MP">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="costo-mod-horas" class="form-label">Horas de Mano de Obra Directa</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="costo-mod-horas"
+                            placeholder="Ingrese las horas de Mano de Obra Directa">
+                        <span class="input-group-text">horas</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="costo-hora-mod" class="form-label">Costo por hora de Mano de Obra Directa</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="costo-hora-mod"
+                            placeholder="Ingrese el costo por cada hora">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="civ_unid_r" class="form-label">Unidades de Cargos Indirectos Variables</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="civ_unid_r"
+                            placeholder="Ingrese las unidades CIV">
+                        <span class="input-group-text">unidades</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="civ_cu_r" class="form-label">Costo unitario de Cargos Indirectos Variables</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="civ_cu_r"
+                            placeholder="Ingrese el costo unitario CIV">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="cargos-indirectos-variables" class="form-label">Cargos Indirectos Incurridos
+                        Variables</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="cargos-indirectos-variables"
+                            placeholder="Ingrese el costo de los Cargos Ind. Inc. Variables">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="cargos-indirectos-fijos" class="form-label">Cargos Indirectos Incurridos
+                        Fijos</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="cargos-indirectos-fijos"
+                            placeholder="Ingrese el costo de los Cargos Ind. Inc. Fijos">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cédula V, VI y VII -->
+            <div class="mb-4">
+                <hr class="border border-primary">
+                <h2>Datos para Cédula V, VI y VII</h2>
+
+                <div class="mb-3">
+                    <label for="unidades-vendidas" class="form-label">Unidades vendidas</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="unidades-vendidas"
+                            placeholder="Ingrese la cantidad">
+                        <span class="input-group-text">unidades</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="precio-unitario" class="form-label">Precio unitario de unidades</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="precio-unitario" placeholder="Ingrese el precio">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjetas de almacén -->
+            <div class="mb-4">
+                <hr class="border border-primary">
+                <h2>Datos para Tarjetas de almacén</h2>
+
+                <div class="mb-3">
+                    <label for="saldo-inicial" class="form-label">Saldo Inicial</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="saldo-inicial"
+                            placeholder="Ingrese el saldo inicial">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="compras" class="form-label">Compras</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="compras"
+                            placeholder="Ingrese el monto de compras">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="salidas" class="form-label">Salidas</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="salidas"
+                            placeholder="Ingrese el monto de salidas">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reporte de Costos de Producción y Venta -->
+            <div class="mb-4">
+                <div class="mb-3">
+                    <hr class="border border-primary">
+                    <h2>Datos para Reporte de Costos de Producción y Venta</h2>
+
+                    <div class="mb-3">
+                        <label for="mp_saldo_inicial" class="form-label">Saldo de Inventario Inicial de Materia
+                            Prima</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="mp_saldo_inicial"
+                                placeholder="Ingrese el monto del saldo del inv. inicial de mat. prima">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mp_saldo_inicial_prod_proc" class="form-label">Saldo de Productos en Producción
+                            de
+                            Materia Prima</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="mp_saldo_inicial_prod_proc"
+                                placeholder="Ingrese el monto del saldo prod. en prod. de mat. prima">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mp_saldo_inicial_term" class="form-label">Saldo de Productos Terminados de
+                            Materia
+                            Prima</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="mp_saldo_inicial_term"
+                                placeholder="Ingrese el monto del saldo terminado de mat. prima">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Reporte de Estado De Resultados -->
+            <div class="mb-4">
+                <div class="mb-3">
+                    <hr class="border border-primary">
+                    <h2>Datos para Reporte de Estado De Resultados</h2>
+
+                    <div class="mb-3">
+                        <label for="gastos-venta" class="form-label">Gastos de venta</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="gastos-venta"
+                                placeholder="Ingrese el gasto de venta">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gastos-admon" class="form-label">Gastos de administración</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="gastos-admon"
+                                placeholder="Ingrese el gasto de administración">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="otros_gastos" class="form-label">Otros gastos</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="otros_gastos" placeholder="Ingrese el monto">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="otros_productos" class="form-label">Otros productos</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="otros_productos"
+                                placeholder="Ingrese el monto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" onclick="gatherFormData()">Generar
+                    Informe</button>
+            </div>
         </div>
-        <div class="text-center">
-            <button type="button" class="btn btn-primary" onclick="gatherFormData()">Generar Informe</button>
-        </div>
-    </div>
 
-    <script>
-        async function gatherFormData() {
-            const data = {};
+        <!--
+            <div class="mb-4">
+                <h2>Costo</h2>
+                <div class="mb-3">
+                    <label for="cargos-fijos" class="form-label">Precio de cargos indirectos fijos por pieza</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="cargos-fijos" placeholder="Ingrese el precio">
+                    </div>
+                </div>
 
-            data.producto = document.getElementById('producto').value;
-            data.kilos = document.getElementById('kilos').value;
-            data.horasMano = document.getElementById('horas-mano').value;
-            data.cargosIndirectos = document.getElementById('cargos-indirectos').value;
+                <div class="mb-3">
+                    <label for="compra-materia" class="form-label">Compra Materia Prima</label>
+                        <input type="number" class="form-control" id="compra-materia" placeholder="Ingrese la cantidad">
+                </div>
+                <div class="mb-3">
+                    <label for="costo-compra" class="form-label">Costo Compra Materia Prima</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="costo-compra" placeholder="Ingrese el costo">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="consumo-materia" class="form-label">Consumo Materia Prima</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="consumo-materia" placeholder="Ingrese el costo">
+                    </div>
+                </div>
 
-            data.precioKilo = document.getElementById('precio-kilo').value;
-            data.precioHoraHombre = document.getElementById('precio-hora-hombre').value;
-            data.precioHoraMaquina = document.getElementById('precio-hora-maquina').value;
-            data.cargosFijos = document.getElementById('cargos-fijos').value;
+                <div class="mb-3">
+                    <label for="unidades-presupuesto-estatico" class="form-label">Unidades
+                        Presupuesto
+                        Estático</label>
+                    <input type="number" class="form-control" id="unidades-presupuesto-estatico"
+                        placeholder="Ingrese la cantidad">
+                </div>
+                <div class="mb-3">
+                    <label for="costo-presupuesto-estatico" class="form-label">Costo Presupuesto
+                        Estático</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="costo-presupuesto-estatico"
+                            placeholder="Ingrese el costo">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="prep_est_costo_r" class="form-label">Costo estimado real</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="prep_est_costo_r"
+                            placeholder="Ingrese el costo estimado">
+                    </div>
+                </div>
+            </div>
+            -->
 
-            data.compraMateria = document.getElementById('compra-materia').value;
-            data.costoCompra = document.getElementById('costo-compra').value;
-            data.consumoMateria = document.getElementById('consumo-materia').value;
-            data.costoModHoras = document.getElementById('costo-mod-horas').value;
-            data.costoHoraMod = document.getElementById('costo-hora-mod').value;
-            data.cargosIndirectosVariables = document.getElementById('cargos-indirectos-variables').value;
-            data.cargosIndirectosFijos = document.getElementById('cargos-indirectos-fijos').value;
-            data.unidadesVendidas = document.getElementById('unidades-vendidas').value;
-            data.precioUnitario = document.getElementById('precio-unitario').value;
-            data.gastosVenta = document.getElementById('gastos-venta').value;
-            data.gastosAdmon = document.getElementById('gastos-admon').value;
-            data.productosTerminados = document.getElementById('productos-terminados').value;
-            data.productosEnProceso = document.getElementById('productos-en-proceso').value;
-            data.unidadesPresupuestoEstatico = document.getElementById('unidades-presupuesto-estatico').value;
-            data.costoPresupuestoEstatico = document.getElementById('costo-presupuesto-estatico').value;
+        <script>
+            function validateForm() {
+                const fields = [
+                    'producto', 'prep_est_unid', 'productos-terminados', 'productos-en-proceso',
+                    'kilos', 'precio-kilo', 'horas-mano', 'precio-hora-hombre', 'cargos-indirectos',
+                    'precio-hora-maquina', 'req-cif', 'cu-cif', 'mp_percent', 'mo_percent', 'civ_percent',
+                    'cif_percent', 'mp_unid_r', 'mp_cu_r', 'costo-mod-horas', 'costo-hora-mod', 'civ_unid_r',
+                    'civ_cu_r', 'cargos-indirectos-variables', 'cargos-indirectos-fijos', 'unidades-vendidas',
+                    'precio-unitario', 'saldo-inicial', 'compras', 'salidas', 'mp_saldo_inicial',
+                    'mp_saldo_inicial_prod_proc', 'mp_saldo_inicial_term', 'gastos-venta', 'gastos-admon',
+                    'otros_gastos', 'otros_productos'
+                ];
 
-            data.saldoInicial = document.getElementById('saldo-inicial').value;
-            data.compras = document.getElementById('compras').value;
-            data.salidas = document.getElementById('salidas').value;
+                for (let i = 0; i < fields.length; i++) {
+                    const field = document.getElementById(fields[i]);
 
-            console.log(data);
-            await sendRegistrationData(data);
-        }
-
-        async function sendRegistrationData(data) {
-            try {
-                const response = await fetch(`/registerProduct`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                if (!response.ok)
-                    console.error(`Client Error / Response NOT OK: ${response.status}`);
-
-                const responseData = await response.json();
-                if (responseData['message'] === 1) {
-                    alert("Producto registrado");
+                    if (field && (field.value.trim() === "" || field.value === null)) {
+                        const label = document.querySelector(`label[for='${fields[i]}']`);
+                        const fieldName = label ? label.textContent : fields[i]; // Default to id if no label found
+                        alert(`El campo "${fieldName}" no puede estar vacío.`);
+                        field.focus();
+                        return false;
+                    }
                 }
-                else {
-                    alert("Ocurrió un error, intente de nuevo");
+
+                // Custom validation for the percentage fields and their division inputs
+                const percentageFields = [
+                    { percentId: 'mp_percent', division1Id: 'mp_division1', division2Id: 'mp_division2' },
+                    { percentId: 'mo_percent', division1Id: 'mo_division1', division2Id: 'mo_division2' },
+                    { percentId: 'civ_percent', division1Id: 'civ_division1', division2Id: 'civ_division2' },
+                    { percentId: 'cif_percent', division1Id: 'cif_division1', division2Id: 'cif_division2' }
+                ];
+
+                for (const field of percentageFields) {
+                    const percentField = document.getElementById(field.percentId);
+                    const division1Field = document.getElementById(field.division1Id);
+                    const division2Field = document.getElementById(field.division2Id);
+
+                    const isPercentFilled = percentField && percentField.value.trim() !== "";
+                    const areDivisionsFilled =
+                        (division1Field && division1Field.value.trim() !== "") &&
+                        (division2Field && division2Field.value.trim() !== "");
+
+                    if (!isPercentFilled && !areDivisionsFilled) {
+                        const label = document.querySelector(`label[for='${field.percentId}']`);
+                        const fieldName = label ? label.textContent : field.percentId; // Default to id if no label found
+                        alert(`El campo "${fieldName}" o su división no pueden estar vacíos.`);
+                        percentField.focus();
+                        return false;
+                    }
                 }
-                console.log('Server Response:', responseData);
-            } catch (error) {
-                console.error('Client Error / Catch: ', error.message);
+
+                return true;
             }
-        }
 
-    </script>
 
-    <script>
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
+            async function gatherFormData() {
+                if (!validateForm()) {
+                    return;
+                }
 
-        if (localStorage.getItem('darkMode') === 'true') {
-            body.classList.add('dark-mode');
-            darkModeToggle.checked = true;
-        }
+                data = {};
+                // Informe de Producto
+                data.producto = document.getElementById("producto").value;
+                data.prepEstUnid = document.getElementById("prep_est_unid").value;
+                data.productosTerminados = document.getElementById("productos-terminados").value;
+                data.productosEnProceso = document.getElementById("productos-en-proceso").value;
 
-        darkModeToggle.addEventListener('change', () => {
-            body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
-        });
-    </script>
-    <script src="./bootstrap.bundle.min.js"></script>
+                // Cédula I y II
+                data.kilos = document.getElementById("kilos").value;
+                data.precioKilo = document.getElementById("precio-kilo").value;
+                data.horasMano = document.getElementById("horas-mano").value;
+                data.precioHoraHombre = document.getElementById("precio-hora-hombre").value;
+                data.cargosIndirectos = document.getElementById("cargos-indirectos").value;
+                data.precioHoraMaquina = document.getElementById("precio-hora-maquina").value;
+                data.refCif = document.getElementById("ref-cif").value;
+                data.cuCif = document.getElementById("cu-cif").value;
+
+                // Cédula III
+                const mpPercent = document.getElementById("mp_percent").value;
+                const mpDiv1 = document.getElementById("mp_division1").value;
+                const mpDiv2 = document.getElementById("mp_division2").value;
+
+                if (mpDiv1.trim() !== "" && mpDiv2.trim() !== "") {
+                    data.mpPercent = parseFloat(mpDiv1) / parseFloat(mpDiv2);
+                } else if (mpPercent.trim() !== "") {
+                    data.mpPercent = parseFloat(mpPercent);
+                }
+
+                const moPercent = document.getElementById("mo_percent").value;
+                const moDiv1 = document.getElementById("mo_division1").value;
+                const moDiv2 = document.getElementById("mo_division2").value;
+
+                if (moDiv1.trim() !== "" && moDiv2.trim() !== "") {
+                    data.moPercent = parseFloat(moDiv1) / parseFloat(moDiv2);
+                } else if (moPercent.trim() !== "") {
+                    data.moPercent = parseFloat(moPercent);
+                }
+
+                const civPercent = document.getElementById("civ_percent").value;
+                const civDiv1 = document.getElementById("civ_division1").value;
+                const civDiv2 = document.getElementById("civ_division2").value;
+
+                if (civDiv1.trim() !== "" && civDiv2.trim() !== "") {
+                    data.civPercent = parseFloat(civDiv1) / parseFloat(civDiv2);
+                } else if (civPercent.trim() !== "") {
+                    data.civPercent = parseFloat(civPercent);
+                }
+
+                const cifPercent = document.getElementById("cif_percent").value;
+                const cifDiv1 = document.getElementById("cif_division1").value;
+                const cifDiv2 = document.getElementById("cif_division2").value;
+
+                if (cifDiv1.trim() !== "" && cifDiv2.trim() !== "") {
+                    data.cifPercent = parseFloat(cifDiv1) / parseFloat(cifDiv2);
+                } else if (cifPercent.trim() !== "") {
+                    data.cifPercent = parseFloat(cifPercent);
+                }
+
+                // Cédula IV
+                data.mpUnidR = document.getElementById("mp_unid_r").value;
+                data.prepEstCostoR = document.getElementById("mp_cu_r").value;
+                data.costoModHoras = document.getElementById("costo-mod-horas").value;
+                data.costoHoraMod = document.getElementById("costo-hora-mod").value;
+                data.civUnidR = document.getElementById("civ_unid_r").value;
+                data.civCuR = document.getElementById("civ_cu_r").value;
+                data.cargosIndirectosVariables = document.getElementById("cargos-indirectos-variables").value;
+                data.cargosIndirectosFijos = document.getElementById("cargos-indirectos-fijos").value;
+
+                // Cédula V, VI y VII
+                data.unidadesVendidas = document.getElementById("unidades-vendidas").value;
+                data.precioUnitario = document.getElementById("precio-unitario").value;
+
+                // Tarjetas de almacén
+                data.saldoInicial = document.getElementById("saldo-inicial").value;
+                data.compras = document.getElementById("compras").value;
+                data.salidas = document.getElementById("salidas").value;
+
+                // Reporte de Costos de Producción y Venta
+                data.mpSaldoInicial = document.getElementById("mp_saldo_inicial").value;
+                data.mpSaldoInicialProdProc = document.getElementById("mp_saldo_inicial_prod_proc").value;
+                data.mpSaldoInicialTerm = document.getElementById("mp_saldo_inicial_term").value;
+
+                // Reporte de Estado De Resultados
+                data.gastosVenta = document.getElementById("gastos-venta").value;
+                data.gastosAdmon = document.getElementById("gastos-admon").value;
+                data.otrosGastos = document.getElementById("otros_gastos").value;
+                data.otrosProductos = document.getElementById("otros_productos").value;
+
+                // Sin usar
+                /*
+                data.compraMateria = document.getElementById("compra-materia").value;
+                data.costoCompra = document.getElementById("costo-compra").value;
+                data.consumoMateria = document.getElementById("consumo-materia").value;
+                data.unidadesPresupuestoEstatico = document.getElementById("unidades-presupuesto-estatico").value;
+                data.costoPresupuestoEstatico = document.getElementById("costo-presupuesto-estatico").value;
+                data.prepEstCostoR = document.getElementById("prep_est_costo_r").value;
+                */
+
+                data.compraMateria = 9804;
+                data.costoCompra = 9804;
+                data.consumoMateria = 9804;
+                data.unidadesPresupuestoEstatico = 9804;
+                data.costoPresupuestoEstatico = 9804;
+                //data.prepEstCostoR = 9804;
+
+                console.log(data);
+                await sendRegistrationData(data);
+            }
+
+            async function sendRegistrationData(data) {
+                try {
+                    const response = await fetch(`/registerProduct`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok)
+                        console.error(`Client Error / Response NOT OK: ${response.status}`);
+
+                    const responseData = await response.json();
+                    if (responseData['message'] === 1) {
+                        alert("Producto registrado");
+                        window.location.href = 'index.html';
+                    }
+                    else {
+                        alert("Ocurrió un error, intente de nuevo");
+                    }
+                    console.log('Server Response:', responseData);
+                } catch (error) {
+                    console.error('Client Error / Catch: ', error.message);
+                }
+            }
+
+        </script>
+
+        <script>
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+
+            if (localStorage.getItem('darkMode') === 'true') {
+                body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+
+            darkModeToggle.addEventListener('change', () => {
+                body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            });
+        </script>
+        <script src="./bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
