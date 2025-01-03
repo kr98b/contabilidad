@@ -79,7 +79,7 @@ function registerProduct(data) {
         unidadesVendidas, precioUnitario, gastosVenta, gastosAdmon, productosTerminados, productosEnProceso,
         unidadesPresupuestoEstatico, costoPresupuestoEstatico, saldoInicial, compras, salidas,
         prepEstUnid, mpSaldoInicial, mpSaldoInicialProdProc, mpPercent, moPercent, civPercent, cifPercent, otrosGastos, otrosProductos,
-        prepEstCostoR, civUnidR, civCuR, mpUnidR, refCif, cuCif, mpSaldoInicialTerm
+        prepEstCostoR, civUnidR, civCuR, mpUnidR, refCif, cuCif, mpSaldoInicialTerm, prepEstNuevo
       } = data;
 
       // Insert into 'Producto' table
@@ -95,7 +95,7 @@ function registerProduct(data) {
         cif_percent, 
         otros_gastos, 
         otros_productos,
-        mp_saldo_inicial_term
+        mp_saldo_inicial_term,
       ) 
       VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
@@ -115,7 +115,7 @@ function registerProduct(data) {
         cifPercent,
         otrosGastos,
         otrosProductos,
-        mpSaldoInicialTerm
+        mpSaldoInicialTerm,
       ], (err, result) => {
         if (err) {
           console.error('Error inserting into Producto table:', err);
@@ -149,10 +149,10 @@ function registerProduct(data) {
           INSERT INTO Real (
             id_producto, kilos_mp_r, costo_kilos_mp_r, consumo_mp_r, costo_mod_r, costo_hora_r, cargos_indir_inc_var_r,
             cargos_indir_inc_fijos_r, unid_vendidas_r, precio_venta_r, gastos_venta_r, gastos_admon_r, prod_terminado_r, 
-            prod_proceso_r, prep_est_unidades_r, prep_est_costo_r, civ_unid_r, civ_cu_r, mp_unid_r
+            prod_proceso_r, prep_est_unidades_r, prep_est_costo_r, civ_unid_r, civ_cu_r, mp_unid_r,  prep_est_nuevo
           ) 
           VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
+            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20
           );
         `;
 
@@ -175,7 +175,8 @@ function registerProduct(data) {
             prepEstCostoR,
             civUnidR, 
             civCuR, 
-            mpUnidR
+            mpUnidR,
+            prepEstNuevo
           ], (err) => {
             if (err) {
               console.error('Error inserting into Real table:', err);
