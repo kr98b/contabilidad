@@ -17,7 +17,7 @@ app.listen(port, () => {
 });
 
 const pg = require('pg');
-const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}?ssl=true`;
+const connection = `postgresql://${dbuser}:${dbpass}@${dbhost}/${dbname}`;
 
 function doSelect(id) {
   return new Promise((resolve, reject) => {
