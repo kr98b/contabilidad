@@ -78,7 +78,23 @@
                 <div class="mb-3">
                     <label for="prep_est_unid" class="form-label">Unidades de Presupuesto Estático</label>
                     <div class="input-group">
-                        <input type="number" class="form-control" id="prep_est_unid" placeholder="Ingrese el valor">
+                        <input type="number" class="form-control" id="prep_est_unid" placeholder="Ingrese el valor de las unidades de prep. est.">
+                        <span class="input-group-text">unidades</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="prep_est_nuevo" class="form-label">Presupuesto Estático</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="prep_est_nuevo" placeholder="Ingrese el presupuesto estático">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="productos-en-proceso" class="form-label">Productos en Proceso</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="productos-en-proceso" placeholder="Ingrese la cantidad de productos en proceso">
                         <span class="input-group-text">unidades</span>
                     </div>
                 </div>
@@ -87,7 +103,7 @@
                     <label for="productos-terminados" class="form-label">Productos Terminados</label>
                     <div class="input-group">
                         <input type="number" class="form-control" id="productos-terminados"
-                            placeholder="Ingrese la cantidad">
+                            placeholder="Ingrese la cantidad de productos terminados">
                         <span class="input-group-text">unidades</span>
                     </div>
                 </div>
@@ -547,7 +563,7 @@
         <script>
             function validateForm() {
                 const fields = [
-                    'producto', 'prep_est_unid', 'productos-terminados', 'productos-en-proceso',
+                    'producto', 'prep_est_unid', 'prep_est_unid', 'productos-terminados', 'productos-en-proceso',
                     'kilos', 'precio-kilo', 'horas-mano', 'precio-hora-hombre', 'cargos-indirectos',
                     'precio-hora-maquina', 'req-cif', 'cu-cif', 'mp_percent', 'mo_percent', 'civ_percent',
                     'cif_percent', 'mp_unid_r', 'mp_cu_r', 'costo-mod-horas', 'costo-hora-mod', 'civ_unid_r',
@@ -609,6 +625,7 @@
                 // Informe de Producto
                 data.producto = document.getElementById("producto").value;
                 data.prepEstUnid = document.getElementById("prep_est_unid").value;
+                data.prepEstNuevo = document.getElementById("prep_est_nuevo").value;
                 data.productosTerminados = document.getElementById("productos-terminados").value;
                 data.productosEnProceso = document.getElementById("productos-en-proceso").value;
 
