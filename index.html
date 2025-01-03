@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoja de Cálculo</title>
+    <link href="./bootstrap.min.css" rel="stylesheet">
+    <style>
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.dark-mode .navbar {
+            background-color: #333333 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .navbar a.nav-link {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .navbar a.nav-link:hover {
+            color: #aaaaaa !important;
+        }
+
+        body.dark-mode .text {
+            color: #ffffff;
+        }
+
+        body.dark-mode .navbar-brand {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode table {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        body.dark-mode th,
+        body.dark-mode td {
+            border-color: #333333;
+        }
+
+        body.dark-mode input.form-control {
+            background-color: #333333;
+            color: #ffffff;
+            border: 1px solid #555555;
+        }
+
+        body.dark-mode input.form-control:focus {
+            background-color: #444444;
+            border-color: #777777;
+        }
+
+        .project-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem auto;
+            width: 300px;
+            height: 100px;
+            border: 2px dashed #6c757d;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .project-selector-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
+    <script src="./bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="logo.png" alt="Logo" width="40" height="40" class="me-2">
+                <span>Empresa "Equipo Cinco" S.A.</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ver productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="registrar.html">Registrar producto</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container text-center mt-5">
+        <h1 class="text-center mb-4">Productos</h1>
+        <div id="project-container">
+        </div>
+        <button class="btn btn-primary mt-3" id="make-project-btn" onclick="location.href='registrar.html'">Registrar
+            producto</button>
+
+    </main>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch(`/doQueryProductos`);
+
+                if (!response.ok)
+                    console.error(`Client Error / Response NOT OK: ${response.status}`);
+
+                let data = await response.json();
+                console.log("fetchData: ", data);
+                return retrieveData(data);
+
+            } catch (error) {
+                console.error('Client Error / Catch: ', error.message);
+                alert('Error al conectar con la base de datos');
+            }
+        }
+
+        async function fetchId(id) {
+            try {
+                const response = await fetch(`/doQueryProductos?id=${id}`);
+
+                if (!response.ok) {
+                    console.error(`Client Error / Response NOT OK: ${response.status}`);
+                }
+
+                let data = await response.json();
+                console.log("fetchId: ", data);
+                return data;
+
+            } catch (error) {
+                console.error('Client Error / Catch: ', error.message);
+                alert('Error al conectar con la base de datos');
+            }
+        }
+
+        function retrieveData(data) {
+            data.forEach(e => {
+                appendProject(e['nombre'], e['id_producto'])
+            });
+        }
+
+        fetchData()
+    </script>
+
+    <script>
+        const projectContainer = document.getElementById('project-container');
+        const addProjectBtn = document.getElementById('add-project-btn');
+        const createProjectBtn = document.getElementById('create-project-btn');
+
+        function appendProject(name, id) {
+            const newProject = document.createElement('div');
+            newProject.className = 'project-selector';
+
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const linkColor = isDarkMode ? '#ffffff' : '#000000';
+
+            newProject.innerHTML = `
+        <i class="project-selector-icon bi bi-folder2-open"></i>
+        <a  class="text"
+            href="historico.html?id=${id}" 
+            style="color: ${linkColor}; text-decoration: underline;">
+            ${name}
+        </a>`;
+
+            projectContainer.appendChild(newProject);
+        }
+
+        // Update link colors dynamically when dark mode toggles
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        }
+
+        darkModeToggle.addEventListener('change', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+
+            // Update all project links color dynamically
+            const projectLinks = document.querySelectorAll('.project-selector .text');
+            const linkColor = body.classList.contains('dark-mode') ? '#ffffff' : '#000000';
+            projectLinks.forEach(link => {
+                link.style.color = linkColor;
+            });
+        });
+
+    </script>
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+</body>
+
+</html>
