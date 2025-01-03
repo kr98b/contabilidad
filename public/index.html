@@ -25,6 +25,10 @@
             color: #aaaaaa !important;
         }
 
+        body.dark-mode .text {
+            color: #ffffff;
+        }
+
         body.dark-mode .navbar-brand {
             color: #ffffff !important;
         }
@@ -159,17 +163,22 @@
         function appendProject(name, id) {
             const newProject = document.createElement('div');
             newProject.className = 'project-selector';
+
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const linkColor = isDarkMode ? '#ffffff' : '#000000';
+
             newProject.innerHTML = `
-                <i class="project-selector-icon bi bi-folder2-open"></i>
-                <a 
-                    href="historico.html?id=${id}" 
-                    style="color: white; text-decoration: underline;">
-                    ${name}
-                </a>`;
+        <i class="project-selector-icon bi bi-folder2-open"></i>
+        <a  class="text"
+            href="historico.html?id=${id}" 
+            style="color: ${linkColor}; text-decoration: underline;">
+            ${name}
+        </a>`;
+
             projectContainer.appendChild(newProject);
         }
 
-
+        // Update link colors dynamically when dark mode toggles
         const darkModeToggle = document.getElementById('darkModeToggle');
         const body = document.body;
 
@@ -181,7 +190,15 @@
         darkModeToggle.addEventListener('change', () => {
             body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+
+            // Update all project links color dynamically
+            const projectLinks = document.querySelectorAll('.project-selector .text');
+            const linkColor = body.classList.contains('dark-mode') ? '#ffffff' : '#000000';
+            projectLinks.forEach(link => {
+                link.style.color = linkColor;
+            });
         });
+
     </script>
 
     <!-- Bootstrap Icons -->
